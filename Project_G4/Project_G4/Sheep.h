@@ -1,4 +1,5 @@
 #pragma once
+#include "Global.h"
 
 // Sheep should control rotation, position, speed,
 //	behaviours such as eating grass, seeking grass or should it?
@@ -6,6 +7,8 @@
 
 class Sheep
 {
+public:
+
 	Sheep()
 	{
 
@@ -15,5 +18,12 @@ class Sheep
 	{
 
 	}
+
+private:
+
+	sf::Sprite sheepBody;
+	sf::Texture sheepTexture;
+
+
 };
 

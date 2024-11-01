@@ -16,6 +16,7 @@
 #include <SFML/Graphics.hpp> 
 
 #include "World.h"
+#include "Menu.h"
 
 void main()
 {
@@ -27,6 +28,9 @@ void main()
 	clock.restart();
 
 	World world;
+	Menu menu;
+
+	bool gameRunning = false;
 
 	while (window.isOpen())
 	{
@@ -36,15 +40,36 @@ void main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			window.close();
+		}
 
 		timeSinceLastUpdate += clock.restart();
 
+
+		//________________Update_____________//
 		if (timeSinceLastUpdate > timePerFrame)
 		{
-			window.clear(world.DaylightCycle());
+			sf::Vector2i getMousePosition = { sf::Mouse::getPosition(window) };
+			if (!gameRunning) // Not in game
+			{
+				menu.Draw(window);
+				
+				if (menu.StartButtonFunction(getMousePosition) == true)
+				{
+					gameRunning = true;
+					menu.~Menu();
+				}
+			}
+			else if (gameRunning) // In game
+			{
+				window.clear(world.DaylightCycle());
+				world.Draw(window);
+			}
 			window.display();
 
 			timeSinceLastUpdate = sf::Time::Zero;
-		}
+		} // End of Update
 	}
 }

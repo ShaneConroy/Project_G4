@@ -1,5 +1,14 @@
 #include "World.h"
 
+// When called this function will spawn grass nodes randomly around the field
+void World::SpawnGrassNodes()
+{
+    for (int iter = 0; iter < GRASS_CAP; iter++)
+    {
+        grassNodeArray.emplace_back();
+    }
+}
+
 // Based on the time, returns a RGB value
 sf::Color World::DaylightCycle()
 {
@@ -19,4 +28,12 @@ sf::Color World::DaylightCycle()
                   static_cast<sf::Uint8>(b) };
 
     return newColour;
+}
+
+void World::Draw(sf::RenderWindow& window)
+{
+    for (const auto& grass : grassNodeArray)
+    {
+        window.draw(grass.grassNode);
+    }
 }

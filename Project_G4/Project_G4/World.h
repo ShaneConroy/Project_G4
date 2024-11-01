@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "Grass.h"
 
 // The world will control the fence, maybe spawning of grass nodes, day/night cycle
 
@@ -14,10 +15,22 @@ class World
 private:
 
 	float transition = 0.0f;
+	
+	Grass grassNode;
+	std::vector<Grass> grassNodeArray;
+	const int GRASS_CAP = 10;
+	void SpawnGrassNodes();
 
 public:
-
 	sf::Color DaylightCycle();
+	void Draw(sf::RenderWindow& window);
+	World()
+	{
+		SpawnGrassNodes();
+	}
+	~World()
+	{
 
+	}
 };
 
