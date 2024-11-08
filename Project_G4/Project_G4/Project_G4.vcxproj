@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Sheep.cpp" />
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviours_Enum.h" />
+    <ClInclude Include="Fence.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Menu.h" />

@@ -10,6 +10,7 @@ public:
 		grassNode.setRadius(7);
         sf::Vector2f spawnPos = randomPosition({ SCREEN_WIDTH - 14, SCREEN_HEIGHT * 2/3 });
 		grassNode.setPosition(spawnPos);
+		bool taken;
 	}
 	~Grass()
 	{
@@ -27,7 +28,6 @@ private:
 		float randomX = distX(randomInstance);
 		float randomY = distY(randomInstance);
 
-		std::cout << randomX << ", " << randomY<<"\n";
 		return sf::Vector2f(randomX, randomY);
 	}
 

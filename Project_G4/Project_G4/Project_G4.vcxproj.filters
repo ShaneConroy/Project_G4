@@ -33,6 +33,9 @@
     <ClCompile Include="Grass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Fence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sheep.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Grass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,8 @@
 #pragma once
 #include "Global.h"
 #include "Grass.h"
+#include "Fence.h"
+#include "Sheep.h"
 
 // The world will control the fence, maybe spawning of grass nodes, day/night cycle
 
@@ -21,9 +23,16 @@ private:
 	const int GRASS_CAP = 10;
 	void SpawnGrassNodes();
 
+	Fence fence;
+	void updateFencedGrass();
+
+	Sheep sheep;
+	void PopulateWorldWithSheep();
+
 public:
 	sf::Color DaylightCycle();
 	void Draw(sf::RenderWindow& window);
+	void PassGrassToSheep();
 	World()
 	{
 		SpawnGrassNodes();

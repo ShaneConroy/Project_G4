@@ -9,6 +9,19 @@ void World::SpawnGrassNodes()
     }
 }
 
+// Updates the grass colour of the fenced area to match the rest of the world
+// TODO
+void World::updateFencedGrass()
+{
+}
+
+// Populates the world with however many sheep
+//TODO
+void World::PopulateWorldWithSheep()
+{
+
+}
+
 // Based on the time, returns a RGB value
 sf::Color World::DaylightCycle()
 {
@@ -35,5 +48,15 @@ void World::Draw(sf::RenderWindow& window)
     for (const auto& grass : grassNodeArray)
     {
         window.draw(grass.grassNode);
+    }
+    fence.Draw(window);
+    sheep.Draw(window);
+}
+
+void World::PassGrassToSheep()
+{
+    for (int iter = 0; iter <= grassNodeArray.size(); iter++)
+    {
+        sheep.FindGrassNode(grassNodeArray);
     }
 }

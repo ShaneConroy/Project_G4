@@ -1,5 +1,6 @@
 #pragma once
 #include "Global.h"
+#include "Grass.h"
 
 // Sheep should control rotation, position, speed,
 //	behaviours such as eating grass, seeking grass or should it?
@@ -11,7 +12,10 @@ public:
 
 	Sheep()
 	{
-
+		sf::CircleShape sheepBody;
+		sheepBody.setRadius(15);
+		sheepBody.setFillColor(sf::Color::White);
+		sheepBody.setPosition(100, 100);
 	}
 
 	~Sheep()
@@ -19,11 +23,13 @@ public:
 
 	}
 
+	void Draw(sf::RenderWindow& window);
+	void FindGrassNode(const std::vector<Grass>& grassNodeArray);
+
 private:
 
 	sf::Sprite sheepBody;
 	sf::Texture sheepTexture;
-
 
 };
 
