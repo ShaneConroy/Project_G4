@@ -17,6 +17,7 @@
 
 #include "World.h"
 #include "Menu.h"
+#include "Sheep.h"
 
 void main()
 {
@@ -29,6 +30,7 @@ void main()
 
 	World world;
 	Menu menu;
+	Sheep sheep;
 
 	bool gameRunning = false;
 
@@ -65,6 +67,10 @@ void main()
 			else if (gameRunning) // In game
 			{
 				window.clear(world.DaylightCycle());
+
+				world.PassGrassToSheep();
+				world.Update();
+
 				world.Draw(window);
 			}
 			window.display();

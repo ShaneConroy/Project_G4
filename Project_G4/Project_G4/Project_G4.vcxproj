@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Fence.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Sheep.cpp" />

@@ -27,15 +27,19 @@ private:
 	void updateFencedGrass();
 
 	Sheep sheep;
+	std::vector<Sheep> sheepArray;
+	const int SHEEP_CAP = 20;
 	void PopulateWorldWithSheep();
 
 public:
 	sf::Color DaylightCycle();
 	void Draw(sf::RenderWindow& window);
 	void PassGrassToSheep();
+	void Update();
 	World()
 	{
 		SpawnGrassNodes();
+		PopulateWorldWithSheep();
 	}
 	~World()
 	{

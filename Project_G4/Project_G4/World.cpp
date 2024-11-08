@@ -19,7 +19,10 @@ void World::updateFencedGrass()
 //TODO
 void World::PopulateWorldWithSheep()
 {
-
+    for (int iter = 0; iter < SHEEP_CAP; iter++)
+    {
+        sheepArray.emplace_back();
+    }
 }
 
 // Based on the time, returns a RGB value
@@ -50,13 +53,26 @@ void World::Draw(sf::RenderWindow& window)
         window.draw(grass.grassNode);
     }
     fence.Draw(window);
-    sheep.Draw(window);
+
+    for (auto& sheep : sheepArray)
+    {
+        sheep.Draw(window);  
+    }
 }
 
+// Passes the grass node array into the find grass noode function
 void World::PassGrassToSheep()
 {
-    for (int iter = 0; iter <= grassNodeArray.size(); iter++)
+    for (auto& sheep : sheepArray)
     {
         sheep.FindGrassNode(grassNodeArray);
+    }
+}
+
+void World::Update()
+{
+    for (auto& sheep : sheepArray)
+    {
+        sheep.Update();
     }
 }

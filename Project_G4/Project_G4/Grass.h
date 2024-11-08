@@ -17,6 +17,8 @@ public:
 
 	}
 	sf::CircleShape grassNode;
+	sf::Vector2f getPosition() const { return grassNode.getPosition(); }
+
 private:
 	sf::Vector2f randomPosition(const sf::Vector2f& vec)
 	{
