@@ -6,22 +6,19 @@ void Sheep::Draw(sf::RenderWindow& window)
 }
 
 // Seeks towards the closest grass node
-void Sheep::SeekToGrassNode()
+void Sheep::SeekToGrassNode(float deltaTime)
 {
 	sf::Vector2f dir = closestPos - sheepBody.getPosition();
 	float lenght = std::sqrt((dir.x * dir.x) + (dir.y * dir.y));
 
-	dir = (dir / lenght) * moveSpeed;
+	dir = (dir / lenght) * (moveSpeed * deltaTime);
 	sheepBody.move(dir);
-
 }
 
-void Sheep::Update()
+void Sheep::Update(float deltaTime)
 {
-	SeekToGrassNode();
+	SeekToGrassNode(deltaTime);
 }
-
-
 
 sf::Vector2f Sheep::randomPosition(const sf::Vector2f& vec)
 {

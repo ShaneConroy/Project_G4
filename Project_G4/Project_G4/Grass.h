@@ -10,7 +10,7 @@ public:
 		grassNode.setRadius(7);
         sf::Vector2f spawnPos = randomPosition({ SCREEN_WIDTH - 14, SCREEN_HEIGHT * 2/3 });
 		grassNode.setPosition(spawnPos);
-		bool taken;
+		
 	}
 	~Grass()
 	{
@@ -18,8 +18,11 @@ public:
 	}
 	sf::CircleShape grassNode;
 	sf::Vector2f getPosition() const { return grassNode.getPosition(); }
+	bool CheckTaken() { return taken; };
+	void UpdateTaken(bool);
 
 private:
+
 	sf::Vector2f randomPosition(const sf::Vector2f& vec)
 	{
 		std::random_device random;
@@ -32,6 +35,6 @@ private:
 
 		return sf::Vector2f(randomX, randomY);
 	}
-
+	bool taken = false; // will check if the current grass node is avaiable or nah
 };
 

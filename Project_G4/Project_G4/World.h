@@ -22,24 +22,31 @@ private:
 	std::vector<Grass> grassNodeArray;
 	const int GRASS_CAP = 10;
 	void SpawnGrassNodes();
+	void UpdateGrassNodes();
 
 	Fence fence;
 	void updateFencedGrass();
 
 	Sheep sheep;
 	std::vector<Sheep> sheepArray;
-	const int SHEEP_CAP = 20;
+	const int SHEEP_CAP = 3;
 	void PopulateWorldWithSheep();
+	
+	int currentTime = 3334;
+	sf::RectangleShape bg;
 
 public:
+	int WorldTime();
 	sf::Color DaylightCycle();
 	void Draw(sf::RenderWindow& window);
 	void PassGrassToSheep();
-	void Update();
+	void Update(float);
+	void FixedUpdate();
 	World()
 	{
 		SpawnGrassNodes();
 		PopulateWorldWithSheep();
+		bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
 	}
 	~World()
 	{

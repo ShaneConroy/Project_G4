@@ -26,6 +26,7 @@ public:
 	{
 	}
 
+	void UpdateGrass(sf::Color);
 	void Draw(sf::RenderWindow& window);
 
 private:

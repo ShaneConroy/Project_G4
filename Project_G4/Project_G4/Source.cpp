@@ -21,61 +21,83 @@
 
 void main()
 {
-	sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML Project");
+    sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML Project");
 
-	sf::Time timePerFrame = sf::seconds(1.0f / 60.0f);
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	sf::Clock clock;
-	clock.restart();
+    const sf::Time fixedTimeStep = sf::seconds(1.0f / 60.0f);
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    sf::Time timeSinceLastFixedUpdate = sf::Time::Zero;
+    sf::Clock clock;
+    clock.restart();
 
-	World world;
-	Menu menu;
-	Sheep sheep;
+    World world;
+    Menu menu;
+    Sheep sheep;
 
-	bool gameRunning = false;
+    bool gameRunning = false;
 
-	while (window.isOpen())
-	{
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			window.close();
-		}
+    sf::Text fps;
+    sf::Font BebasNeue;
+    if (!BebasNeue.loadFromFile("ASSETS/FONT/BebasNeue.otf"))
+        std::cout << "Font failed to load!" << "\n";
+    fps.setFont(BebasNeue);
+    fps.setCharacterSize(20);
 
-		timeSinceLastUpdate += clock.restart();
+    int frameCount = 0;
+    float elapsedTime = 0.0f;
 
+    while (window.isOpen())
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            window.close();
+        sf::Vector2i getMousePosition = { sf::Mouse::getPosition(window) };
 
-		//________________Update_____________//
-		if (timeSinceLastUpdate > timePerFrame)
-		{
-			sf::Vector2i getMousePosition = { sf::Mouse::getPosition(window) };
-			if (!gameRunning) // Not in game
-			{
-				menu.Draw(window);
-				
-				if (menu.StartButtonFunction(getMousePosition) == true)
-				{
-					gameRunning = true;
-					menu.~Menu();
-				}
-			}
-			else if (gameRunning) // In game
-			{
-				window.clear(world.DaylightCycle());
+        sf::Time deltaTime = clock.restart();
+        timeSinceLastUpdate += deltaTime;
+        timeSinceLastFixedUpdate += deltaTime;
 
-				world.PassGrassToSheep();
-				world.Update();
+        ////Checking framerate
+        //frameCount++;
+        //elapsedTime += deltaTime.asSeconds();
+        //if (elapsedTime >= 1.0f)
+        //{
+        //    fps.setString(std::to_string(frameCount));
+        //    frameCount = 0;
+        //    elapsedTime = 0.f;
+        //}
 
-				world.Draw(window);
-			}
-			window.display();
+        //____________________________Update__________________________________//
+        if (!gameRunning) // Not in game
+        {
+            window.clear();
 
-			timeSinceLastUpdate = sf::Time::Zero;
-		} // End of Update
-	}
+            menu.Draw(window);
+
+            if (menu.StartButtonFunction(getMousePosition) == true)
+            {
+                gameRunning = true;
+                menu.~Menu();
+            }
+        }
+        else if (gameRunning) // In game
+        {
+            world.Update(deltaTime.asSeconds());
+            
+            world.Draw(window);
+
+            //window.draw(fps);
+        }
+        
+        window.display();
+
+        //_________________________Fixed_Update_______________________________//
+        if(gameRunning)
+        {
+            while (timeSinceLastFixedUpdate >= fixedTimeStep)
+            {
+                world.FixedUpdate();
+                
+                timeSinceLastFixedUpdate -= fixedTimeStep;
+            }
+        }
+    }
 }

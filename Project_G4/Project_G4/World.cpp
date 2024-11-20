@@ -9,20 +9,50 @@ void World::SpawnGrassNodes()
     }
 }
 
-// Updates the grass colour of the fenced area to match the rest of the world
-// TODO
-void World::updateFencedGrass()
+// Updates the grass nodes
+void World::UpdateGrassNodes()
 {
+    float distance;
+    for (Grass& grass : grassNodeArray)
+    {
+        for (Sheep& sheep : sheepArray)
+        {
+            distance = getDistanceBetween(sheep.getPosition(), grass.getPosition());
+
+            if (distance < 15)
+            {
+                grass.UpdateTaken(true);
+            }
+        }
+    } 
 }
 
-// Populates the world with however many sheep
-//TODO
+// Updates the grass colour of the fenced area to match the rest of the world
+void World::updateFencedGrass()
+{
+    sf::Color newColour = DaylightCycle();
+    fence.UpdateGrass(newColour);
+}
+
+// Adds the shee[p to the world
 void World::PopulateWorldWithSheep()
 {
     for (int iter = 0; iter < SHEEP_CAP; iter++)
     {
         sheepArray.emplace_back();
     }
+}
+
+int World::WorldTime()
+{
+    if (currentTime > 0) // not night
+    {
+         currentTime -= 1;
+    }
+   
+    std::cout << "Time: " << currentTime << "\n";
+
+    return currentTime;
 }
 
 // Based on the time, returns a RGB value
@@ -32,7 +62,7 @@ sf::Color World::DaylightCycle()
     sf::Color nightColor = { 40, 108, 89 };
     sf::Color newColour;
 
-    transition = std::min(1.0f, transition + 0.00030f); // Day is 55~ seconds & 3334 frames
+    transition = std::min(1.0f, transition + 0.00015f); // Day is 55~ seconds & 3334 frames (1667 now)
 
     float r = dayColor.r + transition * (nightColor.r - dayColor.r);
     float g = dayColor.g + transition * (nightColor.g - dayColor.g);
@@ -48,31 +78,54 @@ sf::Color World::DaylightCycle()
 
 void World::Draw(sf::RenderWindow& window)
 {
-    for (const auto& grass : grassNodeArray)
+    window.draw(bg);
+
+    for (const Grass& grass : grassNodeArray)
     {
         window.draw(grass.grassNode);
     }
     fence.Draw(window);
 
-    for (auto& sheep : sheepArray)
+    for (Sheep& sheep : sheepArray)
     {
-        sheep.Draw(window);  
+        sheep.Draw(window);
     }
 }
 
 // Passes the grass node array into the find grass noode function
 void World::PassGrassToSheep()
 {
-    for (auto& sheep : sheepArray)
+    for (auto sheep = sheepArray.begin(); sheep != sheepArray.end();)
     {
-        sheep.FindGrassNode(grassNodeArray);
+        for (auto grass = grassNodeArray.begin(); grass != grassNodeArray.end();)
+        {
+            if (grass->CheckTaken() && WorldTime()) // == 0) // Check if the current grass node is taken
+            {
+                grass = grassNodeArray.erase(grass);
+            }
+            else {
+                sheep->FindGrassNode(grassNodeArray);
+                grass++;
+            }
+        }
+        sheep++;
     }
 }
 
-void World::Update()
+void World::Update(float deltaTime)
 {
-    for (auto& sheep : sheepArray)
+    for (Sheep& sheep : sheepArray)
     {
-        sheep.Update();
+        sheep.Update(deltaTime);
     }
+    
+}
+
+void World::FixedUpdate()
+{
+    bg.setFillColor(DaylightCycle());
+    PassGrassToSheep();
+    UpdateGrassNodes();
+    WorldTime();
+    updateFencedGrass();
 }

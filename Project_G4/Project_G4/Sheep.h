@@ -13,7 +13,12 @@ public:
 	{
 		sheepBody.setRadius(15);
 		sheepBody.setFillColor(sf::Color::White);
-		sf::Vector2f spawnPos = randomPosition({ SCREEN_WIDTH - 30, (SCREEN_HEIGHT * 2 / 3)});
+		sf::Vector2f innerGrassPos = { 20.f, 544.f };
+		sf::Vector2f innerGrassSize = { 1160.f, 240.f };
+		sf::Vector2f spawnPos = randomPosition({ innerGrassSize.x - 30, innerGrassSize.y - 30 });
+		spawnPos.x += innerGrassPos.x;
+		spawnPos.y += innerGrassPos.y;
+
 		sheepBody.setPosition(spawnPos);
 	}
 
@@ -24,15 +29,18 @@ public:
 	void Draw(sf::RenderWindow& window);
 	template <typename T>
 	float FindGrassNode(const std::vector<T>& grassNodeArray);
-	void SeekToGrassNode();
-	void Update();
+	void SeekToGrassNode(float);
+	void Update(float);
+
+	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
+	float getRadius() { return sheepBody.getRadius(); };
 
 private:
 
 	sf::Vector2f closestPos;
 	sf::CircleShape sheepBody;
 
-	float moveSpeed = 1.0f;
+	float moveSpeed = 50.0f;
 
 	sf::Vector2f randomPosition(const sf::Vector2f& vec);
 
