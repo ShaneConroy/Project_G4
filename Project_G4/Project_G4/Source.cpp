@@ -24,7 +24,6 @@ void main()
     sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML Project");
 
     const sf::Time fixedTimeStep = sf::seconds(1.0f / 60.0f);
-    sf::Time timeSinceLastUpdate = sf::Time::Zero;
     sf::Time timeSinceLastFixedUpdate = sf::Time::Zero;
     sf::Clock clock;
     clock.restart();
@@ -52,7 +51,6 @@ void main()
         sf::Vector2i getMousePosition = { sf::Mouse::getPosition(window) };
 
         sf::Time deltaTime = clock.restart();
-        timeSinceLastUpdate += deltaTime;
         timeSinceLastFixedUpdate += deltaTime;
 
         ////Checking framerate

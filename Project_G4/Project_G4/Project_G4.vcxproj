@@ -129,23 +129,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Behaviours.cpp" />
     <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Sheep.cpp" />
-    <ClCompile Include="Sheep_Behaviours.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Behaviours.h" />
     <ClInclude Include="Behaviours_Enum.h" />
     <ClInclude Include="Fence.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Sheep.h" />
-    <ClInclude Include="Sheep_Behaviours.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

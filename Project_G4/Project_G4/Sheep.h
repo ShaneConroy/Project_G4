@@ -1,5 +1,7 @@
 #pragma once
 #include "Global.h"
+#include "Behaviours.h"
+#include "Behaviours_Enum.h"
 
 // Sheep should control rotation, position, speed,
 //	behaviours such as eating grass, seeking grass or should it?
@@ -20,6 +22,8 @@ public:
 		spawnPos.y += innerGrassPos.y;
 
 		sheepBody.setPosition(spawnPos);
+
+		currentBehaviour = behaviours::exiting;
 	}
 
 	~Sheep()
@@ -29,21 +33,26 @@ public:
 	void Draw(sf::RenderWindow& window);
 	template <typename T>
 	float FindGrassNode(const std::vector<T>& grassNodeArray);
-	void SeekToGrassNode(float);
-	void Update(float);
+	/*void SeekToGrassNode(float);*/
+	void Update(float, sf::RectangleShape);
 
 	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
 	float getRadius() { return sheepBody.getRadius(); };
 
+	void setBehaviour(behaviours);
+
 private:
 
+	behaviours currentBehaviour;
+	Behaviours behaviour;
+	
 	sf::Vector2f closestPos;
 	sf::CircleShape sheepBody;
 
 	float moveSpeed = 50.0f;
 
 	sf::Vector2f randomPosition(const sf::Vector2f& vec);
-
+	sf::Vector2f targetExitPosition;
 };
 
 // Takes in an array of grass nodes, loops through and finds the closest
@@ -52,6 +61,7 @@ inline float Sheep::FindGrassNode(const std::vector<T>& grassNodeArray)
 {
 	float currentClosest = FLT_MAX;
 	float newClosest;
+
 
 	for (int iter = 0; iter < grassNodeArray.size(); iter++)
 	{

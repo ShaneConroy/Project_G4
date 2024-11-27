@@ -28,6 +28,7 @@ public:
 
 	void UpdateGrass(sf::Color);
 	void Draw(sf::RenderWindow& window);
+	sf::RectangleShape getRect() { return exitGrass; };
 
 private:
 

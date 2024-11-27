@@ -49,8 +49,6 @@ int World::WorldTime()
     {
          currentTime -= 1;
     }
-   
-    std::cout << "Time: " << currentTime << "\n";
 
     return currentTime;
 }
@@ -95,11 +93,11 @@ void World::Draw(sf::RenderWindow& window)
 // Passes the grass node array into the find grass noode function
 void World::PassGrassToSheep()
 {
-    for (auto sheep = sheepArray.begin(); sheep != sheepArray.end();)
+    for (auto sheep = sheepArray.begin(); sheep != sheepArray.end(); sheep++)
     {
         for (auto grass = grassNodeArray.begin(); grass != grassNodeArray.end();)
         {
-            if (grass->CheckTaken() && WorldTime()) // == 0) // Check if the current grass node is taken
+            if (grass->CheckTaken())// Check if the current grass node is taken
             {
                 grass = grassNodeArray.erase(grass);
             }
@@ -108,7 +106,10 @@ void World::PassGrassToSheep()
                 grass++;
             }
         }
-        sheep++;
+        if (grassNodeArray.empty())
+        {
+            sheep->setBehaviour(behaviours::idle);
+        }
     }
 }
 
@@ -116,9 +117,9 @@ void World::Update(float deltaTime)
 {
     for (Sheep& sheep : sheepArray)
     {
-        sheep.Update(deltaTime);
+        sheep.Update(deltaTime, fence.getRect());
+        
     }
-    
 }
 
 void World::FixedUpdate()

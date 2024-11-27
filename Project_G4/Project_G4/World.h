@@ -20,7 +20,7 @@ private:
 	
 	Grass grassNode;
 	std::vector<Grass> grassNodeArray;
-	const int GRASS_CAP = 10;
+	const int GRASS_CAP = 2;
 	void SpawnGrassNodes();
 	void UpdateGrassNodes();
 

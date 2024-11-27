@@ -5,19 +5,37 @@ void Sheep::Draw(sf::RenderWindow& window)
 	window.draw(sheepBody);
 }
 
-// Seeks towards the closest grass node
-void Sheep::SeekToGrassNode(float deltaTime)
+void Sheep::Update(float deltaTime, sf::RectangleShape exitFence)
 {
-	sf::Vector2f dir = closestPos - sheepBody.getPosition();
-	float lenght = std::sqrt((dir.x * dir.x) + (dir.y * dir.y));
+	if (currentBehaviour == behaviours::seek)
+	{
+		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos));
+	}
+    else if (currentBehaviour == behaviours::exiting)
+    {
+        if (targetExitPosition == sf::Vector2f(0.f, 0.f))
+        {
+            sf::Vector2f fenceSize = exitFence.getSize();
+            targetExitPosition = randomPosition({ fenceSize.x, 0.f });
+            targetExitPosition.x += exitFence.getPosition().x;
+            targetExitPosition.y = exitFence.getPosition().y;
+        }
+		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), targetExitPosition));
 
-	dir = (dir / lenght) * (moveSpeed * deltaTime);
-	sheepBody.move(dir);
+		if (5 >= getDistanceBetween(targetExitPosition, sheepBody.getPosition()))
+		{
+			currentBehaviour = behaviours::seek;
+		}
+    }
+	else if (currentBehaviour == behaviours::idle)
+	{
+		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), sheepBody.getPosition()));
+	}
 }
 
-void Sheep::Update(float deltaTime)
+void Sheep::setBehaviour(behaviours behaviour)
 {
-	SeekToGrassNode(deltaTime);
+	currentBehaviour = behaviour;
 }
 
 sf::Vector2f Sheep::randomPosition(const sf::Vector2f& vec)
@@ -32,3 +50,5 @@ sf::Vector2f Sheep::randomPosition(const sf::Vector2f& vec)
 
 	return sf::Vector2f(randomX, randomY);
 }
+
+
