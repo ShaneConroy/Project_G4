@@ -8,7 +8,7 @@ public:
 	{
 		grassNode.setFillColor(sf::Color(138, 225, 6));
 		grassNode.setRadius(7);
-        sf::Vector2f spawnPos = randomPosition({ SCREEN_WIDTH - 14, SCREEN_HEIGHT * 2/3 });
+		sf::Vector2f spawnPos = randomPosition({ SCREEN_WIDTH - 14, (SCREEN_HEIGHT * 2 / 3) - 20});
 		grassNode.setPosition(spawnPos);
 		
 	}

@@ -20,7 +20,7 @@ private:
 	
 	Grass grassNode;
 	std::vector<Grass> grassNodeArray;
-	const int GRASS_CAP = 2;
+	const int GRASS_CAP = 30;
 	void SpawnGrassNodes();
 	void UpdateGrassNodes();
 
@@ -29,7 +29,7 @@ private:
 
 	Sheep sheep;
 	std::vector<Sheep> sheepArray;
-	const int SHEEP_CAP = 3;
+	const int SHEEP_CAP = 25;
 	void PopulateWorldWithSheep();
 	
 	int currentTime = 3334;

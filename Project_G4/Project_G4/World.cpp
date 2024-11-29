@@ -19,7 +19,7 @@ void World::UpdateGrassNodes()
         {
             distance = getDistanceBetween(sheep.getPosition(), grass.getPosition());
 
-            if (distance < 15)
+            if (distance < 5)
             {
                 grass.UpdateTaken(true);
             }
@@ -93,19 +93,38 @@ void World::Draw(sf::RenderWindow& window)
 // Passes the grass node array into the find grass noode function
 void World::PassGrassToSheep()
 {
+    std::vector<Grass> availableGrassNodes;
+    for (Grass grass : grassNodeArray)
+    {
+        if (!grass.CheckTaken())
+        {
+            availableGrassNodes.push_back(grass);
+        }
+    }
+
     for (auto sheep = sheepArray.begin(); sheep != sheepArray.end(); sheep++)
     {
+        if (!availableGrassNodes.empty())
+        {
+            sheep->FindGrassNode(availableGrassNodes);
+        }
+
         for (auto grass = grassNodeArray.begin(); grass != grassNodeArray.end();)
         {
-            if (grass->CheckTaken())// Check if the current grass node is taken
+            if (grass->CheckTaken())
             {
-                grass = grassNodeArray.erase(grass);
+                ++grass;
+                continue;
             }
-            else {
-                sheep->FindGrassNode(grassNodeArray);
-                grass++;
+            else if (getDistanceBetween(sheep->getPosition(), grass->getPosition()) < 5.f)
+            {
+                sheep->setBehaviour(behaviours::idle); // TODO // set to eating
+                break;
             }
+
+            ++grass;
         }
+
         if (grassNodeArray.empty())
         {
             sheep->setBehaviour(behaviours::idle);

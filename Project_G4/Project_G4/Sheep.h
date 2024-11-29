@@ -33,7 +33,6 @@ public:
 	void Draw(sf::RenderWindow& window);
 	template <typename T>
 	float FindGrassNode(const std::vector<T>& grassNodeArray);
-	/*void SeekToGrassNode(float);*/
 	void Update(float, sf::RectangleShape);
 
 	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
@@ -62,10 +61,13 @@ inline float Sheep::FindGrassNode(const std::vector<T>& grassNodeArray)
 	float currentClosest = FLT_MAX;
 	float newClosest;
 
-
 	for (int iter = 0; iter < grassNodeArray.size(); iter++)
 	{
 		newClosest = getDistanceBetween(sheepBody.getPosition(), grassNodeArray[iter].getPosition());
+		if (newClosest < 5)
+		{
+			currentBehaviour = behaviours::idle; // TODO // eat
+		}
 		if (newClosest < currentClosest)
 		{
 			currentClosest = newClosest;
