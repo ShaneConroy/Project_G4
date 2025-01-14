@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Fence.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Fence.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\World.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\World.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Sheep.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Sheep.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -11,32 +19,36 @@
       "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Sheep.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\World.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\World.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Fence.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Fence.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Economy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Economy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Economy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Economy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Menu.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\World.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\World.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Behaviours_Enum.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Behaviours_Enum.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Grass.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Grass.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Grass.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Grass.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Behaviours.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Behaviours.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{9AB6E069-8272-4082-B973-00C149471B66}|Project_G4\\Project_G4.vcxproj|solutionrelative:Project_G4\\Source.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -46,31 +58,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "World.h",
               "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\World.h",
               "RelativeDocumentMoniker": "Project_G4\\World.h",
               "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\World.h",
               "RelativeToolTip": "Project_G4\\World.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAABYAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACwAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-11-20T18:16:35.678Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "World.cpp",
               "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\World.cpp",
               "RelativeDocumentMoniker": "Project_G4\\World.cpp",
               "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\World.cpp",
               "RelativeToolTip": "Project_G4\\World.cpp",
-              "ViewState": "AgIAABYAAAAAAAAAAAAAADIAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAWwKIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-20T18:16:42.652Z",
               "IsPinned": true,
@@ -78,13 +89,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Sheep.h",
               "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Sheep.h",
               "RelativeDocumentMoniker": "Project_G4\\Sheep.h",
               "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Sheep.h",
               "RelativeToolTip": "Project_G4\\Sheep.h",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAADcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABcAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-11-20T17:04:05.401Z",
               "IsPinned": true,
@@ -92,13 +103,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Sheep.cpp",
               "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Sheep.cpp",
               "RelativeDocumentMoniker": "Project_G4\\Sheep.cpp",
               "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Sheep.cpp",
               "RelativeToolTip": "Project_G4\\Sheep.cpp",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAABUAAAA5AAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABUAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-20T16:55:57.04Z",
               "IsPinned": true,
@@ -106,33 +117,73 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Grass.h",
-              "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Grass.h",
-              "RelativeDocumentMoniker": "Project_G4\\Grass.h",
-              "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Grass.h",
-              "RelativeToolTip": "Project_G4\\Grass.h",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAABZAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "Economy.h",
+              "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Economy.h",
+              "RelativeDocumentMoniker": "Project_G4\\Economy.h",
+              "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Economy.h",
+              "RelativeToolTip": "Project_G4\\Economy.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-29T09:39:06.289Z",
+              "WhenOpened": "2025-01-14T13:04:05.143Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Economy.cpp",
+              "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Economy.cpp",
+              "RelativeDocumentMoniker": "Project_G4\\Economy.cpp",
+              "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Economy.cpp",
+              "RelativeToolTip": "Project_G4\\Economy.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-14T13:19:01.509Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Fence.h",
+              "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Fence.h",
+              "RelativeDocumentMoniker": "Project_G4\\Fence.h",
+              "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Fence.h",
+              "RelativeToolTip": "Project_G4\\Fence.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-14T14:38:57.773Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Grass.cpp",
-              "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Grass.cpp",
-              "RelativeDocumentMoniker": "Project_G4\\Grass.cpp",
-              "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Grass.cpp",
-              "RelativeToolTip": "Project_G4\\Grass.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAXAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Fence.cpp",
+              "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Fence.cpp",
+              "RelativeDocumentMoniker": "Project_G4\\Fence.cpp",
+              "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Fence.cpp",
+              "RelativeToolTip": "Project_G4\\Fence.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-27T15:22:16.13Z",
+              "WhenOpened": "2025-01-14T14:38:33.123Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "Menu.cpp",
+              "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Menu.cpp",
+              "RelativeDocumentMoniker": "Project_G4\\Menu.cpp",
+              "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Menu.cpp",
+              "RelativeToolTip": "Project_G4\\Menu.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-03T14:24:26.769Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "Behaviours.cpp",
               "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Behaviours.cpp",
               "RelativeDocumentMoniker": "Project_G4\\Behaviours.cpp",
@@ -140,12 +191,11 @@
               "RelativeToolTip": "Project_G4\\Behaviours.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-22T09:55:04.057Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-22T09:55:04.057Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "Behaviours_Enum.h",
               "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Behaviours_Enum.h",
               "RelativeDocumentMoniker": "Project_G4\\Behaviours_Enum.h",
@@ -153,18 +203,17 @@
               "RelativeToolTip": "Project_G4\\Behaviours_Enum.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-20T20:18:32.099Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-20T20:18:32.099Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Source.cpp",
               "DocumentMoniker": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Source.cpp",
               "RelativeDocumentMoniker": "Project_G4\\Source.cpp",
               "ToolTip": "C:\\Users\\gameuser\\Desktop\\Foldera\\College\\Project_G4\\Project_G4\\Project_G4\\Project_G4\\Source.cpp",
               "RelativeToolTip": "Project_G4\\Source.cpp",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAIwFIAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAACAAAAAAAAAAAAAIwDwAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-20T16:45:01.12Z"
             }

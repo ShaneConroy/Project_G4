@@ -1,4 +1,6 @@
-﻿  Sheep.cpp
+﻿  Fence.cpp
+  Source.cpp
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Source.cpp(22,6): warning C4326: return type of 'main' should be 'int' instead of 'void'
   World.cpp
   Generating Code...
   Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe

@@ -45,9 +45,21 @@ void World::PopulateWorldWithSheep()
 
 int World::WorldTime()
 {
-    if (currentTime > 0) // not night
+    if (isDay)
     {
-         currentTime -= 1;
+        currentTime += 1;
+        if (currentTime >= 3334)
+        {
+            isDay = false;
+        }
+    }
+    if (!isDay)
+    {
+        currentTime -= 1;
+        if (currentTime <= 0)
+        {
+            isDay = true;
+        }
     }
 
     return currentTime;
@@ -60,7 +72,7 @@ sf::Color World::DaylightCycle()
     sf::Color nightColor = { 40, 108, 89 };
     sf::Color newColour;
 
-    transition = std::min(1.0f, transition + 0.00015f); // Day is 55~ seconds & 3334 frames (1667 now)
+    transition = static_cast<float>(currentTime) / 3334;
 
     float r = dayColor.r + transition * (nightColor.r - dayColor.r);
     float g = dayColor.g + transition * (nightColor.g - dayColor.g);
@@ -82,6 +94,7 @@ void World::Draw(sf::RenderWindow& window)
     {
         window.draw(grass.grassNode);
     }
+
     fence.Draw(window);
 
     for (Sheep& sheep : sheepArray)
@@ -132,13 +145,26 @@ void World::PassGrassToSheep()
     }
 }
 
-void World::Update(float deltaTime)
+void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
+
     for (Sheep& sheep : sheepArray)
     {
-        sheep.Update(deltaTime, fence.getRect());
-        
+        if (fence.gateOpen)
+        {
+			sheep.Update(deltaTime, fence.getRect());
+		}
+        else
+        {
+            if (!fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()))
+            {
+                sheep.Update(deltaTime, fence.getRect());
+            }
+        }
+
     }
+
+    fence.gateFunction(mousePos);
 }
 
 void World::FixedUpdate()

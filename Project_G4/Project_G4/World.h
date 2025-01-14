@@ -32,15 +32,17 @@ private:
 	const int SHEEP_CAP = 25;
 	void PopulateWorldWithSheep();
 	
-	int currentTime = 3334;
+	int currentTime = 0;
 	sf::RectangleShape bg;
+
+	bool isDay = true;
 
 public:
 	int WorldTime();
 	sf::Color DaylightCycle();
 	void Draw(sf::RenderWindow& window);
 	void PassGrassToSheep();
-	void Update(float);
+	void Update(float, sf::Vector2i);
 	void FixedUpdate();
 	World()
 	{

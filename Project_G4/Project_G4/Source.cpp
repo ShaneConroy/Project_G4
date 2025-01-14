@@ -34,16 +34,6 @@ void main()
 
     bool gameRunning = false;
 
-    sf::Text fps;
-    sf::Font BebasNeue;
-    if (!BebasNeue.loadFromFile("ASSETS/FONT/BebasNeue.otf"))
-        std::cout << "Font failed to load!" << "\n";
-    fps.setFont(BebasNeue);
-    fps.setCharacterSize(20);
-
-    int frameCount = 0;
-    float elapsedTime = 0.0f;
-
     while (window.isOpen())
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -52,16 +42,6 @@ void main()
 
         sf::Time deltaTime = clock.restart();
         timeSinceLastFixedUpdate += deltaTime;
-
-        ////Checking framerate
-        //frameCount++;
-        //elapsedTime += deltaTime.asSeconds();
-        //if (elapsedTime >= 1.0f)
-        //{
-        //    fps.setString(std::to_string(frameCount));
-        //    frameCount = 0;
-        //    elapsedTime = 0.f;
-        //}
 
         //____________________________Update__________________________________//
         if (!gameRunning) // Not in game
@@ -78,11 +58,9 @@ void main()
         }
         else if (gameRunning) // In game
         {
-            world.Update(deltaTime.asSeconds());
+            world.Update(deltaTime.asSeconds(), getMousePosition);
             
             world.Draw(window);
-
-            //window.draw(fps);
         }
         
         window.display();

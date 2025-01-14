@@ -16,7 +16,7 @@ public:
 		innerGrass.setPosition(20, 544);
 		sf::Vector2f siez2 = { 1160.f, 240.f };
 		innerGrass.setSize(siez2);
-
+		
 		exitGrass.setFillColor(sf::Color(134, 172, 19));
 		sf::Vector2f size3 = { 200.f, 10.f };
 		exitGrass.setPosition((fenceSquare.getSize().x / 2) - (size3.x/ 2), 534);
@@ -29,6 +29,10 @@ public:
 	void UpdateGrass(sf::Color);
 	void Draw(sf::RenderWindow& window);
 	sf::RectangleShape getRect() { return exitGrass; };
+	sf::RectangleShape getRectArea() { return fenceSquare; };
+	void gateFunction(sf::Vector2i);
+
+	bool gateOpen = false;
 
 private:
 
@@ -36,5 +40,7 @@ private:
 	sf::RectangleShape innerGrass;
 	sf::RectangleShape exitGrass;
 
+	int clickCooldown;
+	int clickCooldownCap = 2500;
 };
 

@@ -40,6 +40,8 @@ public:
 
 	void setBehaviour(behaviours);
 
+	sf::CircleShape getCirc() { return sheepBody; };
+
 private:
 
 	behaviours currentBehaviour;
