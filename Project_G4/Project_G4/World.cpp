@@ -34,12 +34,23 @@ void World::updateFencedGrass()
     fence.UpdateGrass(newColour);
 }
 
-// Adds the shee[p to the world
+// Adds the sheep to the world
 void World::PopulateWorldWithSheep()
 {
-    for (int iter = 0; iter < SHEEP_CAP; iter++)
+    if(econ.sheepPurchased)
+	{
+		sheepArray.emplace_back();
+		econ.sheepPurchased = false;
+	}
+    if (econ.sheepSold)
     {
-        sheepArray.emplace_back();
+        if (!sheepArray.empty())
+        {
+		    sheepArray.pop_back();
+			econ.addFunds();   
+        }
+
+		econ.sheepSold = false;
     }
 }
 
@@ -165,13 +176,16 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     }
 
     fence.gateFunction(mousePos);
+    PopulateWorldWithSheep();
+    PassGrassToSheep();
+    UpdateGrassNodes();
+    
 }
 
 void World::FixedUpdate()
 {
     bg.setFillColor(DaylightCycle());
-    PassGrassToSheep();
-    UpdateGrassNodes();
-    WorldTime();
     updateFencedGrass();
+    WorldTime();
+    econ.update();
 }

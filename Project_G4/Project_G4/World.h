@@ -3,6 +3,7 @@
 #include "Grass.h"
 #include "Fence.h"
 #include "Sheep.h"
+#include "Economy.h"
 
 // The world will control the fence, maybe spawning of grass nodes, day/night cycle
 
@@ -37,6 +38,8 @@ private:
 
 	bool isDay = true;
 
+	Economy econ;
+
 public:
 	int WorldTime();
 	sf::Color DaylightCycle();
@@ -47,7 +50,6 @@ public:
 	World()
 	{
 		SpawnGrassNodes();
-		PopulateWorldWithSheep();
 		bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
 	}
 	~World()

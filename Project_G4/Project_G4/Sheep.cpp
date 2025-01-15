@@ -1,5 +1,25 @@
 #include "Sheep.h"
 
+Sheep::Sheep()
+{
+	sheepBody.setRadius(15);
+	sheepBody.setFillColor(sf::Color::White);
+	sf::Vector2f innerGrassPos = { 20.f, 544.f };
+	sf::Vector2f innerGrassSize = { 1160.f, 240.f };
+	sf::Vector2f spawnPos = randomPosition({ innerGrassSize.x - 30, innerGrassSize.y - 30 });
+	spawnPos.x += innerGrassPos.x;
+	spawnPos.y += innerGrassPos.y;
+
+	sheepBody.setPosition(spawnPos);
+
+	currentBehaviour = behaviours::exiting;
+}
+
+Sheep::~Sheep()
+{
+
+}
+
 void Sheep::Draw(sf::RenderWindow& window)
 {
 	window.draw(sheepBody);
