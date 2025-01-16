@@ -62,6 +62,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence)
 	{
 		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), targetExitPosition));
 	}
+
 }
 
 void Sheep::setBehaviour(behaviours behaviour)

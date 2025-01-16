@@ -71,5 +71,8 @@
     <ClInclude Include="Economy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Funds_Enum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "Fence.h"
 #include "Sheep.h"
 #include "Economy.h"
+#include "Funds_Enum.h"
 
 // The world will control the fence, maybe spawning of grass nodes, day/night cycle
 
@@ -30,7 +31,6 @@ private:
 
 	Sheep sheep;
 	std::vector<Sheep> sheepArray;
-	const int SHEEP_CAP = 25;
 	void PopulateWorldWithSheep();
 	
 	int currentTime = 0;
@@ -49,7 +49,6 @@ public:
 	void FixedUpdate();
 	World()
 	{
-		SpawnGrassNodes();
 		bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
 	}
 	~World()

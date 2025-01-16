@@ -144,6 +144,7 @@
     <ClInclude Include="Behaviours_Enum.h" />
     <ClInclude Include="Economy.h" />
     <ClInclude Include="Fence.h" />
+    <ClInclude Include="Funds_Enum.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="Menu.h" />

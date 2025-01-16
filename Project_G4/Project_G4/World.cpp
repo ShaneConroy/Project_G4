@@ -3,9 +3,10 @@
 // When called this function will spawn grass nodes randomly around the field
 void World::SpawnGrassNodes()
 {
-    for (int iter = 0; iter < GRASS_CAP; iter++)
+    if (econ.fertiliserPurchased)
     {
         grassNodeArray.emplace_back();
+		econ.fertiliserPurchased = false;
     }
 }
 
@@ -37,17 +38,19 @@ void World::updateFencedGrass()
 // Adds the sheep to the world
 void World::PopulateWorldWithSheep()
 {
+    // When a sheep is bought, add a sheep in
     if(econ.sheepPurchased)
 	{
 		sheepArray.emplace_back();
 		econ.sheepPurchased = false;
 	}
+    // If a sheep is sold, pop one out
     if (econ.sheepSold)
     {
-        if (!sheepArray.empty())
+        if (sheepArray.size() > 1)
         {
 		    sheepArray.pop_back();
-			econ.addFunds();   
+			econ.addFunds(Funds_Enum::sheepSold);   
         }
 
 		econ.sheepSold = false;
@@ -118,7 +121,7 @@ void World::Draw(sf::RenderWindow& window)
 void World::PassGrassToSheep()
 {
     std::vector<Grass> availableGrassNodes;
-    for (Grass grass : grassNodeArray)
+    for (Grass& grass : grassNodeArray)
     {
         if (!grass.CheckTaken())
         {
@@ -179,7 +182,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     PopulateWorldWithSheep();
     PassGrassToSheep();
     UpdateGrassNodes();
-    
+    econ.calculatePassiveIncome(sheepArray.size());
+    SpawnGrassNodes();
 }
 
 void World::FixedUpdate()
