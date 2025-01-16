@@ -10,22 +10,29 @@ void World::SpawnGrassNodes()
     }
 }
 
-// Updates the grass nodes
-void World::UpdateGrassNodes()
+// Fills an array with only the grass nodes that are not taken 
+std::vector<Grass> World::UpdateGrassNodes()
 {
-    float distance;
-    for (Grass& grass : grassNodeArray)
-    {
-        for (Sheep& sheep : sheepArray)
-        {
-            distance = getDistanceBetween(sheep.getPosition(), grass.getPosition());
+    std::vector<Grass> availableGrassNodes;
 
-            if (distance < 5)
-            {
-                grass.UpdateTaken(true);
-            }
+    for (auto grass = grassNodeArray.begin(); grass != grassNodeArray.end(); ++grass)
+    {
+        if (grass->CheckTaken())
+        {
+            continue;
         }
-    } 
+
+        availableGrassNodes.push_back(*grass);
+    }
+
+    grassNodeArray.clear();
+
+    for (const auto& grass : availableGrassNodes)
+    {
+        grassNodeArray.push_back(grass);
+    }
+
+    return grassNodeArray;
 }
 
 // Updates the grass colour of the fenced area to match the rest of the world
@@ -120,43 +127,10 @@ void World::Draw(sf::RenderWindow& window)
 // Passes the grass node array into the find grass noode function
 void World::PassGrassToSheep()
 {
-    std::vector<Grass> availableGrassNodes;
-    for (Grass& grass : grassNodeArray)
-    {
-        if (!grass.CheckTaken())
-        {
-            availableGrassNodes.push_back(grass);
-        }
-    }
-
-    for (auto sheep = sheepArray.begin(); sheep != sheepArray.end(); sheep++)
-    {
-        if (!availableGrassNodes.empty())
-        {
-            sheep->FindGrassNode(availableGrassNodes);
-        }
-
-        for (auto grass = grassNodeArray.begin(); grass != grassNodeArray.end();)
-        {
-            if (grass->CheckTaken())
-            {
-                ++grass;
-                continue;
-            }
-            else if (getDistanceBetween(sheep->getPosition(), grass->getPosition()) < 5.f)
-            {
-                sheep->setBehaviour(behaviours::idle); // TODO // set to eating
-                break;
-            }
-
-            ++grass;
-        }
-
-        if (grassNodeArray.empty())
-        {
-            sheep->setBehaviour(behaviours::idle);
-        }
-    }
+	for (Sheep& sheep : sheepArray)
+	{
+		sheep.FindGrassNode(UpdateGrassNodes());
+	}
 }
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
@@ -182,8 +156,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     PopulateWorldWithSheep();
     PassGrassToSheep();
     UpdateGrassNodes();
-    econ.calculatePassiveIncome(sheepArray.size());
     SpawnGrassNodes();
+    econ.calculatePassiveIncome(sheepArray.size());
 }
 
 void World::FixedUpdate()

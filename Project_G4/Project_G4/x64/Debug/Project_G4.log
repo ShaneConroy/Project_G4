@@ -1,24 +1,3 @@
-﻿  Sheep.cpp
-  Source.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Source.cpp(22,6): warning C4326: return type of 'main' should be 'int' instead of 'void'
-  World.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(186,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Sheep.h(50,18): error C2440: 'initializing': cannot convert from 'Grass' to 'Grass *const &'
-  (compiling source file 'World.cpp')
-      C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Sheep.h(50,18):
-      Reason: cannot convert from 'Grass' to 'Grass *const '
-      C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Sheep.h(50,18):
-      No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-      C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Sheep.h(50,18):
-      the template instantiation context (the oldest one first) is
-          C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(137,19):
-          see reference to function template instantiation 'float Sheep::FindGrassNode<Grass*>(const std::vector<Grass *,std::allocator<Grass *>> &)' being compiled
-  
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Sheep.h(52,16): error C2660: 'getDistanceBetween': function does not take 1 arguments
-  (compiling source file 'World.cpp')
-      C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Global.h(9,7):
-      see declaration of 'getDistanceBetween'
-      C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Sheep.h(52,16):
-      while trying to match the argument list '(const sf::Vector2f)'
-  
-  Generating Code...
+﻿  World.cpp
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(160,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe

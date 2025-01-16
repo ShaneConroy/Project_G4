@@ -19,6 +19,7 @@ public:
 	sf::CircleShape grassNode;
 	sf::Vector2f getPosition() const { return grassNode.getPosition(); }
 	bool CheckTaken() { return taken; };
+	bool CheckEaten() { return eaten; };
 	void UpdateTaken(bool);
 
 private:
@@ -36,5 +37,6 @@ private:
 		return sf::Vector2f(randomX, randomY);
 	}
 	bool taken = false; // will check if the current grass node is avaiable or nah
+	bool eaten = false; // will check if the current grass node is eaten or nah	
 };
 
