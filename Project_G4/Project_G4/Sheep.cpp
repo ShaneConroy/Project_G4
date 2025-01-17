@@ -62,6 +62,25 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence)
 	{
 		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), targetExitPosition));
 	}
+	else if (currentBehaviour == behaviours::eating)
+	{
+		if (eatTimer < eatTimerCap) // Is eating
+		{
+			isEating = true;
+			eatTimer += deltaTime;
+		}
+		if (isEating)
+		{
+			currentBehaviour = behaviours::idle;
+		}	
+
+		if (eatTimer >= eatTimerCap) // Done eating
+		{
+			isEating = false;
+			eatTimer = 0;
+			currentBehaviour = behaviours::seek;
+		}
+	}
 
 }
 

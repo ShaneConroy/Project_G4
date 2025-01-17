@@ -15,24 +15,32 @@ std::vector<Grass> World::UpdateGrassNodes()
 {
     std::vector<Grass> availableGrassNodes;
 
-    for (auto grass = grassNodeArray.begin(); grass != grassNodeArray.end(); ++grass)
+	for (Grass& grass : grassNodeArray)
+	{
+		if (!grass.CheckTaken())
+		{
+			availableGrassNodes.push_back(grass);
+		}
+	}
+
+	return availableGrassNodes;
+}
+
+// Passes the grass node array into the find grass noode function
+void World::PassGrassToSheep()
+{
+    for (Sheep& sheep : sheepArray)
     {
-        if (grass->CheckTaken())
+        for (Grass& grass : grassNodeArray)
         {
-            continue;
+            if (getDistanceBetween(sheep.getPosition(), grass.getPosition()) < 5)
+            {
+				grass.UpdateTaken(true);
+            }
         }
-
-        availableGrassNodes.push_back(*grass);
+        sheep.FindGrassNode(UpdateGrassNodes());
     }
-
-    grassNodeArray.clear();
-
-    for (const auto& grass : availableGrassNodes)
-    {
-        grassNodeArray.push_back(grass);
-    }
-
-    return grassNodeArray;
+        
 }
 
 // Updates the grass colour of the fenced area to match the rest of the world
@@ -124,18 +132,9 @@ void World::Draw(sf::RenderWindow& window)
     }
 }
 
-// Passes the grass node array into the find grass noode function
-void World::PassGrassToSheep()
-{
-	for (Sheep& sheep : sheepArray)
-	{
-		sheep.FindGrassNode(UpdateGrassNodes());
-	}
-}
-
 void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
-
+	// When the gate is closed, sheep inside will not update
     for (Sheep& sheep : sheepArray)
     {
         if (fence.gateOpen)
@@ -149,7 +148,6 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
                 sheep.Update(deltaTime, fence.getRect());
             }
         }
-
     }
 
     fence.gateFunction(mousePos);

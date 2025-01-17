@@ -21,6 +21,7 @@ public:
 	bool CheckTaken() { return taken; };
 	bool CheckEaten() { return eaten; };
 	void UpdateTaken(bool);
+	void UpdateEaten(bool);
 
 private:
 

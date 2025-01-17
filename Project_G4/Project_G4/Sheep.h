@@ -24,6 +24,9 @@ public:
 
 	void setBehaviour(behaviours);
 
+	bool isEating = false;
+
+
 private:
 
 	behaviours currentBehaviour;
@@ -36,6 +39,10 @@ private:
 
 	sf::Vector2f randomPosition(const sf::Vector2f& vec);
 	sf::Vector2f targetExitPosition;
+
+	float eatTimer = 0.0f;
+	float eatTimerCap = 10.0f;
+
 };
 
 // Takes in an array of grass nodes, loops through and finds the closest
@@ -50,7 +57,7 @@ inline float Sheep::FindGrassNode(const std::vector<T>& grassNodeArray)
 		newClosest = getDistanceBetween(sheepBody.getPosition(), grassNodeArray[iter].getPosition());
 		if (newClosest < 5)
 		{
-			currentBehaviour = behaviours::idle; // TODO // eat
+			currentBehaviour = behaviours::eating;
 		}
 		if (newClosest < currentClosest)
 		{
