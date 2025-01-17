@@ -97,5 +97,5 @@ void Economy::update()
 		addFunds(Funds_Enum::passiveIncome);
 		passiveIncomeTimer = passiveIncomeTimerCap;
 	}
-	std::cout << checkFunds() << "\n";
+	//std::cout << checkFunds() << "\n";
 }

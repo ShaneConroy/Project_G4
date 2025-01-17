@@ -1,7 +1,5 @@
 ﻿  Sheep.cpp
-  Source.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Source.cpp(22,6): warning C4326: return type of 'main' should be 'int' instead of 'void'
   World.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(158,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(159,48): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
   Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe

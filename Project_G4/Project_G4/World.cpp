@@ -33,8 +33,9 @@ void World::PassGrassToSheep()
     {
         for (Grass& grass : grassNodeArray)
         {
-            if (getDistanceBetween(sheep.getPosition(), grass.getPosition()) < 5)
+            if (getDistanceBetween(sheep.getPosition(), grass.getPosition()) < 6.0)
             {
+				sheep.setBehaviour(behaviours::eating);
 				grass.UpdateTaken(true);
             }
         }

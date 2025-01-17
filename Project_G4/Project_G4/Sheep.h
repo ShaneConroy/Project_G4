@@ -16,7 +16,7 @@ public:
 
 	void Draw(sf::RenderWindow& window);
 	template <typename T>
-	float FindGrassNode(const std::vector<T>& grassNodeArray);
+	void FindGrassNode(const std::vector<T>& grassNodeArray);
 	void Update(float, sf::RectangleShape);
 
 	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
@@ -47,23 +47,21 @@ private:
 
 // Takes in an array of grass nodes, loops through and finds the closest
 template<typename T>
-inline float Sheep::FindGrassNode(const std::vector<T>& grassNodeArray)
+inline void Sheep::FindGrassNode(const std::vector<T>& grassNodeArray)
 {
 	float currentClosest = FLT_MAX;
 	float newClosest;
 
-	for (int iter = 0; iter < grassNodeArray.size(); iter++)
+	if (!isEating)
 	{
-		newClosest = getDistanceBetween(sheepBody.getPosition(), grassNodeArray[iter].getPosition());
-		if (newClosest < 5)
+		for (int iter = 0; iter < grassNodeArray.size(); iter++)
 		{
-			currentBehaviour = behaviours::eating;
-		}
-		if (newClosest < currentClosest)
-		{
-			currentClosest = newClosest;
-			closestPos = grassNodeArray[iter].getPosition();
+			newClosest = getDistanceBetween(sheepBody.getPosition(), grassNodeArray[iter].getPosition());
+			if (newClosest < currentClosest)
+			{
+				currentClosest = newClosest;
+				closestPos = grassNodeArray[iter].getPosition();
+			}
 		}
 	}
-	return currentClosest;
 }
