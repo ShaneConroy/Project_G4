@@ -10,19 +10,28 @@ void World::SpawnGrassNodes()
     }
 }
 
-// Fills an array with only the grass nodes that are not taken 
+// Fills an array with only the grass nodes that are not taken // TODO Turn into list so its better ofr performance
 std::vector<Grass> World::UpdateGrassNodes()
 {
     std::vector<Grass> availableGrassNodes;
 
-	for (Grass& grass : grassNodeArray)
+    auto iter = grassNodeArray.begin();
+
+	while (iter != grassNodeArray.end())
 	{
-		if (!grass.CheckTaken())
+        if (!iter->CheckTaken())
+        {
+			availableGrassNodes.push_back(*iter);
+        }
+		if (iter->CheckEaten())
 		{
-			availableGrassNodes.push_back(grass);
+			iter = grassNodeArray.erase(iter);
+		}
+		else
+		{
+			++iter;
 		}
 	}
-
 	return availableGrassNodes;
 }
 
@@ -37,6 +46,11 @@ void World::PassGrassToSheep()
             {
 				sheep.setBehaviour(behaviours::eating);
 				grass.UpdateTaken(true);
+
+                if (sheep.doneEating)
+                {
+					grass.UpdateEaten(true);
+                }
             }
         }
         sheep.FindGrassNode(UpdateGrassNodes());

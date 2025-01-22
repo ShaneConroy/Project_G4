@@ -25,6 +25,7 @@ public:
 	void setBehaviour(behaviours);
 
 	bool isEating = false;
+	bool doneEating = false;
 
 
 private:
@@ -42,7 +43,6 @@ private:
 
 	float eatTimer = 0.0f;
 	float eatTimerCap = 10.0f;
-
 };
 
 // Takes in an array of grass nodes, loops through and finds the closest
@@ -52,16 +52,23 @@ inline void Sheep::FindGrassNode(const std::vector<T>& grassNodeArray)
 	float currentClosest = FLT_MAX;
 	float newClosest;
 
-	if (!isEating)
+	if (grassNodeArray.empty())
 	{
-		for (int iter = 0; iter < grassNodeArray.size(); iter++)
+		if (!doneEating)
 		{
-			newClosest = getDistanceBetween(sheepBody.getPosition(), grassNodeArray[iter].getPosition());
-			if (newClosest < currentClosest)
-			{
-				currentClosest = newClosest;
-				closestPos = grassNodeArray[iter].getPosition();
-			}
+
 		}
+	}
+
+	for (int iter = 0; iter < grassNodeArray.size(); iter++)
+	{
+		newClosest = getDistanceBetween(sheepBody.getPosition(), grassNodeArray[iter].getPosition());
+		if (newClosest < currentClosest)
+		{
+			currentClosest = newClosest;
+			closestPos = grassNodeArray[iter].getPosition();
+		}
+
+		std::cout << grassNodeArray.size() << std::endl;
 	}
 }

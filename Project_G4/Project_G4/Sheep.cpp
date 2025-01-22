@@ -65,6 +65,15 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence)
 	else if (currentBehaviour == behaviours::eating)
 	{
 		isEating = true;
+
+		eatTimer += deltaTime;
+		if (eatTimer >= eatTimerCap)
+		{
+			isEating = false;
+			doneEating = true;
+			eatTimer = 0.0f;
+			currentBehaviour = behaviours::seek;
+		}
 	}
 
 }
