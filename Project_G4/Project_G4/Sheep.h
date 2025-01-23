@@ -3,10 +3,6 @@
 #include "Behaviours.h"
 #include "Behaviours_Enum.h"
 
-// Sheep should control rotation, position, speed,
-//	behaviours such as eating grass, seeking grass or should it?
-//	It should have specific requirments then itll call on a behaviour class based off that.
-
 class Sheep
 {
 public:
@@ -23,6 +19,8 @@ public:
 	float getRadius() { return sheepBody.getRadius(); };
 
 	void setBehaviour(behaviours);
+
+	behaviours getBehaviour() { return currentBehaviour; };
 
 	bool isEating = false;
 	bool doneEating = false;
@@ -42,7 +40,7 @@ private:
 	sf::Vector2f targetExitPosition;
 
 	float eatTimer = 0.0f;
-	float eatTimerCap = 10.0f;
+	float eatTimerCap = 5.0f;
 };
 
 // Takes in an array of grass nodes, loops through and finds the closest
@@ -54,9 +52,10 @@ inline void Sheep::FindGrassNode(const std::vector<T>& grassNodeArray)
 
 	if (grassNodeArray.empty())
 	{
-		if (!doneEating)
+		if (currentBehaviour != behaviours::eating)
 		{
-
+			currentBehaviour = behaviours::y
+				abort	;
 		}
 	}
 

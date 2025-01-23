@@ -15,3 +15,16 @@ sf::Vector2f normaliseVector(sf::Vector2f vec)
     }
     return vec;
 }
+
+sf::Vector2f randomPositionGlobalFunc()
+{
+    std::random_device random;
+    std::mt19937 randomInstance(random());
+    std::uniform_real_distribution<float> distX(0.f, 1.f);
+    std::uniform_real_distribution<float> distY(0.f, 1.f);
+
+    float randomX = distX(randomInstance);
+    float randomY = distY(randomInstance);
+
+    return sf::Vector2f(randomX, randomY);
+}

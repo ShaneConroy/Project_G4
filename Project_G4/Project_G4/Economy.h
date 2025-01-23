@@ -6,7 +6,7 @@ class Economy
 {
 public:
 
-	bool sheepPurchased = true;
+	bool sheepPurchased = false;
 	bool sheepSold = false;
 	bool fertiliserPurchased = false;
 

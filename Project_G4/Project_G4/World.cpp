@@ -17,21 +17,21 @@ std::vector<Grass> World::UpdateGrassNodes()
 
     auto iter = grassNodeArray.begin();
 
-	while (iter != grassNodeArray.end())
-	{
-        if (!iter->CheckTaken())
+    while (iter != grassNodeArray.end())
+    {
+        if (iter->CheckEaten())
         {
-			availableGrassNodes.push_back(*iter);
+            iter = grassNodeArray.erase(iter);
         }
-		if (iter->CheckEaten())
-		{
-			iter = grassNodeArray.erase(iter);
-		}
-		else
-		{
-			++iter;
-		}
-	}
+        else
+        {
+            if (!iter->CheckTaken())
+            {
+                availableGrassNodes.push_back(*iter);
+            }
+            ++iter;
+        }
+    }
 	return availableGrassNodes;
 }
 
@@ -44,7 +44,7 @@ void World::PassGrassToSheep()
         {
             if (getDistanceBetween(sheep.getPosition(), grass.getPosition()) < 6.0)
             {
-				sheep.setBehaviour(behaviours::eating);
+                sheep.setBehaviour(behaviours::eating);
 				grass.UpdateTaken(true);
 
                 if (sheep.doneEating)
@@ -53,7 +53,10 @@ void World::PassGrassToSheep()
                 }
             }
         }
-        sheep.FindGrassNode(UpdateGrassNodes());
+        if (!grassNodeArray.empty())
+        {
+            sheep.FindGrassNode(UpdateGrassNodes());
+        }
     }
         
 }
