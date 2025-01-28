@@ -11,9 +11,9 @@ void World::SpawnGrassNodes()
 }
 
 // Fills an array with only the grass nodes that are not taken // TODO Turn into list so its better ofr performance
-std::vector<Grass> World::UpdateGrassNodes()
+std::vector< sf::Vector2f> World::UpdateGrassNodes()
 {
-    std::vector<Grass> availableGrassNodes;
+    std::vector<sf::Vector2f> availableGrassNodesPos;
 
     auto iter = grassNodeArray.begin();
 
@@ -27,12 +27,12 @@ std::vector<Grass> World::UpdateGrassNodes()
         {
             if (!iter->CheckTaken())
             {
-                availableGrassNodes.push_back(*iter);
+                availableGrassNodesPos.push_back(iter->getPosition());
             }
             ++iter;
         }
     }
-	return availableGrassNodes;
+    return availableGrassNodesPos;
 }
 
 // Passes the grass node array into the find grass noode function
@@ -53,12 +53,7 @@ void World::PassGrassToSheep()
                 }
             }
         }
-        if (!grassNodeArray.empty())
-        {
-            sheep.FindGrassNode(UpdateGrassNodes());
-        }
     }
-        
 }
 
 // Updates the grass colour of the fenced area to match the rest of the world
@@ -152,18 +147,19 @@ void World::Draw(sf::RenderWindow& window)
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
-	// When the gate is closed, sheep inside will not update
+
+    // When the gate is closed, sheep inside will not update
     for (Sheep& sheep : sheepArray)
     {
         if (fence.gateOpen)
         {
-			sheep.Update(deltaTime, fence.getRect());
-		}
+            sheep.Update(deltaTime, fence.getRect(), UpdateGrassNodes());
+        }
         else
         {
             if (!fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()))
             {
-                sheep.Update(deltaTime, fence.getRect());
+                sheep.Update(deltaTime, fence.getRect(), UpdateGrassNodes());
             }
         }
     }
@@ -173,7 +169,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     PassGrassToSheep();
     UpdateGrassNodes();
     SpawnGrassNodes();
-    econ.calculatePassiveIncome(sheepArray.size());
+    econ.calculatePassiveIncome(static_cast<int>(sheepArray.size()));
 }
 
 void World::FixedUpdate()

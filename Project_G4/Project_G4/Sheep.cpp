@@ -12,12 +12,13 @@ Sheep::Sheep()
 
 	sheepBody.setPosition(spawnPos);
 
-	currentBehaviour = behaviours::exiting;
+	//currentState = &idleState;
+	//currentState->enter(*this);
 }
 
 Sheep::~Sheep()
 {
-
+	
 }
 
 void Sheep::Draw(sf::RenderWindow& window)
@@ -26,11 +27,12 @@ void Sheep::Draw(sf::RenderWindow& window)
 }
 
 // TODO // put this into a neater behaviour class, that takes in a behavuiour
-void Sheep::Update(float deltaTime, sf::RectangleShape exitFence)
+void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, std::vector<sf::Vector2f> grassPositions)
 {
 	// If seeking, go to target
-	if (currentBehaviour == behaviours::seek)
-	{
+	if (currentBehaviour == behaviours::seek) {
+		closestPos = GrassUtility::FindClosestNodePosition(sheepBody.getPosition(), grassPositions);
+
 		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos));
 	}
 	// When leaving the pen into the field
@@ -53,10 +55,20 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence)
 		}
     }
 	// Stand still, default state
-	else if (currentBehaviour == behaviours::idle)
-	{
-		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), sheepBody.getPosition()));
-	}
+    else if (currentBehaviour == behaviours::idle)
+    {
+        static float timer = 0.0f;
+        timer += deltaTime;
+        if (timer <= 3.0f)
+        {
+            sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), sheepBody.getPosition()));
+        }
+		if (timer >= 3.0f)
+		{
+			currentBehaviour = behaviours::seek;
+			timer = 0.0f;
+		}
+    }
 	// going back into the pen
 	else if (currentBehaviour == behaviours::entering)
 	{

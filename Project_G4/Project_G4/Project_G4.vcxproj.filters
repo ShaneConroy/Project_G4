@@ -36,10 +36,10 @@
     <ClCompile Include="Global.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Behaviours.cpp">
+    <ClCompile Include="Economy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Economy.cpp">
+    <ClCompile Include="Behaviours.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Funds_Enum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GrassUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
