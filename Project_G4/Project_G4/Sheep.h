@@ -24,6 +24,8 @@ public:
 
 	behaviours getBehaviour() { return currentBehaviour; };
 
+	sf::FloatRect getBody() { return sheepBody.getGlobalBounds(); };
+
 	bool isEating = false;
 	bool doneEating = false;
 

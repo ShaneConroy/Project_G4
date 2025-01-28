@@ -18,6 +18,7 @@
 #include "World.h"
 #include "Menu.h"
 #include "Sheep.h"
+#include "HUD.h"
 
 void main()
 {
@@ -31,6 +32,7 @@ void main()
     World world;
     Menu menu;
     Sheep sheep;
+	HUD hud;
 
     bool gameRunning = false;
 
@@ -59,8 +61,10 @@ void main()
         else if (gameRunning) // In game
         {
             world.Update(deltaTime.asSeconds(), getMousePosition);
-            
+ 
             world.Draw(window);
+
+			hud.Draw(window);
         }
         
         window.display();
@@ -72,6 +76,8 @@ void main()
             {
                 world.FixedUpdate();
                 
+                hud.Update(getMousePosition);
+
                 timeSinceLastFixedUpdate -= fixedTimeStep;
             }
         }

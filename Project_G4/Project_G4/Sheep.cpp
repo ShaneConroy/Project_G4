@@ -11,9 +11,6 @@ Sheep::Sheep()
 	spawnPos.y += innerGrassPos.y;
 
 	sheepBody.setPosition(spawnPos);
-
-	//currentState = &idleState;
-	//currentState->enter(*this);
 }
 
 Sheep::~Sheep()

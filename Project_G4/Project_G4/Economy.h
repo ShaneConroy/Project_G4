@@ -1,6 +1,7 @@
 #pragma once
 #include "Global.h"
 #include "Funds_Enum.h"
+#include "Sheep.h"
 
 class Economy
 {
@@ -17,6 +18,7 @@ public:
 private:
 
 	Funds_Enum fundType;
+	Sheep sheep;
 
 	int currentFunds = 1000;
 

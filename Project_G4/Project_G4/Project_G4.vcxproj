@@ -134,6 +134,7 @@
     <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="Grass.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Sheep.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="Global.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="GrassUtility.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Sheep.h" />
     <ClInclude Include="World.h" />
