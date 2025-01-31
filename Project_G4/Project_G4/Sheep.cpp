@@ -15,7 +15,6 @@ Sheep::Sheep()
 
 Sheep::~Sheep()
 {
-	
 }
 
 void Sheep::Draw(sf::RenderWindow& window)

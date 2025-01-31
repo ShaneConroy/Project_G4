@@ -1,6 +1,6 @@
 #pragma once
 #include "Global.h"
-#include "World.h"
+
 class HUD
 {
 public:
@@ -9,13 +9,18 @@ public:
 
 	void Draw(sf::RenderWindow& window);
 	void Update(sf::Vector2i mousePos);
+	void setSellStatus(bool);
+	bool getSellStatus();
+
+	bool sellButtonClicked;
+
 private:
-	World world;
 
 	sf::Texture HUDTexture;
 	sf::Sprite sellButton;
 	
 	float timer = 0.0f;
-	float timerCap = 5.0f;
+	float timerCap = 6.0f;
+
 };
 

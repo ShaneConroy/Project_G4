@@ -29,20 +29,20 @@ void HUD::Update(sf::Vector2i mousePos)
 		{
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				world.setSellMode(!world.getSellMode());
-
-				if (world.getSellMode())
-				{
-					std::cout << "Sell on" << "\n";
-				}
-				if (!world.getSellMode())
-				{
-					std::cout << "Sell off" << "\n";
-				}
+				setSellStatus(true);
+				std::cout << "sellButtonClicked" << "\n";
 				timer = timerCap;
 			}
 		}
-
 	}
+}
 
+bool HUD::getSellStatus()
+{
+	return sellButtonClicked;
+}
+
+void HUD::setSellStatus(bool booli)
+{
+	sellButtonClicked = booli;
 }

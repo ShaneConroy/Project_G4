@@ -2,6 +2,8 @@
 #include "Global.h"
 #include "Funds_Enum.h"
 #include "Sheep.h"
+#include "HUD.h"
+
 
 class Economy
 {
@@ -15,10 +17,13 @@ public:
 	void addFunds(Funds_Enum fundType);
 	void calculatePassiveIncome(int);  
 
+	HUD hud;
+
 private:
 
 	Funds_Enum fundType;
 	Sheep sheep;
+
 
 	int currentFunds = 1000;
 

@@ -1,24 +1,5 @@
-﻿  HUD.cpp
-  Source.cpp
+﻿  Source.cpp
 C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Source.cpp(23,6): warning C4326: return type of 'main' should be 'int' instead of 'void'
   World.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:         with
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:         [
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:             T=int
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:         ]
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:         and
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:         [
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:             T=float
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,75): warning C4244:         ]
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:         with
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:         [
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:             T=int
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:         ]
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:         and
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:         [
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:             T=float
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\World.cpp(92,63): warning C4244:         ]
   Generating Code...
   Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe

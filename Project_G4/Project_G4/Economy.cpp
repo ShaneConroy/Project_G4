@@ -49,21 +49,15 @@ void Economy::purchaseSheep()
 // Sells sheep
 void Economy::sellSheep()
 {
-	if (sellDelay > 0)
+	if (hud.getSellStatus())
 	{
-		sellDelay--;
+		std::cout << "sellSheep()" <<"\n";
+		sheepSold = true;
+		hud.setSellStatus(false);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::U))
-	{
-		if (sellDelay <= 0)
-		{
-			sheepSold = true;
-			sellDelay = sellDelayCap;
-		}
-	}
-
 }
 
+// Buy grass nodes
 void Economy::purchaseFertiliser()
 {
 	if (checkFunds() >= fertiliserPrice)
@@ -86,8 +80,8 @@ void Economy::purchaseFertiliser()
 
 void Economy::update()
 {
-	purchaseSheep();
 	sellSheep();
+	purchaseSheep();
 	purchaseFertiliser();
 	// Every 60 frames, add passive income
 	if (passiveIncomeTimer > 0)
@@ -97,5 +91,5 @@ void Economy::update()
 		addFunds(Funds_Enum::passiveIncome);
 		passiveIncomeTimer = passiveIncomeTimerCap;
 	}
-	//std::cout << checkFunds() << "\n";
+	std::cout << checkFunds() << "\n";
 }

@@ -64,7 +64,7 @@ void World::updateFencedGrass()
 }
 
 // Adds the sheep to the world
-void World::PopulateWorldWithSheep(sf::Vector2i mousePos)
+void World::PopulateWorldWithSheep()
 {
     // When a sheep is bought, add a sheep in
     if (econ.sheepPurchased)
@@ -73,8 +73,9 @@ void World::PopulateWorldWithSheep(sf::Vector2i mousePos)
 		econ.sheepPurchased = false;
 	}
     // If a sheep is sold, pop one out
-    if (econ.sheepSold)
+    if (econ.sheepSold) // TODO // firgue ts out
     {
+        std::cout << "\n";
         if (sheepArray.size() > 1)
         {
             sheepArray.pop_back();
@@ -83,32 +84,8 @@ void World::PopulateWorldWithSheep(sf::Vector2i mousePos)
 
 		econ.sheepSold = false;
     }
-
-    if (sellMode) // TODO // Fix it so only one sheep is sold at a time. Maybe make selling sheep an econ func. Fix bool in HUD so it changes bool in world
-    {
-        for (Sheep& sheep : sheepArray)
-        {
-
-            if (sheep.getBody().contains(sf::Vector2f(mousePos.x, mousePos.y)))
-            {
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-                {
-                    std::cout << "SOLD" << "\n";
-                }
-            }
-        }
-    }
 }
 
-void World::setSellMode(bool boolo)
-{
-    sellMode = boolo;
-}
-
-bool World::getSellMode()
-{
-    return sellMode;
-}
 
 int World::WorldTime()
 {
@@ -190,7 +167,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     }
 
     fence.gateFunction(mousePos);
-    PopulateWorldWithSheep(mousePos);
+    PopulateWorldWithSheep();
     PassGrassToSheep();
     UpdateGrassNodes();
     SpawnGrassNodes();

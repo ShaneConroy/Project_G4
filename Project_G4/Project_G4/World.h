@@ -31,7 +31,7 @@ private:
 
 	Sheep sheep;
 	std::vector<Sheep> sheepArray;
-	void PopulateWorldWithSheep(sf::Vector2i);
+	void PopulateWorldWithSheep();
 	
 	int currentTime = 0;
 	sf::RectangleShape bg;
@@ -40,11 +40,7 @@ private:
 
 	Economy econ;
 
-	bool sellMode;
-
 public:
-	void setSellMode(bool);
-	bool getSellMode();
 	int WorldTime();
 	sf::Color DaylightCycle();
 	void Draw(sf::RenderWindow& window);
