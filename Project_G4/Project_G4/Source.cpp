@@ -75,8 +75,6 @@ void main()
             while (timeSinceLastFixedUpdate >= fixedTimeStep)
             {
                 world.FixedUpdate();
-                
-                hud.Update(getMousePosition);
 
                 timeSinceLastFixedUpdate -= fixedTimeStep;
             }

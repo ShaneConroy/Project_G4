@@ -16,6 +16,8 @@ public:
 	void update();
 	void addFunds(Funds_Enum fundType);
 	void calculatePassiveIncome(int);  
+	void sellSheep(sf::Vector2i);
+	void buySheep(sf::Vector2i);
 
 	HUD hud;
 
@@ -23,7 +25,6 @@ private:
 
 	Funds_Enum fundType;
 	Sheep sheep;
-
 
 	int currentFunds = 1000;
 
@@ -44,10 +45,15 @@ private:
 	int buyGrassDelay;
 	int buyGrassDelayCap = 6;
 
+	int sellTimer;
+	int sellTimerCap = 1200;
+
+	int buyTimer;
+	int buyTimerCap = 1200;
+
 	void purchaseFertiliser();
-	int checkFunds();
 	void purchaseSheep();
-	void sellSheep();
+	int checkFunds();
 
 };
 

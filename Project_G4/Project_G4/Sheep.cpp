@@ -83,6 +83,9 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, std::vector<sf
 			currentBehaviour = behaviours::seek;
 		}
 	}
+	else {
+		std::cout << "No behav" << "\n";
+	}
 
 }
 

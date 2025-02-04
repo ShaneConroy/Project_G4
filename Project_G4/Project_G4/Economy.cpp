@@ -30,31 +30,57 @@ void Economy::purchaseSheep()
 {
 	if (checkFunds() >= sheepBuyPrice)
 	{
-		if (buySheepDelay > 0)
+		sheepPurchased = true;
+		buySheepDelay = buyDelayCap;
+		currentFunds -= sheepBuyPrice;
+	}
+}
+
+// Sells sheep
+void Economy::sellSheep(sf::Vector2i mousePos)
+{
+	if (sellTimer > 0.0f)
+	{
+		sellTimer -= 1.0f;
+	}
+	else if (sellTimer <= 0.0f)
+	{
+		if (mousePos.x >= hud.getSellButton().getPosition().x &&
+			mousePos.x <= hud.getSellButton().getPosition().x + hud.getSellButton().getGlobalBounds().width &&
+			mousePos.y >= hud.getSellButton().getPosition().y &&
+			mousePos.y <= hud.getSellButton().getPosition().y + hud.getSellButton().getGlobalBounds().height )
 		{
-			buySheepDelay--;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-		{
-			if (buySheepDelay <= 0)
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				sheepPurchased = true;
-				buySheepDelay = buyDelayCap;
-				currentFunds -= sheepBuyPrice;
+				std::cout << "sellButtonClicked" << "\n";
+				sheepSold = true;
+				sellTimer = sellTimerCap;
 			}
 		}
 	}
 }
 
-// Sells sheep
-void Economy::sellSheep()
+void Economy::buySheep(sf::Vector2i mousePos)
 {
-	if (hud.getSellStatus())
-	{
-		std::cout << "sellSheep()" <<"\n";
-		sheepSold = true;
-		hud.setSellStatus(false);
-	}
+    if (buyTimer > 0.0f)
+    {
+        buyTimer -= 1.0f;
+    }
+    else if (buyTimer <= 0.0f)
+    {
+        if (mousePos.x >= hud.getBuyButton().getPosition().x &&
+            mousePos.x <= hud.getBuyButton().getPosition().x + hud.getBuyButton().getGlobalBounds().width &&
+            mousePos.y >= hud.getBuyButton().getPosition().y &&
+            mousePos.y <= hud.getBuyButton().getPosition().y + hud.getBuyButton().getGlobalBounds().height)
+        {
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                std::cout << "buyButtonClicked" << "\n";
+				purchaseSheep();
+                buyTimer = buyTimerCap;
+            }
+        }
+    }
 }
 
 // Buy grass nodes
@@ -80,8 +106,6 @@ void Economy::purchaseFertiliser()
 
 void Economy::update()
 {
-	sellSheep();
-	purchaseSheep();
 	purchaseFertiliser();
 	// Every 60 frames, add passive income
 	if (passiveIncomeTimer > 0)

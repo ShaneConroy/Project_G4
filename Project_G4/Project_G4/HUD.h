@@ -8,17 +8,15 @@ public:
 	HUD();
 
 	void Draw(sf::RenderWindow& window);
-	void Update(sf::Vector2i mousePos);
-	void setSellStatus(bool);
-	bool getSellStatus();
-
-	bool sellButtonClicked;
+	sf::Sprite getSellButton();
+	sf::Sprite getBuyButton();
 
 private:
 
 	sf::Texture HUDTexture;
 	sf::Sprite sellButton;
-	
+	sf::Sprite buyButton;
+
 	float timer = 0.0f;
 	float timerCap = 6.0f;
 

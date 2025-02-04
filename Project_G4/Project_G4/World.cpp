@@ -75,14 +75,12 @@ void World::PopulateWorldWithSheep()
     // If a sheep is sold, pop one out
     if (econ.sheepSold) // TODO // firgue ts out
     {
-        std::cout << "\n";
         if (sheepArray.size() > 1)
         {
             sheepArray.pop_back();
-			econ.addFunds(Funds_Enum::sheepSold);   
+			econ.addFunds(Funds_Enum::sheepSold);
         }
-
-		econ.sheepSold = false;
+        econ.sheepSold = false;
     }
 }
 
@@ -172,6 +170,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     UpdateGrassNodes();
     SpawnGrassNodes();
     econ.calculatePassiveIncome(static_cast<int>(sheepArray.size()));
+    econ.sellSheep(mousePos);
+    econ.buySheep(mousePos);
 }
 
 void World::FixedUpdate()
