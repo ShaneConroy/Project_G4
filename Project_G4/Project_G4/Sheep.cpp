@@ -11,6 +11,7 @@ Sheep::Sheep()
 	spawnPos.y += innerGrassPos.y;
 
 	sheepBody.setPosition(spawnPos);
+	currentBehaviour = behaviours::idle;
 }
 
 Sheep::~Sheep()
@@ -23,10 +24,11 @@ void Sheep::Draw(sf::RenderWindow& window)
 }
 
 // TODO // put this into a neater behaviour class, that takes in a behavuiour
-void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, std::vector<sf::Vector2f> grassPositions)
+void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions)
 {
 	// If seeking, go to target
-	if (currentBehaviour == behaviours::seek) {
+	if (currentBehaviour == behaviours::seek) 
+	{
 		closestPos = GrassUtility::FindClosestNodePosition(sheepBody.getPosition(), grassPositions);
 
 		sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos));
@@ -50,21 +52,6 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, std::vector<sf
 			currentBehaviour = behaviours::seek;
 		}
     }
-	// Stand still, default state
-    else if (currentBehaviour == behaviours::idle)
-    {
-        static float timer = 0.0f;
-        timer += deltaTime;
-        if (timer <= 3.0f)
-        {
-            sheepBody.move(behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), sheepBody.getPosition()));
-        }
-		if (timer >= 3.0f)
-		{
-			currentBehaviour = behaviours::seek;
-			timer = 0.0f;
-		}
-    }
 	// going back into the pen
 	else if (currentBehaviour == behaviours::entering)
 	{
@@ -83,10 +70,55 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, std::vector<sf
 			currentBehaviour = behaviours::seek;
 		}
 	}
+	// Idle makes the sheep idly walk around the field
+	else if (currentBehaviour == behaviours::idle)
+	{
+		wanderTimer += deltaTime;
+
+		if (wanderTimer >= 3.0f)
+		{
+			if (!innerGrass.getGlobalBounds().contains(sheepBody.getPosition()))
+			{
+                std::random_device random;
+                std::mt19937 randomInstance(random());
+                std::uniform_real_distribution<float> distY(20.f, 500.f);
+                std::uniform_real_distribution<float> distX(20.f, 1100.f);
+
+                float randomX = distX(randomInstance);
+                float randomY = distY(randomInstance);
+
+                sf::Vector2f randomPoint(randomX, randomY);
+
+				wanderTarget = randomPoint;
+
+			}
+			else {
+				currentBehaviour = behaviours::exiting;
+			}
+
+			std::random_device rd;
+			std::mt19937 gen(rd());
+			std::uniform_real_distribution<float> randomWanderAdd(0.0f, 3.0f);
+
+			wanderTimer = randomWanderAdd(gen);
+		}
+
+		sheepBody.move(behaviour.seekToTarget(moveSpeed * 0.5f, deltaTime, sheepBody.getPosition(), wanderTarget));
+
+		// If grass appears, switch to seeking
+		if (!grassPositions.empty())
+		{
+			currentBehaviour = behaviours::seek;
+		}
+	}
 	else {
-		std::cout << "No behav" << "\n";
+		currentBehaviour = behaviours::idle;
 	}
 
+	if (grassPositions.empty())
+	{
+		currentBehaviour = behaviours::idle;
+	}
 }
 
 void Sheep::setBehaviour(behaviours behaviour)

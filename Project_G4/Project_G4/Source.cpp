@@ -61,7 +61,7 @@ void main()
         else if (gameRunning) // In game
         {
             world.Update(deltaTime.asSeconds(), getMousePosition);
- 
+
             world.Draw(window);
 
 			hud.Draw(window);

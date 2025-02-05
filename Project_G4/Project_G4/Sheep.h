@@ -15,7 +15,7 @@ public:
 
 	void Draw(sf::RenderWindow& window);
 
-	void Update(float deltaTime, sf::RectangleShape exitFence, std::vector<sf::Vector2f> grassPositions);
+	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions);
 
 	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
 	float getRadius() { return sheepBody.getRadius(); };
@@ -41,8 +41,11 @@ private:
 	float moveSpeed = 50.0f;
 
 	sf::Vector2f randomPosition(const sf::Vector2f& vec);
-	sf::Vector2f targetExitPosition = { 50.f, 50.f };
+	sf::Vector2f targetExitPosition = { 0.f,0.f };
 
 	float eatTimer = 0.0f;
 	float eatTimerCap = 5.0f;
+
+	float wanderTimer = 3.0f;
+	sf::Vector2f wanderTarget;
 };

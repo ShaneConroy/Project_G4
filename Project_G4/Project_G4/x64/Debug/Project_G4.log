@@ -1,2 +1,9 @@
-﻿  World.cpp
+﻿  Economy.cpp
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(44,16): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(67,21): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+  Sheep.cpp
+  Source.cpp
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Source.cpp(23,6): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  World.cpp
+  Generating Code...
   Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe

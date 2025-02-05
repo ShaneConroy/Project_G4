@@ -153,13 +153,13 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     {
         if (fence.gateOpen)
         {
-            sheep.Update(deltaTime, fence.getRect(), UpdateGrassNodes());
+            sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes());
         }
         else
         {
             if (!fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()))
             {
-                sheep.Update(deltaTime, fence.getRect(), UpdateGrassNodes());
+                sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes());
             }
         }
     }
