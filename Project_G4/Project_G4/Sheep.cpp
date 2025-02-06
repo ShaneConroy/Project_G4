@@ -11,7 +11,7 @@ Sheep::Sheep()
 	spawnPos.y += innerGrassPos.y;
 
 	sheepBody.setPosition(spawnPos);
-	currentBehaviour = behaviours::idle;
+	currentBehaviour = behaviours::exiting;
 }
 
 Sheep::~Sheep()
@@ -117,7 +117,17 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 
 	if (grassPositions.empty())
 	{
-		currentBehaviour = behaviours::idle;
+		if (!innerGrass.getGlobalBounds().contains(sheepBody.getPosition()))
+		{
+			currentBehaviour = behaviours::idle;
+		}
+		else if (!exitFence.getGlobalBounds().contains(sheepBody.getPosition()))
+		{
+			currentBehaviour = behaviours::exiting;
+		}
+		else {
+			currentBehaviour = behaviours::idle;
+		}
 	}
 }
 
