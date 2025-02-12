@@ -18,6 +18,7 @@ public:
 	void calculatePassiveIncome(int);  
 	void sellSheep(sf::Vector2i);
 	void buySheep(sf::Vector2i);
+	void draw(sf::RenderWindow&);
 
 	HUD hud;
 

@@ -9,15 +9,28 @@ int Economy::checkFunds()
 // Adds money based on enum type
 void Economy::addFunds(Funds_Enum fundType)
 {
+	int amountToAdd = 0;
+
 	if (fundType == Funds_Enum::sheepSold)
 	{
-		currentFunds += sheepSellPrice;
+		amountToAdd = sheepSellPrice;
 	}
 	else if (fundType == Funds_Enum::passiveIncome)
 	{
-		currentFunds += passiveIncome;
+		amountToAdd = passiveIncome;
+	}
+
+	// Prevent exceeding max funds limit 
+	if (currentFunds + amountToAdd > 999999)
+	{
+		currentFunds = 999999;
+	}
+	else
+	{
+		currentFunds += amountToAdd;
 	}
 }
+
 
 // Calculate passive income
 void Economy::calculatePassiveIncome(int sheepAmount)
@@ -83,6 +96,11 @@ void Economy::buySheep(sf::Vector2i mousePos)
     }
 }
 
+void Economy::draw(sf::RenderWindow& window)
+{
+	hud.Draw(window);
+}
+
 // Buy grass nodes
 void Economy::purchaseFertiliser()
 {
@@ -115,5 +133,6 @@ void Economy::update()
 		addFunds(Funds_Enum::passiveIncome);
 		passiveIncomeTimer = passiveIncomeTimerCap;
 	}
-	std::cout << checkFunds() << "\n";
+	std::cout << currentFunds << "\n";
+	hud.updateHUDMoney(currentFunds);
 }

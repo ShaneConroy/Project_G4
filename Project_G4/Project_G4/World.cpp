@@ -143,6 +143,7 @@ void World::Draw(sf::RenderWindow& window)
     {
         sheep.Draw(window);
     }
+    econ.draw(window);
 }
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)

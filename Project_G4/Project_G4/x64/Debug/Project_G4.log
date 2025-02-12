@@ -1,2 +1,4 @@
-﻿  Sheep.cpp
+﻿  Economy.cpp
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(57,16): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(80,21): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
   Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe

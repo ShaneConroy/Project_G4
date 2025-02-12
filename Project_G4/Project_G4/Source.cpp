@@ -63,8 +63,6 @@ void main()
             world.Update(deltaTime.asSeconds(), getMousePosition);
 
             world.Draw(window);
-
-			hud.Draw(window);
         }
         
         window.display();
