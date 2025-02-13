@@ -15,7 +15,7 @@ public:
 
 	void Draw(sf::RenderWindow& window);
 
-	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions);
+	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock);
 
 	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
 	float getRadius() { return sheepBody.getRadius(); };
@@ -48,4 +48,8 @@ private:
 
 	float wanderTimer = 3.0f;
 	sf::Vector2f wanderTarget;
+
+	sf::Vector2f Separation(std::vector<Sheep>& flock);
+	sf::Vector2f Alignment(std::vector<Sheep>& flock);
+	sf::Vector2f Cohesion(std::vector<Sheep>& flock);
 };
