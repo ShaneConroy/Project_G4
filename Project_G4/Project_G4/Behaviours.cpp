@@ -34,3 +34,19 @@ sf::Vector2f Behaviours::wander(float speed, float deltaTime, sf::Vector2f myPos
 
     return dir;
 }
+
+sf::Vector2f Behaviours::exit(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos, sf::RectangleShape exitFence)
+{
+
+	if (targetPos == sf::Vector2f(0.f, 0.f))
+	{
+		sf::Vector2f fenceSize = exitFence.getSize();
+		targetPos = randomPositionGlobalFunc({ fenceSize.x, 3.f });
+		targetPos.x += exitFence.getPosition().x;
+		targetPos.y = exitFence.getPosition().y;
+	}
+	// Move to exit gate
+    sf::Vector2f dir = targetPos - myPos;
+
+    return dir;
+}

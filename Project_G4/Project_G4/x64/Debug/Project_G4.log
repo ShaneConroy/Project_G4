@@ -1,2 +1,7 @@
-﻿  Sheep.cpp
-  Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe
+﻿  Behaviours.cpp
+  Global.cpp
+  Generating Code...
+Behaviours.obj : error LNK2019: unresolved external symbol "class sf::Vector2<float> __cdecl randomPositionGlobalFunc(class sf::Vector2<float>)" (?randomPositionGlobalFunc@@YA?AV?$Vector2@M@sf@@V12@@Z) referenced in function "public: class sf::Vector2<float> __cdecl Behaviours::exit(float,float,class sf::Vector2<float>,class sf::Vector2<float>,class sf::RectangleShape)" (?exit@Behaviours@@QEAA?AV?$Vector2@M@sf@@MMV23@0VRectangleShape@3@@Z)
+    Hint on symbols that are defined and could potentially match:
+      "class sf::Vector2<float> __cdecl randomPositionGlobalFunc(class sf::Vector2<float> const &)" (?randomPositionGlobalFunc@@YA?AV?$Vector2@M@sf@@AEBV12@@Z)
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe : fatal error LNK1120: 1 unresolved externals

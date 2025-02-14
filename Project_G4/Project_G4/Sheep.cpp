@@ -26,10 +26,10 @@ void Sheep::Draw(sf::RenderWindow& window)
 // TODO // put this into a neater behaviour class, that takes in a behavuiour
 void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock)
 {
-	//// Flocking
-	//sf::Vector2f flockingForce = Separation(flock) * 30.f + Alignment(flock) * 10.0f + Cohesion(flock) * 1.0f;
-	//sf::Vector2f movement = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), sheepBody.getPosition() + flockingForce);
-	//sheepBody.move(movement);
+	// Flocking
+	sf::Vector2f flockingForce = Separation(flock) * 30.f + Alignment(flock) * 10.0f + Cohesion(flock) * 1.0f;
+	sf::Vector2f movement = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), sheepBody.getPosition() + flockingForce);
+	sheepBody.move(movement);
 
 	// If seeking, go to target
 	if (currentBehaviour == behaviours::seek) 
