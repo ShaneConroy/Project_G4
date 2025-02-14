@@ -18,6 +18,7 @@ public:
 	void calculatePassiveIncome(int);  
 	void sellSheep(sf::Vector2i);
 	void buySheep(sf::Vector2i);
+	void buyGrass(sf::Vector2i);
 	void draw(sf::RenderWindow&);
 
 	HUD hud;
@@ -52,7 +53,9 @@ private:
 	int buyTimer;
 	int buyTimerCap = 1200;
 
-	void purchaseFertiliser();
+	int grassTimer;
+	int grassTimerCap = 1200;
+
 	void purchaseSheep();
 	int checkFunds();
 

@@ -65,7 +65,6 @@ void Economy::sellSheep(sf::Vector2i mousePos)
 		{
 			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 			{
-				std::cout << "sellButtonClicked" << "\n";
 				sheepSold = true;
 				sellTimer = sellTimerCap;
 			}
@@ -88,9 +87,32 @@ void Economy::buySheep(sf::Vector2i mousePos)
         {
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
-                std::cout << "buyButtonClicked" << "\n";
 				purchaseSheep();
                 buyTimer = buyTimerCap;
+            }
+        }
+    }
+}
+
+
+void Economy::buyGrass(sf::Vector2i mousePos)
+{
+	if (grassTimer > 0.0f)
+	{
+		grassTimer -= 1.0f;
+	}
+	else if (grassTimer <= 0.0f)
+    {
+        if (mousePos.x >= hud.getGrassButton().getPosition().x &&
+            mousePos.x <= hud.getGrassButton().getPosition().x + hud.getGrassButton().getGlobalBounds().width &&
+            mousePos.y >= hud.getGrassButton().getPosition().y &&
+            mousePos.y <= hud.getGrassButton().getPosition().y + hud.getGrassButton().getGlobalBounds().height)
+        {
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+				fertiliserPurchased = true;
+				currentFunds -= fertiliserPrice;
+				grassTimer = grassTimerCap;
             }
         }
     }
@@ -101,30 +123,8 @@ void Economy::draw(sf::RenderWindow& window)
 	hud.Draw(window);
 }
 
-// Buy grass nodes
-void Economy::purchaseFertiliser()
-{
-	if (checkFunds() >= fertiliserPrice)
-	{
-		if (buyGrassDelay > 0)
-		{
-			buyGrassDelay--;
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::T))
-		{
-			if (buyGrassDelay <= 0)
-			{
-				fertiliserPurchased = true;
-				currentFunds -= fertiliserPrice;
-				buyGrassDelay = buyGrassDelayCap;
-			}
-		}
-	}
-}
-
 void Economy::update()
 {
-	purchaseFertiliser();
 	// Every 60 frames, add passive income
 	if (passiveIncomeTimer > 0)
 		passiveIncomeTimer--;

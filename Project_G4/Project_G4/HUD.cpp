@@ -13,6 +13,11 @@ HUD::HUD()
 	buyButton.setPosition(0, 50);
 	buyButton.setScale(0.5, 0.5);
 
+	grassButton.setTexture(HUDTexture);
+	grassButton.setTextureRect(sf::IntRect(104, 100, 72, 77));
+	grassButton.setPosition(50, 50);
+	grassButton.setScale(0.5, 0.5);
+
 	numbersTexture.loadFromFile("Assets/ART/numbers.png");
 	num1.setTexture(numbersTexture);
 	num2.setTexture(numbersTexture);
@@ -42,6 +47,7 @@ void HUD::Draw(sf::RenderWindow& window)
 {
 	window.draw(sellButton);
 	window.draw(buyButton);
+	window.draw(grassButton);
 
 	window.draw(num1);
 	window.draw(num2);
@@ -61,6 +67,11 @@ sf::Sprite HUD::getSellButton()
 sf::Sprite HUD::getBuyButton()
 {
 	return buyButton;
+}
+
+sf::Sprite HUD::getGrassButton()
+{
+	return grassButton;
 }
 
 // Called by Economy, check how much mullah we got

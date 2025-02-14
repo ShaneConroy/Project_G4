@@ -10,6 +10,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 	sf::Sprite getSellButton();
 	sf::Sprite getBuyButton();
+	sf::Sprite getGrassButton();
 
 	void updateHUDMoney(int);
 

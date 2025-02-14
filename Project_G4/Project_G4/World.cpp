@@ -165,14 +165,18 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         }
     }
 
+
     fence.gateFunction(mousePos);
+
     PopulateWorldWithSheep();
     PassGrassToSheep();
     UpdateGrassNodes();
     SpawnGrassNodes();
+
     econ.calculatePassiveIncome(static_cast<int>(sheepArray.size()));
     econ.sellSheep(mousePos);
     econ.buySheep(mousePos);
+	econ.buyGrass(mousePos);
 }
 
 void World::FixedUpdate()
