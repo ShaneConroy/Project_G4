@@ -7,5 +7,6 @@ enum class behaviours
 	exiting,
 	entering,
 	flee,
-	eating
+	eating,
+	wander
 };

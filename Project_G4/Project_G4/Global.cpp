@@ -16,15 +16,13 @@ sf::Vector2f normaliseVector(sf::Vector2f vec)
     return vec;
 }
 
-sf::Vector2f randomPositionGlobalFunc(const sf::Vector2f& vec)
+sf::Vector2f randomPosOnField(const sf::Vector2f& xRange, const sf::Vector2f& yRange) 
 {
-    std::random_device random;
-    std::mt19937 randomInstance(random());
-    std::uniform_real_distribution<float> distX(0.f, vec.x);
-    std::uniform_real_distribution<float> distY(0.f, vec.y);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
 
-    float randomX = distX(randomInstance);
-    float randomY = distY(randomInstance);
+    std::uniform_real_distribution<float> distX(xRange.x, xRange.y);
+    std::uniform_real_distribution<float> distY(yRange.x, yRange.y);
 
-    return sf::Vector2f(randomX, randomY);
+    return sf::Vector2f(distX(gen), distY(gen));
 }

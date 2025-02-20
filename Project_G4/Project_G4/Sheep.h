@@ -40,7 +40,6 @@ private:
 
 	float moveSpeed = 50.0f;
 
-	sf::Vector2f randomPosition(const sf::Vector2f& vec);
 	sf::Vector2f targetExitPosition = { 0.f,0.f };
 
 	float eatTimer = 0.0f;
@@ -52,4 +51,7 @@ private:
 	sf::Vector2f Separation(std::vector<Sheep>& flock);
 	sf::Vector2f Alignment(std::vector<Sheep>& flock);
 	sf::Vector2f Cohesion(std::vector<Sheep>& flock);
+
+	sf::Vector2f getTargetMovement(float deltaTime, std::vector<sf::Vector2f> grassPositions, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, sf::Vector2f flockingForce);
+
 };
