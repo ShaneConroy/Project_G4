@@ -57,6 +57,8 @@ private:
 	int grassTimerCap = 1200;
 
 	void purchaseSheep();
+	void purchaseGrass();
+
 	int checkFunds();
 
 };

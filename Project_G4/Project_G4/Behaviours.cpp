@@ -51,6 +51,7 @@ sf::Vector2f Behaviours::toFence(float speed, float deltaTime, sf::Vector2f myPo
     return dir;
 }
 
+// TODO // Bitch
 bool Behaviours::eating(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos, float& eatTimer, float eatTimerCap, bool& isEating, bool& doneEating)
 {
     return true;

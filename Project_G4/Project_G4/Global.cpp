@@ -26,3 +26,8 @@ sf::Vector2f randomPosOnField(const sf::Vector2f& xRange, const sf::Vector2f& yR
 
     return sf::Vector2f(distX(gen), distY(gen));
 }
+
+float vectorLength(const sf::Vector2f& vec)
+{
+    return std::sqrt(vec.x * vec.x + vec.y * vec.y);
+}

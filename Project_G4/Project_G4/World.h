@@ -18,27 +18,29 @@ class World
 {
 private:
 
-	float transition = 0.0f;
-	
 	Grass grassNode;
+	Economy econ;
+	Sheep sheep;
+	Fence fence;
+
 	std::vector<Grass> grassNodeArray;
-	const int GRASS_CAP = 30;
-	void SpawnGrassNodes();
+
 	std::vector<sf::Vector2f> UpdateGrassNodes();
 
-	Fence fence;
+	void SpawnGrassNodes();
 	void updateFencedGrass();
-
-	Sheep sheep;
-	std::vector<Sheep> sheepArray;
 	void PopulateWorldWithSheep();
-	
+
+	const int GRASS_CAP = 30;
+	float transition = 0.0f;
 	int currentTime = 0;
+	bool isDay = true;
+	int grassBuyAmount = 1;
+
+	std::vector<Sheep> sheepArray;
 	sf::RectangleShape bg;
 
-	bool isDay = true;
 
-	Economy econ;
 
 public:
 	int WorldTime();

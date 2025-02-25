@@ -5,8 +5,11 @@ void World::SpawnGrassNodes()
 {
     if (econ.fertiliserPurchased)
     {
-        grassNodeArray.emplace_back();
-		econ.fertiliserPurchased = false;
+        for (int i = 0; i < grassBuyAmount; i++)
+        {
+            grassNodeArray.emplace_back();
+        }
+        econ.fertiliserPurchased = false;
     }
 }
 
@@ -148,6 +151,10 @@ void World::Draw(sf::RenderWindow& window)
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
+    if (!sheepArray.empty())
+    {
+        sheepArray[0].isLeader = true;
+    }
 
     // When the gate is closed, sheep inside will not update
     for (Sheep& sheep : sheepArray)

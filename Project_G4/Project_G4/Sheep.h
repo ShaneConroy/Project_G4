@@ -28,30 +28,31 @@ public:
 
 	bool isEating = false;
 	bool doneEating = false;
-
+	bool isLeader = false;
 
 private:
 
 	behaviours currentBehaviour;
 	Behaviours behaviour;
-	
-	sf::Vector2f closestPos;
+
 	sf::CircleShape sheepBody;
 
-	float moveSpeed = 50.0f;
-
-	sf::Vector2f targetExitPosition = { 0.f,0.f };
-
+	float moveSpeed = 35.0f;
 	float eatTimer = 0.0f;
 	float eatTimerCap = 5.0f;
-
 	float wanderTimer = 3.0f;
-	sf::Vector2f wanderTarget;
+
+	sf::Vector2f targetExitPosition = { 0.f,0.f };
+	sf::Vector2f closestPos;
+	sf::Vector2f wanderTarget{ 100.f, 100.f };
+	sf::Vector2f previousPosition;
+	sf::Vector2f velocity;
 
 	sf::Vector2f Separation(std::vector<Sheep>& flock);
 	sf::Vector2f Alignment(std::vector<Sheep>& flock);
 	sf::Vector2f Cohesion(std::vector<Sheep>& flock);
 
-	sf::Vector2f getTargetMovement(float deltaTime, std::vector<sf::Vector2f> grassPositions, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, sf::Vector2f flockingForce);
+	sf::Vector2f calculateVelocity(const sf::Vector2f& previousPos, const sf::Vector2f& currentPos, float deltaTime);
+	sf::Vector2f getLeaderDirection(std::vector<Sheep>& flock, float deltaTime);
 
 };

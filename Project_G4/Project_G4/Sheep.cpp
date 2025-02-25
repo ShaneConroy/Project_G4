@@ -26,66 +26,41 @@ void Sheep::Draw(sf::RenderWindow& window)
 // TODO // put this into a neater behaviour class, that takes in a behavuiour
 void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock)
 {
+	sf::Vector2f movement{ 0.f, 0.f };
+
+	if (isLeader)
+	{
+		movement = behaviour.wander(moveSpeed, deltaTime, sheepBody.getPosition(), wanderTarget);
+	}
+	else
+	{
+		sf::Vector2f flockingForce = Separation(flock) * 10.f + Alignment(flock) * 1.5f + Cohesion(flock) * 1.2f;
+		movement = getLeaderDirection(flock, deltaTime) * 0.8f + flockingForce * 0.2f;
+	}
+
 	// Flocking
-	sf::Vector2f flockingForce = Separation(flock) * 15.f + Alignment(flock) * 1.0f + Cohesion(flock) * 1.0f;
-	sf::Vector2f movement = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), sheepBody.getPosition() + flockingForce);
-	sheepBody.move(movement);
+	sf::Vector2f flockingForce = Separation(flock) + Alignment(flock) + Cohesion(flock);
+
+	velocity = flockingForce;
+	sheepBody.move(velocity * deltaTime);
+
+	velocity = calculateVelocity(sheepBody.getPosition(), previousPosition, deltaTime);
 }
 
-sf::Vector2f Sheep::getTargetMovement(float deltaTime, std::vector<sf::Vector2f> grassPositions, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, sf::Vector2f flockingForce)
+// Gets the sheeps veclocity
+sf::Vector2f Sheep::calculateVelocity(const sf::Vector2f& previousPos, const sf::Vector2f& currentPos, float deltaTime)
 {
-    sf::Vector2f movement(0.f, 0.f);
+	if (deltaTime > 0)
+	{
+		return (currentPos - previousPos) / deltaTime;
+	}
+	return { 0.f, 0.f };
+}
 
-    // Add flocking force to movemnt
-    movement += flockingForce;
-
-    // If seeking, go to target
-    if (currentBehaviour == behaviours::seek)
-    {
-        closestPos = GrassUtility::FindClosestNodePosition(sheepBody.getPosition(), grassPositions);
-        movement += behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos);
-    }
-    // When leaving the pen into the field
-    else if (currentBehaviour == behaviours::exiting)
-    {
-        movement += behaviour.toFence(moveSpeed, deltaTime, sheepBody.getPosition(), targetExitPosition, exitFence);
-        if (exitFence.getGlobalBounds().contains(sheepBody.getPosition()))
-        {
-            currentBehaviour = behaviours::seek; // Switch to seeking behavior
-        }
-    }
-    // going back into the pen
-    else if (currentBehaviour == behaviours::entering)
-    {
-        movement += behaviour.toFence(moveSpeed, deltaTime, sheepBody.getPosition(), targetExitPosition, exitFence);
-        if (exitFence.getGlobalBounds().contains(sheepBody.getPosition()))
-        {
-            currentBehaviour = behaviours::seek;
-        }
-    }
-    // Stand still
-    else if (currentBehaviour == behaviours::idle)
-    {
-        // Stay in place, no movement
-        movement = { 0.f, 0.f };
-    }
-
-    if (grassPositions.empty())
-    {
-        if (!innerGrass.getGlobalBounds().contains(sheepBody.getPosition()))
-        {
-            currentBehaviour = behaviours::wander;
-        }
-        else if (!exitFence.getGlobalBounds().contains(sheepBody.getPosition()))
-        {
-            currentBehaviour = behaviours::exiting;
-        }
-        else {
-            currentBehaviour = behaviours::wander;
-        }
-    }
-
-    return movement;
+sf::Vector2f Sheep::getLeaderDirection(std::vector<Sheep>& flock, float deltaTime)
+{
+    sf::Vector2f leaderDirection(0.f, 0.f);
+    return leaderDirection = normaliseVector(flock[0].calculateVelocity(sheepBody.getPosition(), sheepBody.getPosition(), deltaTime));
 }
 
 void Sheep::setBehaviour(behaviours behaviour)
@@ -98,36 +73,83 @@ void Sheep::setBehaviour(behaviours behaviour)
 sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)
 {
     sf::Vector2f steer(0.f, 0.f);
+	int count = 0;
+
     for (Sheep& other : flock)
     {
         float distance = getDistanceBetween(getPosition(), other.getPosition());
         if (distance > 0 && distance < 50.f)
         {
-            steer += (getPosition() - other.getPosition()) / distance;
+            sf::Vector2f diff = getPosition() - other.getPosition();
+            diff /= distance;
+			steer += diff;
+            count++;
         }
     }
-    return steer;
+
+	if (count > 0)
+	{
+		steer /= static_cast<float>(count);
+
+        if (vectorLength(steer) > 0)
+        {
+			steer = normaliseVector(steer) * moveSpeed; 
+        }
+	}
+    return steer * 10.f;
 }
 
 // Move together
 sf::Vector2f Sheep::Alignment(std::vector<Sheep>& flock)
 {
     sf::Vector2f averageVelocity(0.f, 0.f);
+    int count = 0;
+
     for (Sheep& other : flock)
     {
-        averageVelocity += other.wanderTarget;
+        if (other.getPosition() != sheepBody.getPosition())
+        {
+			averageVelocity += other.velocity;
+            count++;
+        }
     }
-    return averageVelocity / static_cast<float>(flock.size());
+	if (count > 0)
+	{
+		averageVelocity /= static_cast<float>(count);
+        if (vectorLength(averageVelocity) > 0)
+        {
+			averageVelocity = normaliseVector(averageVelocity) * moveSpeed;
+        }
+	}
+
+    return averageVelocity * 1.5f;
 }
 
 // Keep together
 sf::Vector2f Sheep::Cohesion(std::vector<Sheep>& flock)
 {
     sf::Vector2f centerMass(0.f, 0.f);
+	int count = 0;
+
     for (Sheep& other : flock)
     {
-        centerMass += other.getPosition();
+        if (other.getPosition() != sheepBody.getPosition())
+        {
+			centerMass += other.getPosition();
+			count++;
+        }
     }
-    return (centerMass / static_cast<float>(flock.size())) - getPosition();
+    if (count > 0)
+    {
+		centerMass /= static_cast<float>(count);
+		sf::Vector2f direction = centerMass - getPosition();
+        if (vectorLength(direction) > 0)
+        {
+			direction = normaliseVector(direction) * moveSpeed;
+        }
+		return direction * 1.2f;
+    }
+
+    return sf::Vector2f(0.0f, 0.0f);
 }
 

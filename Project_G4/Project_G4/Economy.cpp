@@ -49,6 +49,16 @@ void Economy::purchaseSheep()
 	}
 }
 
+void Economy::purchaseGrass()
+{
+	if (checkFunds() >= fertiliserPrice)
+	{
+		fertiliserPurchased = true;
+		buyGrassDelay = buyGrassDelayCap;
+		currentFunds -= fertiliserPrice;
+	}
+}
+
 // Sells sheep
 void Economy::sellSheep(sf::Vector2i mousePos)
 {
@@ -110,8 +120,7 @@ void Economy::buyGrass(sf::Vector2i mousePos)
         {
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
-				fertiliserPurchased = true;
-				currentFunds -= fertiliserPrice;
+				purchaseGrass();
 				grassTimer = grassTimerCap;
             }
         }
