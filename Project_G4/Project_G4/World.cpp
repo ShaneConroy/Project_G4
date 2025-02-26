@@ -76,7 +76,7 @@ void World::PopulateWorldWithSheep()
 		econ.sheepPurchased = false;
 	}
     // If a sheep is sold, pop one out
-    if (econ.sheepSold) // TODO // firgue ts out
+    if (econ.sheepSold)
     {
         if (sheepArray.size() > 1)
         {
@@ -153,7 +153,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
     if (!sheepArray.empty())
     {
-        sheepArray[0].isLeader = true;
+        sheepArray.front().isLeader = true;
     }
 
     // When the gate is closed, sheep inside will not update

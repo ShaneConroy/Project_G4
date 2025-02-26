@@ -85,13 +85,28 @@ sf::Vector2f Sheep::Alignment(std::vector<Sheep>& flock)
 	return averageVelocity;
 }
 
-
 // Keep together
-sf::Vector2f Sheep::Cohesion(std::vector<Sheep>& flock)
+sf::Vector2f Sheep::Cohesion(std::vector<Sheep*>& flock)
 {
-	sf::Vector2f centerMass(0.f, 0.f);
+	sf::Vector2f cohesionForce;
 
-	return centerMass;
+	if (flock.size() > 0)
+	{
+		sf::Vector2f centreOfMass;
+
+		for (auto const& sheep : flock)
+		{
+			centreOfMass += sheep->getPosition();
+		}
+
+		centreOfMass /= static_cast<float>(flock.size()); // Get the average position
+
+		sf::Vector2f towardsCentre = centreOfMass - sheepBody.getPosition();
+
+		cohesionForce = normaliseVector(towardsCentre);
+	}
+
+	return cohesionForce;
 }
 
 
