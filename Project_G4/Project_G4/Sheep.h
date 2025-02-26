@@ -38,13 +38,14 @@ private:
 	sf::CircleShape sheepBody;
 
 	float moveSpeed = 35.0f;
+	float maxSpeed = 200.f;
 	float eatTimer = 0.0f;
 	float eatTimerCap = 5.0f;
 	float wanderTimer = 3.0f;
 
 	sf::Vector2f targetExitPosition = { 0.f,0.f };
 	sf::Vector2f closestPos;
-	sf::Vector2f wanderTarget{ 100.f, 100.f };
+	sf::Vector2f wanderTarget{ 500.f, 500.f };
 	sf::Vector2f previousPosition;
 	sf::Vector2f velocity;
 
