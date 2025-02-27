@@ -72,6 +72,7 @@ void main()
         {
             while (timeSinceLastFixedUpdate >= fixedTimeStep)
             {
+                window.setFramerateLimit(60);
                 world.FixedUpdate();
 
                 timeSinceLastFixedUpdate -= fixedTimeStep;

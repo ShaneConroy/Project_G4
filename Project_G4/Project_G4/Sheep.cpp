@@ -28,7 +28,10 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	// Check if im the leader. Will lead other sheep
 	if (isLeader)
 	{
+		sheepBody.setFillColor(sf::Color::Red);
+		sf::Vector2f dir = behaviour.wander(moveSpeed, deltaTime, sheepBody.getPosition());
 
+		sheepBody.move(dir * deltaTime);
 	}
 	// Other sheep
 	else
@@ -69,20 +72,57 @@ void Sheep::setBehaviour(behaviours behaviour)
 
 
 // Keep them aopart
-sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)
+sf::Vector2f Sheep::Separation(std::vector<Sheep*>& flock)
 {
-	sf::Vector2f steer(0.f, 0.f);
+	sf::Vector2f separatingForce(0.f, 0.f);
 
-	return steer;
+	float desiredSeparation = 50.f;
+
+	if (flock.size() > 0)
+	{
+		int count = 0;
+
+		for (auto const& sheep : flock)
+		{
+			float distance = getDistanceBetween(sheepBody.getPosition(), sheep->getPosition());
+
+			if (distance < desiredSeparation && distance > 0)
+			{
+				sf::Vector2f oppositeDirection = normaliseVector(sheepBody.getPosition() - sheep->getPosition());
+
+				separatingForce += oppositeDirection / distance;
+				count++;
+			}
+		}
+
+		if (count > 0)
+		{
+			separatingForce /= static_cast<float>(count);
+		}
+	}
+
+	separatingForce = normaliseVector(separatingForce);
+
+	return separatingForce;
 }
 
 
 // Move together
-sf::Vector2f Sheep::Alignment(std::vector<Sheep>& flock)
+sf::Vector2f Sheep::Alignment(std::vector<Sheep*>& flock)
 {
 	sf::Vector2f averageVelocity(0.f, 0.f);
 
-	return averageVelocity;
+	if (flock.size() > 0)
+	{
+		for (auto const& sheep : flock)
+		{
+			averageVelocity += sheep->velocity;
+		}
+
+		averageVelocity /= static_cast<float>(flock.size());
+	}
+
+	return normaliseVector(averageVelocity);
 }
 
 // Keep together

@@ -49,9 +49,9 @@ private:
 	sf::Vector2f previousPosition;
 	sf::Vector2f velocity;
 
-	sf::Vector2f Separation(std::vector<Sheep>& flock);
-	sf::Vector2f Alignment(std::vector<Sheep>& flock);
-	sf::Vector2f Cohesion(std::vector<Sheep>& flock);
+	sf::Vector2f Separation(std::vector<Sheep*>& flock);
+	sf::Vector2f Alignment(std::vector<Sheep*>& flock);
+	sf::Vector2f Cohesion(std::vector<Sheep*>& flock);
 
 	sf::Vector2f calculateVelocity(const sf::Vector2f& previousPos, const sf::Vector2f& currentPos, float deltaTime);
 	sf::Vector2f getLeaderDirection(std::vector<Sheep>& flock, float deltaTime);

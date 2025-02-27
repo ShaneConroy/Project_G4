@@ -16,21 +16,20 @@ sf::Vector2f Behaviours::seekToTarget(float speed, float deltaTime, sf::Vector2f
 }
 
 // Picks a random point inside the field then walks to it. When it reaches the point, it picks another random point
-sf::Vector2f Behaviours::wander(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos)
+sf::Vector2f Behaviours::wander(float speed, float deltaTime, sf::Vector2f myPos)
 {
-    sf::Vector2f screenSize = { SCREEN_WIDTH, SCREEN_HEIGHT };
+    static sf::Vector2f wanderTarget = randomPosOnField({ 0.f, SCREEN_WIDTH }, { 0.f, SCREEN_HEIGHT });
 
-    sf::Vector2f randomPos = randomPosOnField({ 0.f, screenSize.x }, { 0.f, screenSize.y });
-
-    sf::Vector2f dir = randomPos - myPos;
+    sf::Vector2f dir = wanderTarget - myPos;
     float length = std::sqrt((dir.x * dir.x) + (dir.y * dir.y));
 
-    if (length < 5)
+    if (length < 5) // If close, pick a new target
     {
-        return { 0, 0 };
+        wanderTarget = randomPosOnField({ 0.f, SCREEN_WIDTH }, { 0.f, SCREEN_HEIGHT });
     }
 
-    dir = (dir / length) * (speed * deltaTime);
+    dir = (dir / length) * (speed * (deltaTime * 100.f)); // TODO // Frame rate fucky
+
 
     return dir;
 }

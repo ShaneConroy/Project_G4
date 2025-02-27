@@ -10,7 +10,8 @@ float getDistanceBetween(sf::Vector2f posOne, sf::Vector2f posTwo)
 sf::Vector2f normaliseVector(sf::Vector2f vec)
 {
     float length = std::sqrt(vec.x * vec.x + vec.y * vec.y);
-    if (length != 0) {
+    if (length != 0)
+    {
         return sf::Vector2f(vec.x / length, vec.y / length);
     }
     return vec;
