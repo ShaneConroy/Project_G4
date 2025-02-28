@@ -11,6 +11,7 @@ public:
 	sf::Sprite getSellButton();
 	sf::Sprite getBuyButton();
 	sf::Sprite getGrassButton();
+	sf::Sprite getPopOutPanel();
 
 	void updateHUDMoney(int);
 
@@ -28,6 +29,17 @@ private:
 	sf::Sprite num4;
 	sf::Sprite num5;
 	sf::Sprite num6;
+
+	sf::Texture upgradeSpriteSheet;
+	sf::Sprite sheepPurchaseAmountUpgrade;
+	sf::Sprite sheepSellPriceUpgrade;
+	sf::Sprite sheepMaxCapUpgrade;
+	sf::Sprite grassPurchaseAmountUpgrade;
+
+	sf::Texture popOutPanelTexture;
+	sf::Sprite popOutPanel;
+
+	bool poppedOut = false;
 
 	float timer = 0.0f;
 	float timerCap = 6.0f;

@@ -28,12 +28,12 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 {
 	sf::Vector2f movementDirection(0.f, 0.f);
 	previousPosition = sheepBody.getPosition();
-	flock[0].moveSpeed = 100.f;
 
 	// Check if im the leader. Will lead other sheep
 	if (isLeader)
 	{
 		sheepBody.setFillColor(sf::Color::Red);
+		flock[0].moveSpeed = 100.f;
 		movementDirection = behaviour.wander(moveSpeed, deltaTime, sheepBody.getPosition());
 	}
 	// Other sheep
@@ -96,7 +96,6 @@ void Sheep::setBehaviour(behaviours behaviour)
 {
 	currentBehaviour = behaviour;
 }
-
 
 // Keep them aopart
 sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)

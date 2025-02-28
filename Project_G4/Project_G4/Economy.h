@@ -48,7 +48,7 @@ private:
 	int buyGrassDelayCap = 6;
 
 	int sellTimer;
-	int sellTimerCap = 1200;
+	int sellTimerCap = 12;
 
 	int buyTimer;
 	int buyTimerCap = 12;
@@ -61,5 +61,6 @@ private:
 
 	int checkFunds();
 
+	void popOutPanelFunc();
 };
 

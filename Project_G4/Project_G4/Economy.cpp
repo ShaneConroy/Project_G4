@@ -6,6 +6,10 @@ int Economy::checkFunds()
 	return currentFunds;
 }
 
+void Economy::popOutPanelFunc()
+{
+}
+
 // Adds money based on enum type
 void Economy::addFunds(Funds_Enum fundType)
 {

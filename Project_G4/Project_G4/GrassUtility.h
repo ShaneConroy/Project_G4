@@ -6,7 +6,6 @@ class GrassUtility
 public:
     template <typename T>
     static sf::Vector2f FindClosestNodePosition(const sf::Vector2f& sheepPosition, const std::vector<T>& grassNodeArray);
-
 };
 
 

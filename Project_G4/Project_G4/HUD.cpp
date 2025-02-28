@@ -39,8 +39,30 @@ HUD::HUD()
 	num5.setPosition(893, 10);
 	num6.setPosition(835, 10);
 
+	upgradeSpriteSheet.loadFromFile("Assets/ART/upgradeSpritesheet.png");
+	sheepPurchaseAmountUpgrade.setTexture(upgradeSpriteSheet);
+	sheepSellPriceUpgrade.setTexture(upgradeSpriteSheet);
+	sheepMaxCapUpgrade.setTexture(upgradeSpriteSheet);
+	grassPurchaseAmountUpgrade.setTexture(upgradeSpriteSheet);
+	sheepPurchaseAmountUpgrade.setTextureRect(sf::IntRect(8, 13, 214, 192));
+	sheepSellPriceUpgrade.setTextureRect(sf::IntRect(267, 17, 250, 190));
+	sheepMaxCapUpgrade.setTextureRect(sf::IntRect(533, 15, 250, 190));
+	grassPurchaseAmountUpgrade.setTextureRect(sf::IntRect(794, 5, 229, 206));
 
+	sheepPurchaseAmountUpgrade.setPosition(0, 100);
+	sheepSellPriceUpgrade.setPosition(0, 200);
+	sheepMaxCapUpgrade.setPosition(0, 300);
+	grassPurchaseAmountUpgrade.setPosition(0, 400);
 
+	sheepPurchaseAmountUpgrade.setScale(0.5, 0.5);
+	sheepSellPriceUpgrade.setScale(0.5, 0.5);
+	sheepMaxCapUpgrade.setScale(0.5, 0.5);
+	grassPurchaseAmountUpgrade.setScale(0.5, 0.5);
+
+	popOutPanelTexture.loadFromFile("Assets/ART/popOutPanel.png");
+	popOutPanel.setTexture(popOutPanelTexture);
+	popOutPanel.setPosition(0, 0);
+	popOutPanel.setScale(0.75, 0.75);
 }
 
 void HUD::Draw(sf::RenderWindow& window)
@@ -56,6 +78,12 @@ void HUD::Draw(sf::RenderWindow& window)
 	window.draw(num5);
 	window.draw(num6);
 
+	window.draw(sheepPurchaseAmountUpgrade);
+	window.draw(sheepSellPriceUpgrade);
+	window.draw(sheepMaxCapUpgrade);
+	window.draw(grassPurchaseAmountUpgrade);
+
+	window.draw(popOutPanel);
 
 }
 
@@ -72,6 +100,11 @@ sf::Sprite HUD::getBuyButton()
 sf::Sprite HUD::getGrassButton()
 {
 	return grassButton;
+}
+
+sf::Sprite HUD::getPopOutPanel()
+{
+	return popOutPanel;
 }
 
 // Called by Economy, check how much mullah we got
@@ -115,6 +148,11 @@ void HUD::updateHUDMoney(int currentFunds)
 
 		digits[6 - length + i]->setTextureRect(rect);
 	}
+}
+
+void HUD::popOut()
+{
+
 }
 
 

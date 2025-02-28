@@ -28,7 +28,7 @@ sf::Vector2f Behaviours::wander(float speed, float deltaTime, sf::Vector2f myPos
         wanderTarget = randomPosOnField({ 0.f, SCREEN_WIDTH }, { 0.f, SCREEN_HEIGHT });
     }
 
-    dir = (dir / length) * (speed * (deltaTime * 100.f)); // TODO // Frame rate fucky
+    dir = (dir / length) * (speed * (deltaTime * 100.f)); 
 
 
     return dir;
