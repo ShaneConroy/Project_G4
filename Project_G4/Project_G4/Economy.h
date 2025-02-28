@@ -51,10 +51,10 @@ private:
 	int sellTimerCap = 1200;
 
 	int buyTimer;
-	int buyTimerCap = 1200;
+	int buyTimerCap = 12;
 
 	int grassTimer;
-	int grassTimerCap = 1200;
+	int grassTimerCap = 12;
 
 	void purchaseSheep();
 	void purchaseGrass();

@@ -10,7 +10,7 @@ sf::Vector2f Behaviours::seekToTarget(float speed, float deltaTime, sf::Vector2f
     {
         return { 0, 0 };
     }
-    dir = (dir / lenght) * (speed * deltaTime);
+    dir = (dir / lenght) * (speed * (deltaTime * 100.f));
 
     return dir;
 }

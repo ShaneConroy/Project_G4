@@ -1,5 +1,6 @@
-﻿  Behaviours.cpp
+﻿  Sheep.cpp
 C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Global.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  (compiling source file 'Behaviours.cpp')
+  (compiling source file 'Sheep.cpp')
   
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Sheep.cpp(93,1): warning C4715: 'Sheep::getLeaderPos': not all control paths return a value
   Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe

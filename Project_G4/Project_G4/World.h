@@ -23,7 +23,7 @@ private:
 	Sheep sheep;
 	Fence fence;
 
-	std::vector<Grass> grassNodeArray;
+	sf::RectangleShape bg;
 
 	std::vector<sf::Vector2f> UpdateGrassNodes();
 
@@ -31,14 +31,18 @@ private:
 	void updateFencedGrass();
 	void PopulateWorldWithSheep();
 
-	const int GRASS_CAP = 30;
 	float transition = 0.0f;
-	int currentTime = 0;
+
 	bool isDay = true;
+
+	const int GRASS_CAP = 30;
+	const int timeInDay = 3334;
+	int currentTime = 0;
 	int grassBuyAmount = 1;
 
+
 	std::vector<Sheep> sheepArray;
-	sf::RectangleShape bg;
+	std::vector<Grass> grassNodeArray;
 
 
 

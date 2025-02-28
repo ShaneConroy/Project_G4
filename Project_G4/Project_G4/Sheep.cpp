@@ -11,6 +11,7 @@ Sheep::Sheep()
 	spawnPos.y += innerGrassPos.y;
 
 	sheepBody.setPosition(spawnPos);
+	previousPosition = spawnPos;
 	currentBehaviour = behaviours::exiting;
 }
 
@@ -25,19 +26,29 @@ void Sheep::Draw(sf::RenderWindow& window)
 
 void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock)
 {
+	sf::Vector2f movementDirection(0.f, 0.f);
+	previousPosition = sheepBody.getPosition();
+	flock[0].moveSpeed = 100.f;
+
 	// Check if im the leader. Will lead other sheep
 	if (isLeader)
 	{
 		sheepBody.setFillColor(sf::Color::Red);
-		sf::Vector2f dir = behaviour.wander(moveSpeed, deltaTime, sheepBody.getPosition());
-
-		sheepBody.move(dir * deltaTime);
+		movementDirection = behaviour.wander(moveSpeed, deltaTime, sheepBody.getPosition());
 	}
 	// Other sheep
 	else
 	{
+		sf::Vector2f seekForce = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), flock[0].getPosition());
+		sf::Vector2f separationForce = Separation(flock) * 25.f;
+		sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 1.0f;
+		sf::Vector2f cohesionForce = Cohesion(flock) * 2.0f;
 
+		// Combine the forces
+		movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
 	}
+	movementDirection = normaliseVector(movementDirection) * moveSpeed * deltaTime;
+	sheepBody.move(movementDirection);
 }
 
 // Gets the sheeps veclocity
@@ -60,9 +71,25 @@ sf::Vector2f Sheep::calculateVelocity(const sf::Vector2f& previousPos, const sf:
 	}
 }
 
+sf::Vector2f Sheep::getPreviousPos()
+{
+	return previousPosition;
+}
+
 sf::Vector2f Sheep::getLeaderDirection(std::vector<Sheep>& flock, float deltaTime)
 {
 	return sf::Vector2f(0.f, 0.f);
+}
+
+sf::Vector2f Sheep::getLeaderPos(std::vector<Sheep>& flock)
+{
+    for (const Sheep& sheep : flock)
+    {
+        if (sheep.isLeader)
+        {
+            return sheep.sheepBody.getPosition();
+        }
+    }
 }
 
 void Sheep::setBehaviour(behaviours behaviour)
@@ -72,7 +99,7 @@ void Sheep::setBehaviour(behaviours behaviour)
 
 
 // Keep them aopart
-sf::Vector2f Sheep::Separation(std::vector<Sheep*>& flock)
+sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)
 {
 	sf::Vector2f separatingForce(0.f, 0.f);
 
@@ -84,11 +111,14 @@ sf::Vector2f Sheep::Separation(std::vector<Sheep*>& flock)
 
 		for (auto const& sheep : flock)
 		{
-			float distance = getDistanceBetween(sheepBody.getPosition(), sheep->getPosition());
+			if (&sheep == this)
+				continue;
+
+			float distance = getDistanceBetween(sheepBody.getPosition(), sheep.sheepBody.getPosition());
 
 			if (distance < desiredSeparation && distance > 0)
 			{
-				sf::Vector2f oppositeDirection = normaliseVector(sheepBody.getPosition() - sheep->getPosition());
+				sf::Vector2f oppositeDirection = normaliseVector(sheepBody.getPosition() - sheep.sheepBody.getPosition());
 
 				separatingForce += oppositeDirection / distance;
 				count++;
@@ -108,7 +138,7 @@ sf::Vector2f Sheep::Separation(std::vector<Sheep*>& flock)
 
 
 // Move together
-sf::Vector2f Sheep::Alignment(std::vector<Sheep*>& flock)
+sf::Vector2f Sheep::Alignment(std::vector<Sheep>& flock, float deltaTime)
 {
 	sf::Vector2f averageVelocity(0.f, 0.f);
 
@@ -116,7 +146,10 @@ sf::Vector2f Sheep::Alignment(std::vector<Sheep*>& flock)
 	{
 		for (auto const& sheep : flock)
 		{
-			averageVelocity += sheep->velocity;
+			if (&sheep == this)
+				continue;
+
+			averageVelocity += this->calculateVelocity(getPreviousPos(), sheepBody.getPosition(), deltaTime);
 		}
 
 		averageVelocity /= static_cast<float>(flock.size());
@@ -126,7 +159,7 @@ sf::Vector2f Sheep::Alignment(std::vector<Sheep*>& flock)
 }
 
 // Keep together
-sf::Vector2f Sheep::Cohesion(std::vector<Sheep*>& flock)
+sf::Vector2f Sheep::Cohesion(std::vector<Sheep>& flock)
 {
 	sf::Vector2f cohesionForce;
 
@@ -136,7 +169,10 @@ sf::Vector2f Sheep::Cohesion(std::vector<Sheep*>& flock)
 
 		for (auto const& sheep : flock)
 		{
-			centreOfMass += sheep->getPosition();
+			if (&sheep == this)
+				continue;
+
+			centreOfMass += sheepBody.getPosition();
 		}
 
 		centreOfMass /= static_cast<float>(flock.size()); // Get the average position

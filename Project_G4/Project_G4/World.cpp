@@ -93,7 +93,7 @@ int World::WorldTime()
     if (isDay)
     {
         currentTime += 1;
-        if (currentTime >= 3334)
+        if (currentTime >= timeInDay)
         {
             isDay = false;
         }
@@ -117,7 +117,7 @@ sf::Color World::DaylightCycle()
     sf::Color nightColor = { 40, 108, 89 };
     sf::Color newColour;
 
-    transition = static_cast<float>(currentTime) / 3334;
+    transition = static_cast<float>(currentTime) / timeInDay;
 
     float r = dayColor.r + transition * (nightColor.r - dayColor.r);
     float g = dayColor.g + transition * (nightColor.g - dayColor.g);
@@ -151,11 +151,11 @@ void World::Draw(sf::RenderWindow& window)
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
+    // Assign Leader
     if (!sheepArray.empty())
     {
         sheepArray.front().isLeader = true;
     }
-
     // When the gate is closed, sheep inside will not update
     for (Sheep& sheep : sheepArray)
     {
@@ -166,7 +166,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         else
         {
             if (!fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()))
-            {
+            {    
                 sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray);
             }
         }

@@ -142,6 +142,5 @@ void Economy::update()
 		addFunds(Funds_Enum::passiveIncome);
 		passiveIncomeTimer = passiveIncomeTimerCap;
 	}
-	std::cout << currentFunds << "\n";
 	hud.updateHUDMoney(currentFunds);
 }
