@@ -6,10 +6,6 @@ int Economy::checkFunds()
 	return currentFunds;
 }
 
-void Economy::popOutPanelFunc()
-{
-}
-
 // Adds money based on enum type
 void Economy::addFunds(Funds_Enum fundType)
 {
@@ -72,15 +68,18 @@ void Economy::sellSheep(sf::Vector2i mousePos)
 	}
 	else if (sellTimer <= 0.0f)
 	{
-		if (mousePos.x >= hud.getSellButton().getPosition().x &&
-			mousePos.x <= hud.getSellButton().getPosition().x + hud.getSellButton().getGlobalBounds().width &&
-			mousePos.y >= hud.getSellButton().getPosition().y &&
-			mousePos.y <= hud.getSellButton().getPosition().y + hud.getSellButton().getGlobalBounds().height )
+		if (popOpen)
 		{
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			if (mousePos.x >= hud.getSellButton().getPosition().x &&
+				mousePos.x <= hud.getSellButton().getPosition().x + hud.getSellButton().getGlobalBounds().width &&
+				mousePos.y >= hud.getSellButton().getPosition().y &&
+				mousePos.y <= hud.getSellButton().getPosition().y + hud.getSellButton().getGlobalBounds().height)
 			{
-				sheepSold = true;
-				sellTimer = sellTimerCap;
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					sheepSold = true;
+					sellTimer = sellTimerCap;
+				}
 			}
 		}
 	}
@@ -94,17 +93,20 @@ void Economy::buySheep(sf::Vector2i mousePos)
     }
     else if (buyTimer <= 0.0f)
     {
-        if (mousePos.x >= hud.getBuyButton().getPosition().x &&
-            mousePos.x <= hud.getBuyButton().getPosition().x + hud.getBuyButton().getGlobalBounds().width &&
-            mousePos.y >= hud.getBuyButton().getPosition().y &&
-            mousePos.y <= hud.getBuyButton().getPosition().y + hud.getBuyButton().getGlobalBounds().height)
-        {
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
-				purchaseSheep();
-                buyTimer = buyTimerCap;
-            }
-        }
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getBuyButton().getPosition().x &&
+				mousePos.x <= hud.getBuyButton().getPosition().x + hud.getBuyButton().getGlobalBounds().width &&
+				mousePos.y >= hud.getBuyButton().getPosition().y &&
+				mousePos.y <= hud.getBuyButton().getPosition().y + hud.getBuyButton().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					purchaseSheep();
+					buyTimer = buyTimerCap;
+				}
+			}
+		}
     }
 }
 
@@ -117,23 +119,52 @@ void Economy::buyGrass(sf::Vector2i mousePos)
 	}
 	else if (grassTimer <= 0.0f)
     {
-        if (mousePos.x >= hud.getGrassButton().getPosition().x &&
-            mousePos.x <= hud.getGrassButton().getPosition().x + hud.getGrassButton().getGlobalBounds().width &&
-            mousePos.y >= hud.getGrassButton().getPosition().y &&
-            mousePos.y <= hud.getGrassButton().getPosition().y + hud.getGrassButton().getGlobalBounds().height)
-        {
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
-				purchaseGrass();
-				grassTimer = grassTimerCap;
-            }
-        }
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getGrassButton().getPosition().x &&
+				mousePos.x <= hud.getGrassButton().getPosition().x + hud.getGrassButton().getGlobalBounds().width &&
+				mousePos.y >= hud.getGrassButton().getPosition().y &&
+				mousePos.y <= hud.getGrassButton().getPosition().y + hud.getGrassButton().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					purchaseGrass();
+					grassTimer = grassTimerCap;
+				}
+			}
+		}
     }
 }
 
-void Economy::draw(sf::RenderWindow& window)
+void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 {
-	hud.Draw(window);
+	std::cout << popTimer << "\n";
+	if (popTimer > 0.0f)
+	{
+		popTimer -= 1.0f;
+	}
+	else if (popTimer <= 0.0f)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
+		{
+			popOpen = !popOpen;
+			popTimer = popTimerCap;
+		}
+	}
+
+	if (popOpen)
+	{
+		hud.getPopOutPanel().setPosition(-120,0);
+	}
+	else if (!popOpen)
+	{
+		hud.getPopOutPanel().setPosition(-220, 0);
+	}
+}
+
+void Economy::draw(sf::RenderWindow& window, bool popOut)
+{
+	hud.Draw(window, popOut);
 }
 
 void Economy::update()

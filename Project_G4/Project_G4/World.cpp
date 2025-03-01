@@ -146,7 +146,7 @@ void World::Draw(sf::RenderWindow& window)
     {
         sheep.Draw(window);
     }
-    econ.draw(window);
+    econ.draw(window, econ.popOpen);
 }
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
@@ -184,6 +184,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.sellSheep(mousePos);
     econ.buySheep(mousePos);
 	econ.buyGrass(mousePos);
+    econ.popOutPanelFunc(mousePos);
 }
 
 void World::FixedUpdate()

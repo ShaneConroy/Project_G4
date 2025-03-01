@@ -7,11 +7,11 @@ public:
 
 	HUD();
 
-	void Draw(sf::RenderWindow& window);
-	sf::Sprite getSellButton();
-	sf::Sprite getBuyButton();
-	sf::Sprite getGrassButton();
-	sf::Sprite getPopOutPanel();
+	void Draw(sf::RenderWindow& window, bool);
+	sf::Sprite& getSellButton() { return sellButton; };
+	sf::Sprite& getBuyButton() { return buyButton; };
+	sf::Sprite& getGrassButton() { return grassButton; };
+	sf::Sprite& getPopOutPanel() { return popOutPanel; };
 
 	void updateHUDMoney(int);
 

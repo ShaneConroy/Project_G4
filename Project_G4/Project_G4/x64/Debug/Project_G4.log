@@ -1,26 +1,9 @@
 ﻿  Economy.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Global.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\El Presidente\Desktop\College\Project\Project_G4\Project_G4\Project_G4\Global.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
   (compiling source file 'Economy.cpp')
   
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(71,16): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(93,21): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(116,17): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-  HUD.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Global.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  (compiling source file 'HUD.cpp')
-  
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\HUD.cpp(116,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\HUD.cpp(153,11): error C2039: 'popOut': is not a member of 'HUD'
-      C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\HUD.h(4,7):
-      see declaration of 'HUD'
-  
-  Source.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Global.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  (compiling source file 'Source.cpp')
-  
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Source.cpp(23,6): warning C4326: return type of 'main' should be 'int' instead of 'void'
-  World.cpp
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Global.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  (compiling source file 'World.cpp')
-  
-  Generating Code...
+C:\Users\El Presidente\Desktop\College\Project\Project_G4\Project_G4\Project_G4\Economy.cpp(67,16): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\El Presidente\Desktop\College\Project\Project_G4\Project_G4\Project_G4\Economy.cpp(92,21): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\El Presidente\Desktop\College\Project\Project_G4\Project_G4\Project_G4\Economy.cpp(118,17): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\El Presidente\Desktop\College\Project\Project_G4\Project_G4\Project_G4\Economy.cpp(144,15): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+  Project_G4.vcxproj -> C:\Users\El Presidente\Desktop\College\Project\Project_G4\Project_G4\x64\Debug\Project_G4.exe

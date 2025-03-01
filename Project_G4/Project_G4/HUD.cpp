@@ -65,11 +65,9 @@ HUD::HUD()
 	popOutPanel.setScale(0.75, 0.75);
 }
 
-void HUD::Draw(sf::RenderWindow& window)
+void HUD::Draw(sf::RenderWindow& window, bool popOut)
 {
-	window.draw(sellButton);
-	window.draw(buyButton);
-	window.draw(grassButton);
+	window.draw(popOutPanel);
 
 	window.draw(num1);
 	window.draw(num2);
@@ -78,33 +76,18 @@ void HUD::Draw(sf::RenderWindow& window)
 	window.draw(num5);
 	window.draw(num6);
 
-	window.draw(sheepPurchaseAmountUpgrade);
-	window.draw(sheepSellPriceUpgrade);
-	window.draw(sheepMaxCapUpgrade);
-	window.draw(grassPurchaseAmountUpgrade);
+	// Only draw if popOut is open
+	if (popOut)
+	{
+		window.draw(sellButton);
+		window.draw(buyButton);
+		window.draw(grassButton);
 
-	window.draw(popOutPanel);
-
-}
-
-sf::Sprite HUD::getSellButton()
-{
-	return sellButton;
-}
-
-sf::Sprite HUD::getBuyButton()
-{
-	return buyButton;
-}
-
-sf::Sprite HUD::getGrassButton()
-{
-	return grassButton;
-}
-
-sf::Sprite HUD::getPopOutPanel()
-{
-	return popOutPanel;
+		window.draw(sheepPurchaseAmountUpgrade);
+		window.draw(sheepSellPriceUpgrade);
+		window.draw(sheepMaxCapUpgrade);
+		window.draw(grassPurchaseAmountUpgrade);
+	}
 }
 
 // Called by Economy, check how much mullah we got
@@ -149,10 +132,4 @@ void HUD::updateHUDMoney(int currentFunds)
 		digits[6 - length + i]->setTextureRect(rect);
 	}
 }
-
-void HUD::popOut()
-{
-
-}
-
 

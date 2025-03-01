@@ -12,14 +12,18 @@ public:
 	bool sheepPurchased = false;
 	bool sheepSold = false;
 	bool fertiliserPurchased = false;
+	bool popOpen = false;
 
 	void update();
 	void addFunds(Funds_Enum fundType);
-	void calculatePassiveIncome(int);  
+	void calculatePassiveIncome(int);
+
 	void sellSheep(sf::Vector2i);
 	void buySheep(sf::Vector2i);
 	void buyGrass(sf::Vector2i);
-	void draw(sf::RenderWindow&);
+	void popOutPanelFunc(sf::Vector2i);
+
+	void draw(sf::RenderWindow&, bool);
 
 	HUD hud;
 
@@ -56,11 +60,13 @@ private:
 	int grassTimer;
 	int grassTimerCap = 12;
 
+	int popTimer;
+	int popTimerCap = 12;
+
 	void purchaseSheep();
 	void purchaseGrass();
 
 	int checkFunds();
 
-	void popOutPanelFunc();
 };
 
