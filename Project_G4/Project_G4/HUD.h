@@ -17,9 +17,13 @@ public:
 
 private:
 
-	sf::Texture HUDTexture;
+	sf::Texture sellSheepTexture;
 	sf::Sprite sellButton;
+
+	sf::Texture buySheepTexture;
 	sf::Sprite buyButton;
+
+	sf::Texture buyGrassTexture;
 	sf::Sprite grassButton;
 
 	sf::Texture numbersTexture;

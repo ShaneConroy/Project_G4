@@ -2,21 +2,17 @@
 
 HUD::HUD()
 {
-	HUDTexture.loadFromFile("Assets/ART/icons.png");
-	sellButton.setTexture(HUDTexture);
-	sellButton.setTextureRect(sf::IntRect(263, 264, 73, 77));
-	sellButton.setPosition(0, 0);
-	sellButton.setScale(0.5f, 0.5f);
+	sellSheepTexture.loadFromFile("Assets/ART/sellIcon.png");
+	sellButton.setTexture(sellSheepTexture);
+	sellButton.setPosition(65, 25);
 
-	buyButton.setTexture(HUDTexture);
-	buyButton.setTextureRect(sf::IntRect(104, 100, 72, 77));
-	buyButton.setPosition(0, 50);
-	buyButton.setScale(0.5, 0.5);
+	buySheepTexture.loadFromFile("Assets/ART/sheepBuyIcon.png");
+	buyButton.setTexture(buySheepTexture);
+	buyButton.setPosition(10, 25);
 
-	grassButton.setTexture(HUDTexture);
-	grassButton.setTextureRect(sf::IntRect(104, 100, 72, 77));
-	grassButton.setPosition(50, 50);
-	grassButton.setScale(0.5, 0.5);
+	buyGrassTexture.loadFromFile("Assets/ART/buyGrassIcon.png");
+	grassButton.setTexture(buyGrassTexture);
+	grassButton.setPosition(10, 80);
 
 	numbersTexture.loadFromFile("Assets/ART/numbers.png");
 	num1.setTexture(numbersTexture);
@@ -62,7 +58,7 @@ HUD::HUD()
 	popOutPanelTexture.loadFromFile("Assets/ART/popOutPanel.png");
 	popOutPanel.setTexture(popOutPanelTexture);
 	popOutPanel.setPosition(0, 0);
-	popOutPanel.setScale(0.75, 0.75);
+	popOutPanel.setScale(0.95, 0.95);
 }
 
 void HUD::Draw(sf::RenderWindow& window, bool popOut)

@@ -138,7 +138,6 @@ void Economy::buyGrass(sf::Vector2i mousePos)
 
 void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 {
-	std::cout << popTimer << "\n";
 	if (popTimer > 0.0f)
 	{
 		popTimer -= 1.0f;
@@ -154,11 +153,11 @@ void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 
 	if (popOpen)
 	{
-		hud.getPopOutPanel().setPosition(-120,0);
+		hud.getPopOutPanel().setPosition(-120, 10);
 	}
 	else if (!popOpen)
 	{
-		hud.getPopOutPanel().setPosition(-220, 0);
+		hud.getPopOutPanel().setPosition(-420, 10);
 	}
 }
 
