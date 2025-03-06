@@ -185,6 +185,10 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.buySheep(mousePos);
 	econ.buyGrass(mousePos);
     econ.popOutPanelFunc(mousePos);
+    econ.upgradeMaxSheep(mousePos);
+    econ.upgradeWoolPrice(mousePos);
+    econ.upgradeSheepPurchaseAmount(mousePos);
+    econ.upgradeGrassPurchaseAmount(mousePos);
 }
 
 void World::FixedUpdate()

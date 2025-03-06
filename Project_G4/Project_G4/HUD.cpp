@@ -4,7 +4,7 @@ HUD::HUD()
 {
 	sellSheepTexture.loadFromFile("Assets/ART/sellIcon.png");
 	sellButton.setTexture(sellSheepTexture);
-	sellButton.setPosition(75, 25);
+	sellButton.setPosition(105, 25);
 	sellButton.setScale(scal, scal);
 
 	buySheepTexture.loadFromFile("Assets/ART/sheepBuyIcon.png");
@@ -14,7 +14,7 @@ HUD::HUD()
 
 	buyGrassTexture.loadFromFile("Assets/ART/buyGrassIcon.png");
 	grassButton.setTexture(buyGrassTexture);
-	grassButton.setPosition(10, 90);
+	grassButton.setPosition(10, 120);
 	grassButton.setScale(scal, scal);
 
 	numbersTexture.loadFromFile("Assets/ART/numbers.png");
@@ -40,21 +40,21 @@ HUD::HUD()
 
 	upgradeSpriteSheet.loadFromFile("Assets/ART/upgradeSpritesheet.png");
 	sheepPurchaseAmountUpgrade.setTexture(upgradeSpriteSheet);
-	sheepSellPriceUpgrade.setTexture(upgradeSpriteSheet);
+	woolSellPriceUpgrade.setTexture(upgradeSpriteSheet);
 	sheepMaxCapUpgrade.setTexture(upgradeSpriteSheet);
 	grassPurchaseAmountUpgrade.setTexture(upgradeSpriteSheet);
 	sheepPurchaseAmountUpgrade.setTextureRect(sf::IntRect(0, 0, 50, 50));
-	sheepSellPriceUpgrade.setTextureRect(sf::IntRect(55, 0, 50, 50));
+	woolSellPriceUpgrade.setTextureRect(sf::IntRect(55, 0, 50, 50));
 	sheepMaxCapUpgrade.setTextureRect(sf::IntRect(110, 0, 50, 50));
 	grassPurchaseAmountUpgrade.setTextureRect(sf::IntRect(165, 0, 50, 50));
 
-	sheepPurchaseAmountUpgrade.setPosition(10, 200);
-	sheepSellPriceUpgrade.setPosition(75, 200);
-	sheepMaxCapUpgrade.setPosition(10, 265);
-	grassPurchaseAmountUpgrade.setPosition(75, 265);
+	sheepPurchaseAmountUpgrade.setPosition(10, 250);
+	woolSellPriceUpgrade.setPosition(105, 250);
+	sheepMaxCapUpgrade.setPosition(10, 345);
+	grassPurchaseAmountUpgrade.setPosition(105, 345);
 
 	sheepPurchaseAmountUpgrade.setScale(scal, scal);
-	sheepSellPriceUpgrade.setScale(scal, scal);
+	woolSellPriceUpgrade.setScale(scal, scal);
 	sheepMaxCapUpgrade.setScale(scal, scal);
 	grassPurchaseAmountUpgrade.setScale(scal, scal);
 
@@ -83,7 +83,7 @@ void HUD::Draw(sf::RenderWindow& window, bool popOut)
 		window.draw(grassButton);
 
 		window.draw(sheepPurchaseAmountUpgrade);
-		window.draw(sheepSellPriceUpgrade);
+		window.draw(woolSellPriceUpgrade);
 		window.draw(sheepMaxCapUpgrade);
 		window.draw(grassPurchaseAmountUpgrade);
 	}

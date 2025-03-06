@@ -44,7 +44,7 @@ void Economy::purchaseSheep()
 	if (checkFunds() >= sheepBuyPrice)
 	{
 		sheepPurchased = true;
-		buySheepDelay = buyDelayCap;
+		buySheepDelay = buttonDelay;
 		currentFunds -= sheepBuyPrice;
 	}
 }
@@ -54,7 +54,7 @@ void Economy::purchaseGrass()
 	if (checkFunds() >= fertiliserPrice)
 	{
 		fertiliserPurchased = true;
-		buyGrassDelay = buyGrassDelayCap;
+		buyGrassDelay = buttonDelay;
 		currentFunds -= fertiliserPrice;
 	}
 }
@@ -87,7 +87,7 @@ void Economy::sellSheep(sf::Vector2i mousePos)
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					sheepSold = true;
-					sellTimer = sellTimerCap;
+					sellTimer = buttonDelay;
 				}
 			}
 		}
@@ -120,13 +120,12 @@ void Economy::buySheep(sf::Vector2i mousePos)
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					purchaseSheep();
-					buyTimer = buyTimerCap;
+					buyTimer = buttonDelay;
 				}
 			}
 		}
     }
 }
-
 
 void Economy::buyGrass(sf::Vector2i mousePos)
 {
@@ -154,7 +153,7 @@ void Economy::buyGrass(sf::Vector2i mousePos)
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					purchaseGrass();
-					grassTimer = grassTimerCap;
+					grassTimer = buttonDelay;
 				}
 			}
 		}
@@ -172,7 +171,7 @@ void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
 		{
 			popOpen = !popOpen;
-			popTimer = popTimerCap;
+			popTimer = buttonDelay;
 		}
 	}
 
@@ -183,6 +182,139 @@ void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 	else if (!popOpen)
 	{
 		hud.getPopOutPanel().setPosition(-410, 10);
+	}
+}
+
+// TODO // Have prices attached to the upgrades. Grey out if you cant buy 
+void Economy::upgradeMaxSheep(sf::Vector2i mousePos)
+{
+	if (up_MaxSheepTimer > 0.0f)
+	{
+		up_MaxSheepTimer -= 1.0f;
+
+		sf::Color color = hud.getUpgradeButton_MaxSheep().getColor();
+		color.a = 128;
+		hud.getUpgradeButton_MaxSheep().setColor(color);
+	}
+	else if (up_MaxSheepTimer <= 0.0f)
+	{
+		sf::Color color = hud.getUpgradeButton_MaxSheep().getColor();
+		color.a = 255;
+		hud.getUpgradeButton_MaxSheep().setColor(color);
+
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getUpgradeButton_MaxSheep().getPosition().x &&
+				mousePos.x <= hud.getUpgradeButton_MaxSheep().getPosition().x + hud.getUpgradeButton_MaxSheep().getGlobalBounds().width &&
+				mousePos.y >= hud.getUpgradeButton_MaxSheep().getPosition().y &&
+				mousePos.y <= hud.getUpgradeButton_MaxSheep().getPosition().y + hud.getUpgradeButton_MaxSheep().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					// TODO // Add the functionality of upgrading here
+					up_MaxSheepTimer = buttonDelay;
+				}
+			}
+		}
+	}
+}
+
+void Economy::upgradeWoolPrice(sf::Vector2i mousePos)
+{
+	if (up_WoolPriceTimer > 0.0f)
+	{
+		up_WoolPriceTimer -= 1.0f;
+
+		sf::Color color = hud.getUpgradeButton_WoolSell().getColor();
+		color.a = 128;
+		hud.getUpgradeButton_WoolSell().setColor(color);
+	}
+	else if (up_WoolPriceTimer <= 0.0f)
+	{
+		sf::Color color = hud.getUpgradeButton_WoolSell().getColor();
+		color.a = 255;
+		hud.getUpgradeButton_WoolSell().setColor(color);
+
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getUpgradeButton_WoolSell().getPosition().x &&
+				mousePos.x <= hud.getUpgradeButton_WoolSell().getPosition().x + hud.getUpgradeButton_WoolSell().getGlobalBounds().width &&
+				mousePos.y >= hud.getUpgradeButton_WoolSell().getPosition().y &&
+				mousePos.y <= hud.getUpgradeButton_WoolSell().getPosition().y + hud.getUpgradeButton_WoolSell().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					// TODO // Add the functionality of upgrading here
+					up_WoolPriceTimer = buttonDelay;
+				}
+			}
+		}
+	}
+}
+
+void Economy::upgradeSheepPurchaseAmount(sf::Vector2i mousePos)
+{
+	if (up_SheepBuyAmountTimer > 0.0f)
+	{
+		up_SheepBuyAmountTimer -= 1.0f;
+
+		sf::Color color = hud.getUpgradeButton_SheepAmount().getColor();
+		color.a = 128;
+		hud.getUpgradeButton_SheepAmount().setColor(color);
+	}
+	else if (up_SheepBuyAmountTimer <= 0.0f)
+	{
+		sf::Color color = hud.getUpgradeButton_SheepAmount().getColor();
+		color.a = 255;
+		hud.getUpgradeButton_SheepAmount().setColor(color);
+
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getUpgradeButton_SheepAmount().getPosition().x &&
+				mousePos.x <= hud.getUpgradeButton_SheepAmount().getPosition().x + hud.getUpgradeButton_SheepAmount().getGlobalBounds().width &&
+				mousePos.y >= hud.getUpgradeButton_SheepAmount().getPosition().y &&
+				mousePos.y <= hud.getUpgradeButton_SheepAmount().getPosition().y + hud.getUpgradeButton_SheepAmount().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					// TODO // Add the functionality of upgrading here
+					up_SheepBuyAmountTimer = buttonDelay;
+				}
+			}
+		}
+	}
+}
+
+void Economy::upgradeGrassPurchaseAmount(sf::Vector2i mousePos)
+{
+	if (up_GrassBuyAmountTimer > 0.0f)
+	{
+		up_GrassBuyAmountTimer -= 1.0f;
+
+		sf::Color color = hud.getUpgradeButton_BetterGrass().getColor();
+		color.a = 128;
+		hud.getUpgradeButton_BetterGrass().setColor(color);
+	}
+	else if (up_GrassBuyAmountTimer <= 0.0f)
+	{
+		sf::Color color = hud.getUpgradeButton_BetterGrass().getColor();
+		color.a = 255;
+		hud.getUpgradeButton_BetterGrass().setColor(color);
+
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getUpgradeButton_BetterGrass().getPosition().x &&
+				mousePos.x <= hud.getUpgradeButton_BetterGrass().getPosition().x + hud.getUpgradeButton_BetterGrass().getGlobalBounds().width &&
+				mousePos.y >= hud.getUpgradeButton_BetterGrass().getPosition().y &&
+				mousePos.y <= hud.getUpgradeButton_BetterGrass().getPosition().y + hud.getUpgradeButton_BetterGrass().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					// TODO // Add the functionality of upgrading here
+					up_GrassBuyAmountTimer = buttonDelay;
+				}
+			}
+		}
 	}
 }
 

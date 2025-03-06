@@ -22,6 +22,10 @@ public:
 	void buySheep(sf::Vector2i);
 	void buyGrass(sf::Vector2i);
 	void popOutPanelFunc(sf::Vector2i);
+	void upgradeMaxSheep(sf::Vector2i);
+	void upgradeWoolPrice(sf::Vector2i);
+	void upgradeSheepPurchaseAmount(sf::Vector2i);
+	void upgradeGrassPurchaseAmount(sf::Vector2i);
 
 	void draw(sf::RenderWindow&, bool);
 
@@ -38,30 +42,24 @@ private:
 	int sheepBuyPrice = 100;
 	int sheepSellPrice = 50;
 
-	int buySheepDelay;
-	int buyDelayCap = 6;
+	int buttonDelay = 12;
 
+	int buySheepDelay;
 	int sellDelay;
-	int sellDelayCap = 6;
 
 	int passiveIncome;
 	int passiveIncomeTimer;
 	int passiveIncomeTimerCap = 60;
 
 	int buyGrassDelay;
-	int buyGrassDelayCap = 6;
-
 	int sellTimer;
-	int sellTimerCap = 12;
-
 	int buyTimer;
-	int buyTimerCap = 12;
-
 	int grassTimer;
-	int grassTimerCap = 12;
-
 	int popTimer;
-	int popTimerCap = 12;
+	int up_MaxSheepTimer;
+	int up_WoolPriceTimer;
+	int up_SheepBuyAmountTimer;
+	int up_GrassBuyAmountTimer;
 
 	void purchaseSheep();
 	void purchaseGrass();

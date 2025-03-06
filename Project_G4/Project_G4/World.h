@@ -40,10 +40,8 @@ private:
 	int currentTime = 0;
 	int grassBuyAmount = 1;
 
-
 	std::vector<Sheep> sheepArray;
 	std::vector<Grass> grassNodeArray;
-
 
 
 public:

@@ -12,6 +12,10 @@ public:
 	sf::Sprite& getBuyButton() { return buyButton; };
 	sf::Sprite& getGrassButton() { return grassButton; };
 	sf::Sprite& getPopOutPanel() { return popOutPanel; };
+	sf::Sprite& getUpgradeButton_SheepAmount() { return sheepPurchaseAmountUpgrade; };
+	sf::Sprite& getUpgradeButton_WoolSell() { return woolSellPriceUpgrade; };
+	sf::Sprite& getUpgradeButton_MaxSheep() { return sheepMaxCapUpgrade; };
+	sf::Sprite& getUpgradeButton_BetterGrass() { return grassPurchaseAmountUpgrade; };
 
 	void updateHUDMoney(int);
 
@@ -36,7 +40,7 @@ private:
 
 	sf::Texture upgradeSpriteSheet;
 	sf::Sprite sheepPurchaseAmountUpgrade;
-	sf::Sprite sheepSellPriceUpgrade;
+	sf::Sprite woolSellPriceUpgrade;
 	sf::Sprite sheepMaxCapUpgrade;
 	sf::Sprite grassPurchaseAmountUpgrade;
 
@@ -48,6 +52,6 @@ private:
 	float timer = 0.0f;
 	float timerCap = 6.0f;
 
-	float scal = 1.20;
+	float scal = 1.8;
 };
 
