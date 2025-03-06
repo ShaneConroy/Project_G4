@@ -13,6 +13,7 @@ public:
 	bool sheepSold = false;
 	bool fertiliserPurchased = false;
 	bool popOpen = false;
+	bool up_MaxSheepBool = false;
 
 	void update();
 	void addFunds(Funds_Enum fundType);

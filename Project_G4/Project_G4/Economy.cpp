@@ -211,7 +211,7 @@ void Economy::upgradeMaxSheep(sf::Vector2i mousePos)
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					// TODO // Add the functionality of upgrading here
+					up_MaxSheepBool = true;
 					up_MaxSheepTimer = buttonDelay;
 				}
 			}

@@ -31,6 +31,8 @@ private:
 	void updateFencedGrass();
 	void PopulateWorldWithSheep();
 
+	void up_SheepMax();
+
 	float transition = 0.0f;
 
 	bool isDay = true;

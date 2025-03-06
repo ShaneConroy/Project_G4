@@ -87,6 +87,16 @@ void World::PopulateWorldWithSheep()
     }
 }
 
+// Updates how many sheep the player can have at one time
+void World::up_SheepMax()
+{
+    if (econ.up_MaxSheepBool)
+    {
+        std::cout << "Upgraded Max Sheep" << "\n"; // TODO //
+        econ.up_MaxSheepBool = false;
+    }
+}
+
 
 int World::WorldTime()
 {
@@ -189,6 +199,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.upgradeWoolPrice(mousePos);
     econ.upgradeSheepPurchaseAmount(mousePos);
     econ.upgradeGrassPurchaseAmount(mousePos);
+
+    up_SheepMax();
 }
 
 void World::FixedUpdate()
