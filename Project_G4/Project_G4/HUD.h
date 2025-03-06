@@ -48,6 +48,6 @@ private:
 	float timer = 0.0f;
 	float timerCap = 6.0f;
 
-	
+	float scal = 1.20;
 };
 

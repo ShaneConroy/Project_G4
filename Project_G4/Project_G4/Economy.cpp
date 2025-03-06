@@ -65,9 +65,18 @@ void Economy::sellSheep(sf::Vector2i mousePos)
 	if (sellTimer > 0.0f)
 	{
 		sellTimer -= 1.0f;
+
+		// Greys out for a sec for visual feedback
+		sf::Color color = hud.getSellButton().getColor();
+		color.a = 128;
+		hud.getSellButton().setColor(color);
 	}
 	else if (sellTimer <= 0.0f)
 	{
+		sf::Color color = hud.getSellButton().getColor();
+		color.a = 255;
+		hud.getSellButton().setColor(color);
+
 		if (popOpen)
 		{
 			if (mousePos.x >= hud.getSellButton().getPosition().x &&
@@ -90,9 +99,17 @@ void Economy::buySheep(sf::Vector2i mousePos)
     if (buyTimer > 0.0f)
     {
         buyTimer -= 1.0f;
+
+		sf::Color color = hud.getBuyButton().getColor();
+		color.a = 128;
+		hud.getBuyButton().setColor(color);
     }
     else if (buyTimer <= 0.0f)
     {
+		sf::Color color = hud.getBuyButton().getColor();
+		color.a = 255;
+		hud.getBuyButton().setColor(color);
+
 		if (popOpen)
 		{
 			if (mousePos.x >= hud.getBuyButton().getPosition().x &&
@@ -116,9 +133,17 @@ void Economy::buyGrass(sf::Vector2i mousePos)
 	if (grassTimer > 0.0f)
 	{
 		grassTimer -= 1.0f;
+
+		sf::Color color = hud.getGrassButton().getColor();
+		color.a = 128;
+		hud.getGrassButton().setColor(color);
 	}
 	else if (grassTimer <= 0.0f)
     {
+		sf::Color color = hud.getGrassButton().getColor();
+		color.a = 255;
+		hud.getGrassButton().setColor(color);
+
 		if (popOpen)
 		{
 			if (mousePos.x >= hud.getGrassButton().getPosition().x &&
@@ -157,7 +182,7 @@ void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 	}
 	else if (!popOpen)
 	{
-		hud.getPopOutPanel().setPosition(-420, 10);
+		hud.getPopOutPanel().setPosition(-410, 10);
 	}
 }
 

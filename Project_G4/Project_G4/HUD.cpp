@@ -4,15 +4,18 @@ HUD::HUD()
 {
 	sellSheepTexture.loadFromFile("Assets/ART/sellIcon.png");
 	sellButton.setTexture(sellSheepTexture);
-	sellButton.setPosition(65, 25);
+	sellButton.setPosition(75, 25);
+	sellButton.setScale(scal, scal);
 
 	buySheepTexture.loadFromFile("Assets/ART/sheepBuyIcon.png");
 	buyButton.setTexture(buySheepTexture);
 	buyButton.setPosition(10, 25);
+	buyButton.setScale(scal, scal);
 
 	buyGrassTexture.loadFromFile("Assets/ART/buyGrassIcon.png");
 	grassButton.setTexture(buyGrassTexture);
-	grassButton.setPosition(10, 80);
+	grassButton.setPosition(10, 90);
+	grassButton.setScale(scal, scal);
 
 	numbersTexture.loadFromFile("Assets/ART/numbers.png");
 	num1.setTexture(numbersTexture);
@@ -40,20 +43,20 @@ HUD::HUD()
 	sheepSellPriceUpgrade.setTexture(upgradeSpriteSheet);
 	sheepMaxCapUpgrade.setTexture(upgradeSpriteSheet);
 	grassPurchaseAmountUpgrade.setTexture(upgradeSpriteSheet);
-	sheepPurchaseAmountUpgrade.setTextureRect(sf::IntRect(8, 13, 214, 192));
-	sheepSellPriceUpgrade.setTextureRect(sf::IntRect(267, 17, 250, 190));
-	sheepMaxCapUpgrade.setTextureRect(sf::IntRect(533, 15, 250, 190));
-	grassPurchaseAmountUpgrade.setTextureRect(sf::IntRect(794, 5, 229, 206));
+	sheepPurchaseAmountUpgrade.setTextureRect(sf::IntRect(0, 0, 50, 50));
+	sheepSellPriceUpgrade.setTextureRect(sf::IntRect(55, 0, 50, 50));
+	sheepMaxCapUpgrade.setTextureRect(sf::IntRect(110, 0, 50, 50));
+	grassPurchaseAmountUpgrade.setTextureRect(sf::IntRect(165, 0, 50, 50));
 
-	sheepPurchaseAmountUpgrade.setPosition(0, 100);
-	sheepSellPriceUpgrade.setPosition(0, 200);
-	sheepMaxCapUpgrade.setPosition(0, 300);
-	grassPurchaseAmountUpgrade.setPosition(0, 400);
+	sheepPurchaseAmountUpgrade.setPosition(10, 200);
+	sheepSellPriceUpgrade.setPosition(75, 200);
+	sheepMaxCapUpgrade.setPosition(10, 265);
+	grassPurchaseAmountUpgrade.setPosition(75, 265);
 
-	sheepPurchaseAmountUpgrade.setScale(0.5, 0.5);
-	sheepSellPriceUpgrade.setScale(0.5, 0.5);
-	sheepMaxCapUpgrade.setScale(0.5, 0.5);
-	grassPurchaseAmountUpgrade.setScale(0.5, 0.5);
+	sheepPurchaseAmountUpgrade.setScale(scal, scal);
+	sheepSellPriceUpgrade.setScale(scal, scal);
+	sheepMaxCapUpgrade.setScale(scal, scal);
+	grassPurchaseAmountUpgrade.setScale(scal, scal);
 
 	popOutPanelTexture.loadFromFile("Assets/ART/popOutPanel.png");
 	popOutPanel.setTexture(popOutPanelTexture);

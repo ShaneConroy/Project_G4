@@ -1,9 +1,11 @@
-﻿  Economy.cpp
+﻿  HUD.cpp
 C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Global.h(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  (compiling source file 'Economy.cpp')
+  (compiling source file 'HUD.cpp')
   
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(67,16): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(92,21): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(118,17): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
-C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\Economy.cpp(143,15): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\HUD.h(51,15): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'HUD.cpp')
+  
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\HUD.cpp(64,29): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\HUD.cpp(64,23): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\Project_G4\HUD.cpp(98,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Project_G4.vcxproj -> C:\Users\gameuser\Desktop\Foldera\College\Project_G4\Project_G4\Project_G4\x64\Debug\Project_G4.exe
