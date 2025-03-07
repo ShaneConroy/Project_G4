@@ -16,6 +16,7 @@ public:
 	sf::Sprite& getUpgradeButton_WoolSell() { return woolSellPriceUpgrade; };
 	sf::Sprite& getUpgradeButton_MaxSheep() { return sheepMaxCapUpgrade; };
 	sf::Sprite& getUpgradeButton_BetterGrass() { return grassPurchaseAmountUpgrade; };
+	sf::Sprite& getBuilding_Barn() { return barn; };
 
 	void updateHUDMoney(int);
 
@@ -43,6 +44,9 @@ private:
 	sf::Sprite woolSellPriceUpgrade;
 	sf::Sprite sheepMaxCapUpgrade;
 	sf::Sprite grassPurchaseAmountUpgrade;
+
+	sf::Texture barnSpriteSheet;
+	sf::Sprite barn;
 
 	sf::Texture popOutPanelTexture;
 	sf::Sprite popOutPanel;

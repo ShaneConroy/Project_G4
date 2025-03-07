@@ -217,6 +217,7 @@ void Economy::upgradeMaxSheep(sf::Vector2i mousePos)
 				{
 					up_MaxSheepBool = true;
 					up_MaxSheepTimer = buttonDelay;
+					barnLevel += 1;
 				}
 			}
 		}
@@ -320,6 +321,11 @@ void Economy::upgradeGrassPurchaseAmount(sf::Vector2i mousePos)
 			}
 		}
 	}
+}
+
+void Economy::upgradeBarn(sf::IntRect newTexture)
+{
+	hud.getBuilding_Barn().setTextureRect(newTexture);
 }
 
 // Makes a map which links a string to a float,float, shuold make upgrades easier

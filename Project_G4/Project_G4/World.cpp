@@ -102,6 +102,13 @@ void World::up_SheepMax()
     {
         sheepCap = (sheepCap * 2);
         econ.up_MaxSheepBool = false;
+
+        if (econ.barnLevel == 1)
+            econ.upgradeBarn(sf::IntRect(398, 0, 386, 154));
+        else if(econ.barnLevel == 2)
+            econ.upgradeBarn(sf::IntRect(807, 0, 386, 135));
+        else if(econ.barnLevel == 3)
+            econ.upgradeBarn(sf::IntRect(1219, 0, 387, 142));
     }
 }
 

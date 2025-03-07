@@ -28,6 +28,9 @@ public:
 	void upgradeSheepPurchaseAmount(sf::Vector2i);
 	void upgradeGrassPurchaseAmount(sf::Vector2i);
 
+	void upgradeBarn(sf::IntRect);
+	int barnLevel = 0;
+
 	void setUpUpgradeMaps();
 
 	void draw(sf::RenderWindow&, bool);

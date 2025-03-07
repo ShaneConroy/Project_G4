@@ -62,10 +62,18 @@ HUD::HUD()
 	popOutPanel.setTexture(popOutPanelTexture);
 	popOutPanel.setPosition(0, 0);
 	popOutPanel.setScale(0.95, 0.95);
+
+	barnSpriteSheet.loadFromFile("Assets/ART/barnSpriteSheet.png");
+	barn.setTexture(barnSpriteSheet);
+	barn.setTextureRect(sf::IntRect(5, 0, 379, 128));
+	barn.setPosition(100, 0);
+	barn.setScale(0.5, 0.5);
 }
 
 void HUD::Draw(sf::RenderWindow& window, bool popOut)
 {
+	window.draw(barn);
+
 	window.draw(popOutPanel);
 
 	window.draw(num1);
@@ -87,6 +95,7 @@ void HUD::Draw(sf::RenderWindow& window, bool popOut)
 		window.draw(sheepMaxCapUpgrade);
 		window.draw(grassPurchaseAmountUpgrade);
 	}
+
 }
 
 // Called by Economy, check how much mullah we got
