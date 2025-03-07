@@ -69,12 +69,20 @@ void World::updateFencedGrass()
 // Adds the sheep to the world
 void World::PopulateWorldWithSheep()
 {
-    // When a sheep is bought, add a sheep in
+   
     if (econ.sheepPurchased)
-	{
-		sheepArray.emplace_back();
-		econ.sheepPurchased = false;
-	}
+    {
+        // When a sheep is bought, add a sheep in
+        if (sheepArray.size() < sheepCap)
+        {
+            sheepArray.emplace_back();
+        }
+        else // If the max is to be exceeded, refund
+        {
+            econ.addFunds(Funds_Enum::refund);
+        }
+        econ.sheepPurchased = false;
+    }
     // If a sheep is sold, pop one out
     if (econ.sheepSold)
     {
@@ -92,11 +100,10 @@ void World::up_SheepMax()
 {
     if (econ.up_MaxSheepBool)
     {
-        std::cout << "Upgraded Max Sheep" << "\n"; // TODO //
+        sheepCap = (sheepCap * 2);
         econ.up_MaxSheepBool = false;
     }
 }
-
 
 int World::WorldTime()
 {
@@ -181,7 +188,6 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             }
         }
     }
-
 
     fence.gateFunction(mousePos);
 

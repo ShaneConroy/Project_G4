@@ -28,6 +28,8 @@ public:
 	void upgradeSheepPurchaseAmount(sf::Vector2i);
 	void upgradeGrassPurchaseAmount(sf::Vector2i);
 
+	void setUpUpgradeMaps();
+
 	void draw(sf::RenderWindow&, bool);
 
 	HUD hud;
@@ -62,6 +64,8 @@ private:
 	int up_SheepBuyAmountTimer;
 	int up_GrassBuyAmountTimer;
 
+	void upgradingSystem(std::map<std::string, std::map<float, float>>);
+	void applyUpgrade(std::map<float, float>&);
 	void purchaseSheep();
 	void purchaseGrass();
 

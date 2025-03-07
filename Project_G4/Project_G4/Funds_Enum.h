@@ -3,5 +3,6 @@
 enum class Funds_Enum
 {
 	sheepSold,
-	passiveIncome
+	passiveIncome,
+	refund
 };

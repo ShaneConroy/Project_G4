@@ -19,6 +19,10 @@ void Economy::addFunds(Funds_Enum fundType)
 	{
 		amountToAdd = passiveIncome;
 	}
+	else if (fundType == Funds_Enum::refund)
+	{
+		amountToAdd = sheepBuyPrice;
+	}
 
 	// Prevent exceeding max funds limit 
 	if (currentFunds + amountToAdd > 999999)
@@ -100,7 +104,7 @@ void Economy::buySheep(sf::Vector2i mousePos)
     {
         buyTimer -= 1.0f;
 
-		sf::Color color = hud.getBuyButton().getColor();
+		sf::Color color = hud.getBuyButton().getColor(); // When you cant press button, grey
 		color.a = 128;
 		hud.getBuyButton().setColor(color);
     }
@@ -314,6 +318,54 @@ void Economy::upgradeGrassPurchaseAmount(sf::Vector2i mousePos)
 					up_GrassBuyAmountTimer = buttonDelay;
 				}
 			}
+		}
+	}
+}
+
+// Makes a map which links a string to a float,float, shuold make upgrades easier
+void Economy::setUpUpgradeMaps()
+{
+	std::vector<std::string> upgradeKeys = { "up_MaxSheep", "up_WoolSell", "up_MoreSheep", "up_MoreGrass"};
+
+	std::vector<std::pair<float, float>> upgradeStats = { {100, 1.15}, {150, 1.25}, {250, 1.15}, {400, 1.20} };
+
+	std::map<std::string, std::map<float, float>> upgradeMap;
+
+	if (upgradeKeys.size() == upgradeStats.size())
+	{
+		for (size_t i = 0; i < upgradeKeys.size(); i++)
+		{
+			upgradeMap[upgradeKeys[i]] = { upgradeStats[i] }; // Mapping
+		}
+	}
+}
+
+// Will take in a map of 2 items, then apply new pricing
+void Economy::upgradingSystem(std::map<std::string, std::map<float, float>> upgradeMap)
+{
+    for (auto& upgrade : upgradeMap)
+    {
+        applyUpgrade(upgrade.second);
+    }
+}
+
+void Economy::applyUpgrade(std::map<float, float>& stats)
+{
+	auto iter = stats.begin();
+	if (iter != stats.end())
+	{
+		float basePrice = iter->first; // Price
+		float costScalar = iter->second;  // Scalar
+
+		// Check if the player can afford the upgrade
+		if (currentFunds >= basePrice)
+		{
+			currentFunds -= basePrice;
+
+			float newPrice = basePrice * costScalar;
+
+			stats.erase(iter); // Remove the old price and put new one in
+			stats[newPrice] = costScalar;
 		}
 	}
 }

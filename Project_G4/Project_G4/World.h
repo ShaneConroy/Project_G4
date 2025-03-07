@@ -41,6 +41,7 @@ private:
 	const int timeInDay = 3334;
 	int currentTime = 0;
 	int grassBuyAmount = 1;
+	int sheepCap = 5;
 
 	std::vector<Sheep> sheepArray;
 	std::vector<Grass> grassNodeArray;
@@ -56,6 +57,7 @@ public:
 	World()
 	{
 		bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
+		econ.setUpUpgradeMaps();
 	}
 	~World()
 	{
