@@ -66,9 +66,13 @@ private:
 	int up_WoolPriceTimer;
 	int up_SheepBuyAmountTimer;
 	int up_GrassBuyAmountTimer;
+	int maxBarnLevel = 5;
+
+	std::map<std::string, std::map<float, float>> upgradeMap;
 
 	void upgradingSystem(std::map<std::string, std::map<float, float>>);
 	void applyUpgrade(std::map<float, float>&);
+	void purchaseUpgrade(const std::string& upgradeKey);
 	void purchaseSheep();
 	void purchaseGrass();
 

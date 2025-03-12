@@ -215,6 +215,8 @@ void Economy::upgradeMaxSheep(sf::Vector2i mousePos)
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
+					upgradingSystem({ {"up_MaxSheep", upgradeMap["up_MaxSheep"]} });
+
 					up_MaxSheepBool = true;
 					up_MaxSheepTimer = buttonDelay;
 					barnLevel += 1;
@@ -333,9 +335,7 @@ void Economy::setUpUpgradeMaps()
 {
 	std::vector<std::string> upgradeKeys = { "up_MaxSheep", "up_WoolSell", "up_MoreSheep", "up_MoreGrass"};
 
-	std::vector<std::pair<float, float>> upgradeStats = { {100, 1.15}, {150, 1.25}, {250, 1.15}, {400, 1.20} };
-
-	std::map<std::string, std::map<float, float>> upgradeMap;
+	std::vector<std::pair<float, float>> upgradeStats = { {100, 2.0}, {150, 1.25}, {250, 1.15}, {400, 1.20} };
 
 	if (upgradeKeys.size() == upgradeStats.size())
 	{
@@ -361,7 +361,7 @@ void Economy::applyUpgrade(std::map<float, float>& stats)
 	if (iter != stats.end())
 	{
 		float basePrice = iter->first; // Price
-		float costScalar = iter->second;  // Scalar
+		float costScalar = iter->second; // Scalar
 
 		// Check if the player can afford the upgrade
 		if (currentFunds >= basePrice)
