@@ -215,11 +215,18 @@ void Economy::upgradeMaxSheep(sf::Vector2i mousePos)
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					upgradingSystem({ {"up_MaxSheep", upgradeMap["up_MaxSheep"]} });
+					auto& sheepUpgrade = upgradeMap["up_MaxSheep"]; // Get the key
+					float upgradePrice = sheepUpgrade.begin()->first; // Look at the first yoke in map
 
-					up_MaxSheepBool = true;
+					// Check if player can afford upgrade
+					if (currentFunds >= upgradePrice)
+					{
+						applyUpgrade(upgradeMap["up_MaxSheep"]);
+						up_MaxSheepBool = true;
+						barnLevel += 1;
+					}
+
 					up_MaxSheepTimer = buttonDelay;
-					barnLevel += 1;
 				}
 			}
 		}
@@ -251,7 +258,17 @@ void Economy::upgradeWoolPrice(sf::Vector2i mousePos)
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					// TODO // Add the functionality of upgrading here
+					auto& sheepUpgrade = upgradeMap["up_WoolSell"]; // Get the key
+					float upgradePrice = sheepUpgrade.begin()->first; // Look at the first yoke in map
+
+					// Check if player can afford upgrade
+					if (currentFunds >= upgradePrice)
+					{
+						applyUpgrade(upgradeMap["up_WoolSell"]);
+						up_WoolSellPrice = true;
+						loomLevel += 1;
+					}
+
 					up_WoolPriceTimer = buttonDelay;
 				}
 			}
@@ -284,7 +301,17 @@ void Economy::upgradeSheepPurchaseAmount(sf::Vector2i mousePos)
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					// TODO // Add the functionality of upgrading here
+					auto& sheepUpgrade = upgradeMap["up_MoreSheep"]; // Get the key
+					float upgradePrice = sheepUpgrade.begin()->first; // Look at the first yoke in map
+
+					// Check if player can afford upgrade
+					if (currentFunds >= upgradePrice)
+					{
+						applyUpgrade(upgradeMap["up_MoreSheep"]);
+						up_SheepAmountBool = true;
+						marketLevel += 1;
+					}
+
 					up_SheepBuyAmountTimer = buttonDelay;
 				}
 			}
@@ -317,7 +344,17 @@ void Economy::upgradeGrassPurchaseAmount(sf::Vector2i mousePos)
 			{
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
-					// TODO // Add the functionality of upgrading here
+					auto& sheepUpgrade = upgradeMap["up_MoreGrass"]; // Get the key
+					float upgradePrice = sheepUpgrade.begin()->first; // Look at the first yoke in map
+
+					// Check if player can afford upgrade
+					if (currentFunds >= upgradePrice)
+					{
+						applyUpgrade(upgradeMap["up_MoreGrass"]);
+						up_GrassAmountBool = true;
+						gardenLevel += 1;
+					}
+
 					up_GrassBuyAmountTimer = buttonDelay;
 				}
 			}
@@ -335,7 +372,7 @@ void Economy::setUpUpgradeMaps()
 {
 	std::vector<std::string> upgradeKeys = { "up_MaxSheep", "up_WoolSell", "up_MoreSheep", "up_MoreGrass"};
 
-	std::vector<std::pair<float, float>> upgradeStats = { {100, 2.0}, {150, 1.25}, {250, 1.15}, {400, 1.20} };
+	std::vector<std::pair<float, float>> upgradeStats = { {2500, 1.25}, {5000, 2.5}, {12000, 1.60}, {8000, 1.20} };
 
 	if (upgradeKeys.size() == upgradeStats.size())
 	{
@@ -344,15 +381,6 @@ void Economy::setUpUpgradeMaps()
 			upgradeMap[upgradeKeys[i]] = { upgradeStats[i] }; // Mapping
 		}
 	}
-}
-
-// Will take in a map of 2 items, then apply new pricing
-void Economy::upgradingSystem(std::map<std::string, std::map<float, float>> upgradeMap)
-{
-    for (auto& upgrade : upgradeMap)
-    {
-        applyUpgrade(upgrade.second);
-    }
 }
 
 void Economy::applyUpgrade(std::map<float, float>& stats)

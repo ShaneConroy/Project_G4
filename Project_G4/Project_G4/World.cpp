@@ -103,12 +103,52 @@ void World::up_SheepMax()
         sheepCap = (sheepCap * 2);
         econ.up_MaxSheepBool = false;
 
+        // Change barn looks
         if (econ.barnLevel == 1)
             econ.upgradeBarn(sf::IntRect(398, 0, 386, 154));
         else if(econ.barnLevel == 2)
             econ.upgradeBarn(sf::IntRect(807, 0, 386, 135));
         else if(econ.barnLevel == 3)
             econ.upgradeBarn(sf::IntRect(1219, 0, 387, 142));
+    }
+}
+
+void World::up_WoolSell()
+{
+    if (econ.up_WoolSellPrice)
+    {
+        if (econ.loomLevel == 1)
+            std::cout << "Loom Level one" << "\n";
+        else if(econ.loomLevel == 2)
+            std::cout << "Loom Level two" << "\n";
+        else if(econ.loomLevel == 3)
+            std::cout << "Loom Level three" << "\n";
+    }
+}
+
+void World::up_SheepAmount()
+{
+    if (econ.up_SheepAmountBool)
+    {
+        if (econ.marketLevel == 1)
+            std::cout << "Market Level one" << "\n";
+        else if (econ.marketLevel == 2)
+            std::cout << "Market Level two" << "\n";
+        else if (econ.marketLevel == 3)
+            std::cout << "Market Level three" << "\n";
+    }
+}
+
+void World::up_GrassAmount()
+{
+    if (econ.up_GrassAmountBool)
+    {
+        if (econ.gardenLevel == 1)
+            std::cout << "Garden Level one" << "\n";
+        else if (econ.gardenLevel == 2)
+            std::cout << "Garden Level two" << "\n";
+        else if (econ.gardenLevel == 3)
+            std::cout << "Garden Level three" << "\n";
     }
 }
 
@@ -214,6 +254,9 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.upgradeGrassPurchaseAmount(mousePos);
 
     up_SheepMax();
+    up_WoolSell();
+    up_SheepAmount();
+    up_GrassAmount();
 }
 
 void World::FixedUpdate()

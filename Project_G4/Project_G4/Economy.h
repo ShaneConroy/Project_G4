@@ -14,6 +14,9 @@ public:
 	bool fertiliserPurchased = false;
 	bool popOpen = false;
 	bool up_MaxSheepBool = false;
+	bool up_WoolSellPrice = false;
+	bool up_SheepAmountBool = false;
+	bool up_GrassAmountBool = false;
 
 	void update();
 	void addFunds(Funds_Enum fundType);
@@ -29,9 +32,12 @@ public:
 	void upgradeGrassPurchaseAmount(sf::Vector2i);
 
 	void upgradeBarn(sf::IntRect);
-	int barnLevel = 0;
-
 	void setUpUpgradeMaps();
+
+	int barnLevel = 0;
+	int loomLevel = 0;
+	int marketLevel = 0;
+	int gardenLevel = 0;
 
 	void draw(sf::RenderWindow&, bool);
 
@@ -66,13 +72,15 @@ private:
 	int up_WoolPriceTimer;
 	int up_SheepBuyAmountTimer;
 	int up_GrassBuyAmountTimer;
-	int maxBarnLevel = 5;
+
+	const int maxBarnLevel = 5; // Max sheep
+	const int maxLooomLevel = 5; // Wool sell price
+	const int maxMarketLevel = 5; // Sheep bought at a time
+	const int maxGardenLevel = 5; // Grass bought at a time
 
 	std::map<std::string, std::map<float, float>> upgradeMap;
 
-	void upgradingSystem(std::map<std::string, std::map<float, float>>);
 	void applyUpgrade(std::map<float, float>&);
-	void purchaseUpgrade(const std::string& upgradeKey);
 	void purchaseSheep();
 	void purchaseGrass();
 

@@ -32,6 +32,9 @@ private:
 	void PopulateWorldWithSheep();
 
 	void up_SheepMax();
+	void up_WoolSell();
+	void up_SheepAmount();
+	void up_GrassAmount();
 
 	float transition = 0.0f;
 
