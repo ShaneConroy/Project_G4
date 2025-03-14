@@ -38,23 +38,17 @@ std::vector< sf::Vector2f> World::UpdateGrassNodes()
     return availableGrassNodesPos;
 }
 
-// Passes the grass node array into the find grass noode function
+// Passes the grass node array into the find grass noode function // TODO // This will have to change
 void World::PassGrassToSheep()
 {
+    std::vector<sf::Vector2f> availableGrassPositions = UpdateGrassNodes();
+
+    // Pass the updated grass positions to each sheep
     for (Sheep& sheep : sheepArray)
     {
-        for (Grass& grass : grassNodeArray)
+        if (sheep.isLeader)
         {
-            if (getDistanceBetween(sheep.getPosition(), grass.getPosition()) < 6.0)
-            {
-                sheep.setBehaviour(behaviours::eating);
-				grass.UpdateTaken(true);
-
-                if (sheep.doneEating)
-                {
-					grass.UpdateEaten(true);
-                }
-            }
+            sheep.availibleGrass(availableGrassPositions);
         }
     }
 }

@@ -37,7 +37,7 @@ sf::Vector2f Behaviours::wander(float speed, float deltaTime, sf::Vector2f myPos
 // Makes the sheep go towards the gate. Can be used to enter or ecit
 sf::Vector2f Behaviours::toFence(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos, sf::RectangleShape exitFence)
 {
-    if (targetPos == sf::Vector2f(0.f, 0.f))
+    if (targetPos.x * targetPos.x + targetPos.y * targetPos.y < 25.f)
     {
         sf::Vector2f fenceSize = exitFence.getSize();
         targetPos = randomPosOnField({ 0.f, fenceSize.x }, { 0.f, 3.f });
@@ -47,7 +47,8 @@ sf::Vector2f Behaviours::toFence(float speed, float deltaTime, sf::Vector2f myPo
     }
 
     sf::Vector2f dir = targetPos - myPos;
-    return dir;
+    sf::Vector2f normDir = normaliseVector(dir) * speed * deltaTime;
+    return normDir;
 }
 
 // TODO // Should prolly rteurn an sf::vector2f

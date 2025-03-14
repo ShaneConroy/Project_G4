@@ -14,17 +14,14 @@ public:
 	GrassUtility grassUtility;
 
 	void Draw(sf::RenderWindow& window);
-
 	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock);
-
-	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
-	float getRadius() { return sheepBody.getRadius(); };
-
 	void setBehaviour(behaviours);
+	void availibleGrass(std::vector<sf::Vector2f> grassPositions);
 
-	behaviours getBehaviour() { return currentBehaviour; };
-
+	float getRadius() { return sheepBody.getRadius(); };
+	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
 	sf::FloatRect getBody() { return sheepBody.getGlobalBounds(); };
+	behaviours getBehaviour() { return currentBehaviour; };
 
 	bool isEating = false;
 	bool doneEating = false;
@@ -43,6 +40,8 @@ private:
 	float eatTimerCap = 5.0f;
 	float wanderTimer = 3.0f;
 
+	std::vector<sf::Vector2f> availibleGrassNodes;
+
 	sf::Vector2f targetExitPosition = { 0.f,0.f };
 	sf::Vector2f closestPos;
 	sf::Vector2f wanderTarget{ 500.f, 500.f };
@@ -58,4 +57,7 @@ private:
 
 	sf::Vector2f getLeaderDirection(std::vector<Sheep>& flock, float deltaTime);
 	sf::Vector2f getLeaderPos(std::vector<Sheep>& flock);
+
+	sf::Vector2f leaderBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>&, std::vector<sf::Vector2f> grassPositions);
+
 };

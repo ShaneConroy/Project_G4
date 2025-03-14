@@ -34,7 +34,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	{
 		sheepBody.setFillColor(sf::Color::Red);
 		flock[0].moveSpeed = 100.f;
-		movementDirection = behaviour.wander(moveSpeed, deltaTime, sheepBody.getPosition());
+		movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 	}
 	// Other sheep
 	else
@@ -92,9 +92,37 @@ sf::Vector2f Sheep::getLeaderPos(std::vector<Sheep>& flock)
     }
 }
 
+sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>& flock, std::vector<sf::Vector2f> availibleGrassNodes)
+{
+	sf::Vector2f targetPos(0.f, 0.f);
+	sf::Vector2f leaderPos = getLeaderPos(flock);
+
+	//If the leader inside the pen
+	if (innerGrass.getGlobalBounds().contains(leaderPos))
+	{
+		targetPos = behaviour.toFence(moveSpeed, deltaTime, leaderPos, targetPos, exitFence);
+	}
+
+	if (availibleGrassNodes.empty())
+	{
+		targetPos = behaviour.wander(moveSpeed, deltaTime, leaderPos);
+	}
+	else
+	{
+		sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(leaderPos, availibleGrassNodes);
+		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, closestPos);
+	}
+	return targetPos;
+}
+
 void Sheep::setBehaviour(behaviours behaviour)
 {
 	currentBehaviour = behaviour;
+}
+
+void Sheep::availibleGrass(std::vector<sf::Vector2f> grassPositions)
+{
+	availibleGrassNodes = grassPositions;
 }
 
 // Keep them aopart
@@ -134,7 +162,6 @@ sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)
 
 	return separatingForce;
 }
-
 
 // Move together
 sf::Vector2f Sheep::Alignment(std::vector<Sheep>& flock, float deltaTime)
