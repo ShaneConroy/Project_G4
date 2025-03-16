@@ -362,6 +362,39 @@ void Economy::upgradeGrassPurchaseAmount(sf::Vector2i mousePos)
 	}
 }
 
+void Economy::stuckButtonFunc(sf::Vector2i mousePos)
+{
+	if (stuckTimer > 0.0f)
+	{
+		stuckTimer -= 1.0f;
+
+		sf::Color color = hud.getStuckButton().getColor();
+		color.a = 128;
+		hud.getStuckButton().setColor(color);
+	}
+	else if (stuckTimer <= 0.0f)
+	{
+		sf::Color color = hud.getGrassButton().getColor();
+		color.a = 255;
+		hud.getStuckButton().setColor(color);
+
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getStuckButton().getPosition().x &&
+				mousePos.x <= hud.getStuckButton().getPosition().x + hud.getStuckButton().getGlobalBounds().width &&
+				mousePos.y >= hud.getStuckButton().getPosition().y &&
+				mousePos.y <= hud.getStuckButton().getPosition().y + hud.getStuckButton().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					stuck = true;
+					stuckTimer = buttonDelay;
+				}
+			}
+		}
+	}
+}
+
 void Economy::upgradeBarn(sf::IntRect newTexture)
 {
 	hud.getBuilding_Barn().setTextureRect(newTexture);

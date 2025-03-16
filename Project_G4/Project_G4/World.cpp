@@ -228,7 +228,15 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
                 sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray);
             }
         }
+
+        if (econ.stuck)
+        {
+			sheepArray.front().setPosition({ 600.f, 300.f });
+			econ.stuck = false;
+        }
     }
+
+
 
     fence.gateFunction(mousePos);
 
@@ -238,9 +246,10 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     SpawnGrassNodes();
 
     econ.calculatePassiveIncome(static_cast<int>(sheepArray.size()));
+    econ.stuckButtonFunc(mousePos);
     econ.sellSheep(mousePos);
     econ.buySheep(mousePos);
-	econ.buyGrass(mousePos);
+    econ.buyGrass(mousePos);
     econ.popOutPanelFunc(mousePos);
     econ.upgradeMaxSheep(mousePos);
     econ.upgradeWoolPrice(mousePos);

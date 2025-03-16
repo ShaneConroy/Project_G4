@@ -19,9 +19,13 @@ public:
 	void availibleGrass(std::vector<sf::Vector2f> grassPositions);
 
 	float getRadius() { return sheepBody.getRadius(); };
+
+	behaviours getBehaviour() { return currentBehaviour; };
+
 	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
 	sf::FloatRect getBody() { return sheepBody.getGlobalBounds(); };
-	behaviours getBehaviour() { return currentBehaviour; };
+
+	void setPosition(sf::Vector2f newPos);
 
 	bool isEating = false;
 	bool doneEating = false;
@@ -40,6 +44,8 @@ private:
 	float eatTimerCap = 5.0f;
 	float wanderTimer = 3.0f;
 
+	bool exiting = false;
+
 	std::vector<sf::Vector2f> availibleGrassNodes;
 
 	sf::Vector2f targetExitPosition = { 0.f,0.f };
@@ -47,6 +53,7 @@ private:
 	sf::Vector2f wanderTarget{ 500.f, 500.f };
 	sf::Vector2f previousPosition;
 	sf::Vector2f velocity;
+	sf::Vector2f exitTarget;
 
 	sf::Vector2f Separation(std::vector<Sheep>& flock);
 	sf::Vector2f Alignment(std::vector<Sheep>& flock, float deltaTime);

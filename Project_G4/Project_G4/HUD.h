@@ -8,6 +8,7 @@ public:
 	HUD();
 
 	void Draw(sf::RenderWindow& window, bool);
+
 	sf::Sprite& getSellButton() { return sellButton; };
 	sf::Sprite& getBuyButton() { return buyButton; };
 	sf::Sprite& getGrassButton() { return grassButton; };
@@ -16,6 +17,7 @@ public:
 	sf::Sprite& getUpgradeButton_WoolSell() { return woolSellPriceUpgrade; };
 	sf::Sprite& getUpgradeButton_MaxSheep() { return sheepMaxCapUpgrade; };
 	sf::Sprite& getUpgradeButton_BetterGrass() { return grassPurchaseAmountUpgrade; };
+	sf::Sprite& getStuckButton() { return stuckButton; };
 	sf::Sprite& getBuilding_Barn() { return barn; };
 
 	void updateHUDMoney(int);
@@ -50,6 +52,9 @@ private:
 
 	sf::Texture popOutPanelTexture;
 	sf::Sprite popOutPanel;
+
+	sf::Texture stuckButtonTexture;
+	sf::Sprite stuckButton;
 
 	bool poppedOut = false;
 

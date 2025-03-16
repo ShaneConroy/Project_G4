@@ -68,6 +68,11 @@ HUD::HUD()
 	barn.setTextureRect(sf::IntRect(5, 0, 379, 128));
 	barn.setPosition(100, 0);
 	barn.setScale(0.5, 0.5);
+
+	stuckButtonTexture.loadFromFile("Assets/ART/stuckIcon.png");
+	stuckButton.setTexture(stuckButtonTexture);
+	stuckButton.setPosition(10, 495);
+	stuckButton.setScale(0.45, 0.45);
 }
 
 void HUD::Draw(sf::RenderWindow& window, bool popOut)
@@ -94,6 +99,8 @@ void HUD::Draw(sf::RenderWindow& window, bool popOut)
 		window.draw(woolSellPriceUpgrade);
 		window.draw(sheepMaxCapUpgrade);
 		window.draw(grassPurchaseAmountUpgrade);
+
+		window.draw(stuckButton);
 	}
 
 }

@@ -100,10 +100,16 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	//If the leader inside the pen
 	if (innerGrass.getGlobalBounds().contains(leaderPos))
 	{
-		targetPos = behaviour.toFence(moveSpeed, deltaTime, leaderPos, targetPos, exitFence);
-	}
+		if (!exiting)
+		{
+			exitTarget = behaviour.toFence(moveSpeed, deltaTime, leaderPos, exitTarget, exitFence);
+			exiting = true;
+		}
 
-	if (availibleGrassNodes.empty())
+		targetPos = exitTarget;
+
+	}
+	else if (availibleGrassNodes.empty())
 	{
 		targetPos = behaviour.wander(moveSpeed, deltaTime, leaderPos);
 	}
@@ -111,7 +117,15 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	{
 		sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(leaderPos, availibleGrassNodes);
 		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, closestPos);
+
+		if (getDistanceBetween(leaderPos, targetPos) < 10.f)
+		{
+			availibleGrassNodes.erase(std::remove(availibleGrassNodes.begin(), availibleGrassNodes.end(), targetPos), availibleGrassNodes.end());
+		}
 	}
+
+
+
 	return targetPos;
 }
 
@@ -123,6 +137,11 @@ void Sheep::setBehaviour(behaviours behaviour)
 void Sheep::availibleGrass(std::vector<sf::Vector2f> grassPositions)
 {
 	availibleGrassNodes = grassPositions;
+}
+
+void Sheep::setPosition(sf::Vector2f newPos)
+{
+	sheepBody.setPosition(newPos);
 }
 
 // Keep them aopart
