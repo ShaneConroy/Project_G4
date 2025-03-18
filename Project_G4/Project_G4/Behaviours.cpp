@@ -18,14 +18,14 @@ sf::Vector2f Behaviours::seekToTarget(float speed, float deltaTime, sf::Vector2f
 // Picks a random point inside the field then walks to it. When it reaches the point, it picks another random point
 sf::Vector2f Behaviours::wander(float speed, float deltaTime, sf::Vector2f myPos)
 {
-    static sf::Vector2f wanderTarget = randomPosOnField({ 0.f, SCREEN_WIDTH }, { 0.f, SCREEN_HEIGHT });
+    static sf::Vector2f wanderTarget = randomPosOnField({ 100, 1150 }, { 100, 500 });
 
     sf::Vector2f dir = wanderTarget - myPos;
     float length = std::sqrt((dir.x * dir.x) + (dir.y * dir.y));
 
     if (length < 5) // If close, pick a new target
     {
-        wanderTarget = randomPosOnField({ 0.f, SCREEN_WIDTH }, { 0.f, SCREEN_HEIGHT });
+        wanderTarget = randomPosOnField({ 100, 1150 }, { 100, 500 });
     }
 
     dir = (dir / length) * (speed * (deltaTime * 100.f)); 
@@ -51,8 +51,14 @@ sf::Vector2f Behaviours::toFence(float speed, float deltaTime, sf::Vector2f myPo
     return normDir;
 }
 
-// TODO // Should prolly rteurn an sf::vector2f
-bool Behaviours::eating(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos, float& eatTimer, float eatTimerCap, bool& isEating, bool& doneEating)
+sf::Vector2f Behaviours::eating(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos, float& timeToEat, bool& eating)
 {
-    return true;
+	if (timeToEat > 0)
+	{
+        std::cout << timeToEat << "\n";
+		timeToEat -= deltaTime;
+		return { 0,0 };
+	}
+	eating = false;
+    return { 0,0 };
 }

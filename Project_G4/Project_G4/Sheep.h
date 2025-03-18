@@ -31,6 +31,8 @@ public:
 	bool doneEating = false;
 	bool isLeader = false;
 
+	sf::Vector2f lastEatenGrass;
+
 private:
 
 	behaviours currentBehaviour;
@@ -40,8 +42,7 @@ private:
 
 	float moveSpeed = 35.0f;
 	float maxSpeed = 200.f;
-	float eatTimer = 0.0f;
-	float eatTimerCap = 5.0f;
+	float eatTimer = 5.0f;
 	float wanderTimer = 3.0f;
 
 	bool exiting = false;

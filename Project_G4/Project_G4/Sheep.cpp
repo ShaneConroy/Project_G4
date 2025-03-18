@@ -33,7 +33,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	if (isLeader)
 	{
 		sheepBody.setFillColor(sf::Color::Red);
-		flock[0].moveSpeed = 100.f;
+		flock[0].moveSpeed = 45.f;
 		movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 	}
 	// Other sheep
@@ -96,6 +96,7 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 {
 	sf::Vector2f targetPos(0.f, 0.f);
 	sf::Vector2f leaderPos = getLeaderPos(flock);
+	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(getLeaderPos(flock), availibleGrassNodes);
 
 	//If the leader inside the pen
 	if (innerGrass.getGlobalBounds().contains(leaderPos))
@@ -115,7 +116,6 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	}
 	else
 	{
-		sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(leaderPos, availibleGrassNodes);
 		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, closestPos);
 
 		if (getDistanceBetween(leaderPos, targetPos) < 10.f)
@@ -123,8 +123,21 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 			availibleGrassNodes.erase(std::remove(availibleGrassNodes.begin(), availibleGrassNodes.end(), targetPos), availibleGrassNodes.end());
 		}
 	}
+	
+	// If sheep is close enough the grass node, begin eating
+	if (getDistanceBetween(getLeaderPos(flock), closestPos) < 4.f)
+	{
+		isEating = true;
+	}
+	else if (getDistanceBetween(getLeaderPos(flock), closestPos) > 4.f)
+	{
+		isEating = false;
+	}
 
-
+	if (isEating)
+	{
+		targetPos = closestPos;
+	}
 
 	return targetPos;
 }

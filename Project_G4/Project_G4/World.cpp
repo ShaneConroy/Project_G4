@@ -14,28 +14,42 @@ void World::SpawnGrassNodes()
 }
 
 // Fills an array with only the grass nodes that are not taken // TODO Turn into list so its better ofr performance
-std::vector< sf::Vector2f> World::UpdateGrassNodes()
+std::vector<sf::Vector2f> World::UpdateGrassNodes()
 {
-    std::vector<sf::Vector2f> availableGrassNodesPos;
+  std::vector<sf::Vector2f> availableGrassNodesPos;
+  auto iter = grassNodeArray.begin();
 
-    auto iter = grassNodeArray.begin();
-
-    while (iter != grassNodeArray.end())
-    {
-        if (iter->CheckEaten())
-        {
-            iter = grassNodeArray.erase(iter);
-        }
-        else
-        {
-            if (!iter->CheckTaken())
-            {
-                availableGrassNodesPos.push_back(iter->getPosition());
-            }
-            ++iter;
-        }
-    }
-    return availableGrassNodesPos;
+  while (iter != grassNodeArray.end())
+  {
+      if (!sheepArray.empty())
+      {
+          for (Sheep& sheep : sheepArray)
+          {
+              if (getDistanceBetween(sheep.getPosition(), iter->getPosition()) < 5.0f) // Check if any sheep finished eating
+              {
+				  eatTimer -= 1;
+				  if (eatTimer <= 0)
+				  {
+					  iter->UpdateEaten(true);
+					  eatTimer = eatTimerCap;
+				  }
+              }
+          }
+      }
+      if (iter->CheckEaten())
+      {
+          iter = grassNodeArray.erase(iter);
+      }
+      else
+      {
+          if (!iter->CheckTaken())
+          {
+              availableGrassNodesPos.push_back(iter->getPosition());
+          }
+          ++iter;
+      }
+  }
+  return availableGrassNodesPos;
 }
 
 // Passes the grass node array into the find grass noode function // TODO // This will have to change
@@ -235,8 +249,6 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 			econ.stuck = false;
         }
     }
-
-
 
     fence.gateFunction(mousePos);
 

@@ -45,6 +45,8 @@ private:
 	int currentTime = 0;
 	int grassBuyAmount = 1;
 	int sheepCap = 5;
+	int eatTimer = 480; // Arbutary number, make sure maybe fix?
+	int eatTimerCap = 480;
 
 	std::vector<Sheep> sheepArray;
 	std::vector<Grass> grassNodeArray;
