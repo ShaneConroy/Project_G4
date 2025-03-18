@@ -39,7 +39,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	// Other sheep
 	else
 	{
-		sf::Vector2f seekForce = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), flock[0].getPosition());
+		sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 		sf::Vector2f separationForce = Separation(flock) * 25.f;
 		sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 1.0f;
 		sf::Vector2f cohesionForce = Cohesion(flock) * 2.0f;
@@ -103,12 +103,18 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	{
 		if (!exiting)
 		{
-			exitTarget = behaviour.toFence(moveSpeed, deltaTime, leaderPos, exitTarget, exitFence);
+			exitTarget = behaviour.toFence(exitFence); 
 			exiting = true;
 		}
-
-		targetPos = exitTarget;
-
+		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, exitTarget);
+		if (getDistanceBetween(leaderPos, exitTarget) < 10.f)
+		{
+			exitTarget.y -= 20.f;
+			if (getDistanceBetween(leaderPos, exitTarget) < 2.f)
+			{
+				exiting = false;
+			}
+		}
 	}
 	else if (availibleGrassNodes.empty())
 	{
@@ -123,13 +129,12 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 			availibleGrassNodes.erase(std::remove(availibleGrassNodes.begin(), availibleGrassNodes.end(), targetPos), availibleGrassNodes.end());
 		}
 	}
-	
 	// If sheep is close enough the grass node, begin eating
 	if (getDistanceBetween(getLeaderPos(flock), closestPos) < 4.f)
 	{
 		isEating = true;
 	}
-	else if (getDistanceBetween(getLeaderPos(flock), closestPos) > 4.f)
+	else if (getDistanceBetween(getLeaderPos(flock), closestPos) > 6.f)
 	{
 		isEating = false;
 	}
@@ -137,6 +142,28 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	if (isEating)
 	{
 		targetPos = closestPos;
+	}
+
+	return targetPos;
+}
+
+sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>& flock, std::vector<sf::Vector2f> availibleGrassNodes)
+{
+	sf::Vector2f targetPos(0.f, 0.f);
+	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(sheepBody.getPosition(), availibleGrassNodes);
+
+	std::cout << exiting << std::endl;
+	if (exiting && innerGrass.getGlobalBounds().contains(sheepBody.getPosition()))
+	{
+		exitTarget = behaviour.toFence(exitFence);
+		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), exitTarget);
+	}
+	else if (getDistanceBetween(sheepBody.getPosition(), closestPos) < 150.0f)
+	{
+		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos);
+	}
+	else {
+		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), getLeaderPos(flock));
 	}
 
 	return targetPos;

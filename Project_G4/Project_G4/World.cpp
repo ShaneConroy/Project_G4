@@ -28,6 +28,7 @@ std::vector<sf::Vector2f> World::UpdateGrassNodes()
               if (getDistanceBetween(sheep.getPosition(), iter->getPosition()) < 5.0f) // Check if any sheep finished eating
               {
 				  eatTimer -= 1;
+				  /*iter->UpdateTaken(true);*/ // TODO // Sheep go to same grass nodes
 				  if (eatTimer <= 0)
 				  {
 					  iter->UpdateEaten(true);
@@ -60,10 +61,7 @@ void World::PassGrassToSheep()
     // Pass the updated grass positions to each sheep
     for (Sheep& sheep : sheepArray)
     {
-        if (sheep.isLeader)
-        {
-            sheep.availibleGrass(availableGrassPositions);
-        }
+        sheep.availibleGrass(availableGrassPositions);
     }
 }
 
@@ -248,6 +246,12 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 			sheepArray.front().setPosition({ 600.f, 300.f });
 			econ.stuck = false;
         }
+
+		if (econ.whistle)
+		{
+            // TODO // Get this working
+            /*sheep.setBehaviour(behaviours::entering);*/
+		}
     }
 
     fence.gateFunction(mousePos);
@@ -267,6 +271,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.upgradeWoolPrice(mousePos);
     econ.upgradeSheepPurchaseAmount(mousePos);
     econ.upgradeGrassPurchaseAmount(mousePos);
+	econ.whistleButtonFunc(mousePos);
 
     up_SheepMax();
     up_WoolSell();

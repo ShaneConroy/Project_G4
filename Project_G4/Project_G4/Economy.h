@@ -18,6 +18,7 @@ public:
 	bool up_SheepAmountBool = false;
 	bool up_GrassAmountBool = false;
 	bool stuck = false;
+	bool whistle = false;
 
 	void update();
 	void addFunds(Funds_Enum fundType);
@@ -32,6 +33,7 @@ public:
 	void upgradeSheepPurchaseAmount(sf::Vector2i);
 	void upgradeGrassPurchaseAmount(sf::Vector2i);
 	void stuckButtonFunc(sf::Vector2i);
+	void whistleButtonFunc(sf::Vector2i);
 
 	void upgradeBarn(sf::IntRect);
 	void setUpUpgradeMaps();
@@ -75,6 +77,7 @@ private:
 	int up_SheepBuyAmountTimer;
 	int up_GrassBuyAmountTimer;
 	int stuckTimer;
+	int whistleTimer;
 
 	const int maxBarnLevel = 5; // Max sheep
 	const int maxLooomLevel = 5; // Wool sell price

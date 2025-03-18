@@ -19,6 +19,7 @@ public:
 	sf::Sprite& getUpgradeButton_BetterGrass() { return grassPurchaseAmountUpgrade; };
 	sf::Sprite& getStuckButton() { return stuckButton; };
 	sf::Sprite& getBuilding_Barn() { return barn; };
+	sf::Sprite& getWhistleButton() { return whistleButton; };
 
 	void updateHUDMoney(int);
 
@@ -55,6 +56,9 @@ private:
 
 	sf::Texture stuckButtonTexture;
 	sf::Sprite stuckButton;
+
+	sf::Texture whistleButtonTexture;
+	sf::Sprite whistleButton;
 
 	bool poppedOut = false;
 

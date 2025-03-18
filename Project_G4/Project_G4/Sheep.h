@@ -66,6 +66,7 @@ private:
 	sf::Vector2f getLeaderDirection(std::vector<Sheep>& flock, float deltaTime);
 	sf::Vector2f getLeaderPos(std::vector<Sheep>& flock);
 
-	sf::Vector2f leaderBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>&, std::vector<sf::Vector2f> grassPositions);
+	sf::Vector2f leaderBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>&, std::vector<sf::Vector2f> availibleGrassNodes);
+	sf::Vector2f followerBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>&, std::vector<sf::Vector2f> availibleGrassNodes);
 
 };

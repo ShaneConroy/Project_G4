@@ -73,6 +73,11 @@ HUD::HUD()
 	stuckButton.setTexture(stuckButtonTexture);
 	stuckButton.setPosition(10, 495);
 	stuckButton.setScale(0.45, 0.45);
+
+	whistleButtonTexture.loadFromFile("Assets/ART/whistleIcon.png");
+	whistleButton.setTexture(whistleButtonTexture);
+	whistleButton.setPosition(1130, 75);
+	whistleButton.setScale(0.95, 0.95);
 }
 
 void HUD::Draw(sf::RenderWindow& window, bool popOut)
@@ -87,6 +92,8 @@ void HUD::Draw(sf::RenderWindow& window, bool popOut)
 	window.draw(num4);
 	window.draw(num5);
 	window.draw(num6);
+
+	window.draw(whistleButton);
 
 	// Only draw if popOut is open
 	if (popOut)

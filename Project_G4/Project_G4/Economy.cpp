@@ -395,6 +395,36 @@ void Economy::stuckButtonFunc(sf::Vector2i mousePos)
 	}
 }
 
+void Economy::whistleButtonFunc(sf::Vector2i mousePos)
+{
+	if (whistleTimer > 0.0f)
+	{
+		whistleTimer -= 1.0f;
+
+		sf::Color color = hud.getWhistleButton().getColor();
+		color.a = 128;
+		hud.getWhistleButton().setColor(color);
+	}
+	else if (whistleTimer <= 0.0f)
+	{
+		sf::Color color = hud.getWhistleButton().getColor();
+		color.a = 255;
+		hud.getWhistleButton().setColor(color);
+
+		if (mousePos.x >= hud.getWhistleButton().getPosition().x &&
+			mousePos.x <= hud.getWhistleButton().getPosition().x + hud.getWhistleButton().getGlobalBounds().width &&
+			mousePos.y >= hud.getWhistleButton().getPosition().y &&
+			mousePos.y <= hud.getWhistleButton().getPosition().y + hud.getWhistleButton().getGlobalBounds().height)
+		{
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				whistle = true;
+				whistleTimer = buttonDelay;
+			}
+		}
+	}
+}
+
 void Economy::upgradeBarn(sf::IntRect newTexture)
 {
 	hud.getBuilding_Barn().setTextureRect(newTexture);

@@ -14,7 +14,6 @@ public:
 	}
 	~Grass()
 	{
-
 	}
 	sf::CircleShape grassNode;
 	sf::Vector2f getPosition() const { return grassNode.getPosition(); }

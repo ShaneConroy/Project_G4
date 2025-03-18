@@ -34,21 +34,16 @@ sf::Vector2f Behaviours::wander(float speed, float deltaTime, sf::Vector2f myPos
     return dir;
 }
 
-// Makes the sheep go towards the gate. Can be used to enter or ecit
-sf::Vector2f Behaviours::toFence(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos, sf::RectangleShape exitFence)
+// Gives a point on the exit fence 
+sf::Vector2f Behaviours::toFence(sf::RectangleShape exitFence)
 {
-    if (targetPos.x * targetPos.x + targetPos.y * targetPos.y < 25.f)
-    {
-        sf::Vector2f fenceSize = exitFence.getSize();
-        targetPos = randomPosOnField({ 0.f, fenceSize.x }, { 0.f, 3.f });
+    sf::Vector2f fenceSize = exitFence.getSize();
+    sf::Vector2f targetPos = randomPosOnField({ 0.f, fenceSize.x }, { 0.f, 3.f });
 
-        targetPos.x += exitFence.getPosition().x;
-        targetPos.y = exitFence.getPosition().y;
-    }
+    targetPos.x += exitFence.getPosition().x;
+    targetPos.y = exitFence.getPosition().y;
 
-    sf::Vector2f dir = targetPos - myPos;
-    sf::Vector2f normDir = normaliseVector(dir) * speed * deltaTime;
-    return normDir;
+    return targetPos;
 }
 
 sf::Vector2f Behaviours::eating(float speed, float deltaTime, sf::Vector2f myPos, sf::Vector2f targetPos, float& timeToEat, bool& eating)
