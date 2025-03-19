@@ -32,7 +32,7 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime)
         // Eat
         if (getDistanceBetween(position, targetSheep->getPosition()) < 10.f)
         {
-			std::cout << getDistanceBetween(position, targetSheep->getPosition()) << "\n";
+			/*std::cout << getDistanceBetween(position, targetSheep->getPosition()) << "\n";*/
             // TODO // Make eat behaviour
             //targetSheep = nullptr;  // Reset target after catching
         }

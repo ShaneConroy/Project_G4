@@ -50,7 +50,6 @@ sf::Vector2f Behaviours::eating(float speed, float deltaTime, sf::Vector2f myPos
 {
 	if (timeToEat > 0)
 	{
-        std::cout << timeToEat << "\n";
 		timeToEat -= deltaTime;
 		return { 0,0 };
 	}

@@ -41,6 +41,6 @@ private:
 	sf::RectangleShape exitGrass;
 
 	int clickCooldown;
-	int clickCooldownCap = 1800;
+	int clickCooldownCap = 30;
 };
 
