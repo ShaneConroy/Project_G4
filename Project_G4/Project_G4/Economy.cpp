@@ -435,7 +435,8 @@ void Economy::setUpUpgradeMaps()
 {
 	std::vector<std::string> upgradeKeys = { "up_MaxSheep", "up_WoolSell", "up_MoreSheep", "up_MoreGrass"};
 
-	std::vector<std::pair<float, float>> upgradeStats = { {2500, 1.25}, {5000, 2.5}, {12000, 1.60}, {8000, 1.20} };
+	std::vector<std::pair<float, float>> upgradeStats = { {0, 1.25}, {0, 2.5}, {0, 1.60}, {0, 1.20} };
+	//{ { 2500, 1.25 }, { 5000, 2.5 }, { 12000, 1.60 }, { 8000, 1.20 } };
 
 	if (upgradeKeys.size() == upgradeStats.size())
 	{

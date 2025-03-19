@@ -149,25 +149,46 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 
 sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>& flock, std::vector<sf::Vector2f> availibleGrassNodes)
 {
-	sf::Vector2f targetPos(0.f, 0.f);
+	sf::Vector2f followerTargetPos(0.f, 0.f);
 	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(sheepBody.getPosition(), availibleGrassNodes);
+	sf::Vector2f leaderPos = getLeaderPos(flock);
 
-	std::cout << exiting << std::endl;
-	if (exiting && innerGrass.getGlobalBounds().contains(sheepBody.getPosition()))
+	// Check who's inside the pen
+	bool leaderInsidePen = innerGrass.getGlobalBounds().contains(leaderPos);
+	bool sheepInsidePen = innerGrass.getGlobalBounds().contains(sheepBody.getPosition());
+
+	float exitThreshold = 10.f;
+
+	if (leaderInsidePen && flock[0].exiting)
 	{
-		exitTarget = behaviour.toFence(exitFence);
-		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), exitTarget);
+		followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), leaderPos);
+	}
+
+	else if (!leaderInsidePen && sheepInsidePen)
+	{
+		if (exitTarget == sf::Vector2f(0.f, 0.f)) {
+			exitTarget = behaviour.toFence(exitFence);  // Set exit only once
+		}
+
+		if (getDistanceBetween(sheepBody.getPosition(), exitTarget) > exitThreshold) {
+			followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), exitTarget);
+		}
+		else {
+			exitTarget = { 0.f, 0.f };
+		}
 	}
 	else if (getDistanceBetween(sheepBody.getPosition(), closestPos) < 150.0f)
 	{
-		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos);
+		followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos);
 	}
-	else {
-		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), getLeaderPos(flock));
+	else
+	{
+		followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), leaderPos);
 	}
 
-	return targetPos;
+	return followerTargetPos;
 }
+
 
 void Sheep::setBehaviour(behaviours behaviour)
 {

@@ -82,6 +82,7 @@ void World::PopulateWorldWithSheep()
         if (sheepArray.size() < sheepCap)
         {
             sheepArray.emplace_back();
+			herd.push_back(&sheepArray.back());
         }
         else // If the max is to be exceeded, refund
         {
@@ -95,10 +96,17 @@ void World::PopulateWorldWithSheep()
         if (sheepArray.size() > 1)
         {
             sheepArray.pop_back();
+			herd.pop_back();
 			econ.addFunds(Funds_Enum::sheepSold);
         }
         econ.sheepSold = false;
     }
+}
+
+void World::spawnWolf()
+{
+	int randNum = rand() % 3;
+	wolf = Wolf(randNum);
 }
 
 // Updates how many sheep the player can have at one time
@@ -129,6 +137,8 @@ void World::up_WoolSell()
             std::cout << "Loom Level two" << "\n";
         else if(econ.loomLevel == 3)
             std::cout << "Loom Level three" << "\n";
+		else if (econ.loomLevel == 4)
+			std::cout << "" << "\n";
     }
 }
 
@@ -142,6 +152,8 @@ void World::up_SheepAmount()
             std::cout << "Market Level two" << "\n";
         else if (econ.marketLevel == 3)
             std::cout << "Market Level three" << "\n";
+        else if (econ.marketLevel == 4)
+            std::cout << "" << "\n";
     }
 }
 
@@ -155,6 +167,8 @@ void World::up_GrassAmount()
             std::cout << "Garden Level two" << "\n";
         else if (econ.gardenLevel == 3)
             std::cout << "Garden Level three" << "\n";
+        else if (econ.gardenLevel == 4)
+            std::cout << "" << "\n";
     }
 }
 
@@ -216,6 +230,9 @@ void World::Draw(sf::RenderWindow& window)
     {
         sheep.Draw(window);
     }
+
+    wolf.Draw(window);
+
     econ.draw(window, econ.popOpen);
 }
 
@@ -251,6 +268,10 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 		{
             // TODO // Get this working
             /*sheep.setBehaviour(behaviours::entering);*/
+
+            // For Debug purposes, this is how the wolf now spawns
+            spawnWolf();
+			econ.whistle = false;
 		}
     }
 
@@ -277,6 +298,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     up_WoolSell();
     up_SheepAmount();
     up_GrassAmount();
+
+	wolf.Hunt(herd, deltaTime);
 }
 
 void World::FixedUpdate()

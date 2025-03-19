@@ -5,6 +5,7 @@
 #include "Sheep.h"
 #include "Economy.h"
 #include "Funds_Enum.h"
+#include "Wolf.h"
 
 // The world will control the fence, maybe spawning of grass nodes, day/night cycle
 
@@ -22,6 +23,7 @@ private:
 	Economy econ;
 	Sheep sheep;
 	Fence fence;
+	Wolf wolf;
 
 	sf::RectangleShape bg;
 
@@ -30,6 +32,7 @@ private:
 	void SpawnGrassNodes();
 	void updateFencedGrass();
 	void PopulateWorldWithSheep();
+	void spawnWolf();
 
 	void up_SheepMax();
 	void up_WoolSell();
@@ -50,7 +53,7 @@ private:
 
 	std::vector<Sheep> sheepArray;
 	std::vector<Grass> grassNodeArray;
-
+	std::vector<Sheep*> herd;
 
 public:
 	int WorldTime();
