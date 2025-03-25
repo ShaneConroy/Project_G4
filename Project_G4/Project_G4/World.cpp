@@ -232,6 +232,7 @@ void World::Draw(sf::RenderWindow& window)
     }
 
     wolf.Draw(window);
+    dog.Draw(window);
 
     econ.draw(window, econ.popOpen);
 }
@@ -300,6 +301,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     up_GrassAmount();
 
 	wolf.Hunt(herd, deltaTime);
+
+    dog.Update(mousePos);
 }
 
 void World::FixedUpdate()

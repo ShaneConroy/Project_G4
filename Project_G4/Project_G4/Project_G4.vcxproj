@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Behaviours.cpp" />
+    <ClCompile Include="Dog.cpp" />
     <ClCompile Include="Economy.cpp" />
     <ClCompile Include="Fence.cpp" />
     <ClCompile Include="Global.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Behaviours.h" />
     <ClInclude Include="Behaviours_Enum.h" />
+    <ClInclude Include="Dog.h" />
     <ClInclude Include="Economy.h" />
     <ClInclude Include="Fence.h" />
     <ClInclude Include="Funds_Enum.h" />

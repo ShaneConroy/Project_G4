@@ -33,16 +33,16 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	if (isLeader)
 	{
 		sheepBody.setFillColor(sf::Color::Red);
-		flock[0].moveSpeed = 45.f;
+		flock[0].moveSpeed = 45.f; 
 		movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 	}
 	// Other sheep
 	else
 	{
 		sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
-		sf::Vector2f separationForce = Separation(flock) * 25.f;
-		sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 1.0f;
-		sf::Vector2f cohesionForce = Cohesion(flock) * 2.0f;
+		sf::Vector2f separationForce = Separation(flock) * 50.f;
+		sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 0.8f;
+		sf::Vector2f cohesionForce = Cohesion(flock) * 1.5f;
 
 		// Combine the forces
 		movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
@@ -210,7 +210,7 @@ sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)
 {
 	sf::Vector2f separatingForce(0.f, 0.f);
 
-	float desiredSeparation = 50.f;
+	float desiredSeparation = 25.f;
 
 	if (flock.size() > 0)
 	{
@@ -227,7 +227,7 @@ sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)
 			{
 				sf::Vector2f oppositeDirection = normaliseVector(sheepBody.getPosition() - sheep.sheepBody.getPosition());
 
-				separatingForce += oppositeDirection / distance;
+				separatingForce += oppositeDirection / (distance * 0.5f);
 				count++;
 			}
 		}
@@ -238,7 +238,7 @@ sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)
 		}
 	}
 
-	separatingForce = normaliseVector(separatingForce);
+	separatingForce = normaliseVector(separatingForce) * 3.0f;
 
 	return separatingForce;
 }

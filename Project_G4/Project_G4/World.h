@@ -6,11 +6,7 @@
 #include "Economy.h"
 #include "Funds_Enum.h"
 #include "Wolf.h"
-
-// The world will control the fence, maybe spawning of grass nodes, day/night cycle
-
-// Currently the dyalight cycle goes from light green (day) to night but doesnt go back to day.
-// A solution to this could be having a button "Next day?" And when you press it, it resets to day
+#include "Dog.h"
 
 // Day -> (134, 172, 19)
 // Night -> (40, 108, 89)
@@ -24,6 +20,7 @@ private:
 	Sheep sheep;
 	Fence fence;
 	Wolf wolf;
+	Dog dog;
 
 	sf::RectangleShape bg;
 

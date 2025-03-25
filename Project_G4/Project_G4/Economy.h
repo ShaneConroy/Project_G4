@@ -52,7 +52,7 @@ private:
 	Funds_Enum fundType;
 	Sheep sheep;
 
-	int currentFunds = 1000;
+	int currentFunds = 999999;
 
 	int fertiliserPrice = 50;
 	int sheepBuyPrice = 100;
