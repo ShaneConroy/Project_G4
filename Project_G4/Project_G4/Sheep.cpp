@@ -24,7 +24,7 @@ void Sheep::Draw(sf::RenderWindow& window)
 	window.draw(sheepBody);
 }
 
-void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock)
+void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock, sf::Vector2f dogPos)
 {
 	sf::Vector2f movementDirection(0.f, 0.f);
 	previousPosition = sheepBody.getPosition();
@@ -39,15 +39,28 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	// Other sheep
 	else
 	{
-		sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
-		sf::Vector2f separationForce = Separation(flock) * 50.f;
-		sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 0.8f;
-		sf::Vector2f cohesionForce = Cohesion(flock) * 1.5f;
+		sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
 
-		// Combine the forces
-		movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
+		// Problem with sheep drifting while being herded
+		if (herdingTimer > 0)
+		{
+			movementDirection = sf::Vector2f(0.f, 0.f);
+		}
+		else
+		{
+			sf::Vector2f separationForce = Separation(flock) * 50.f;
+			sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 0.8f;
+			sf::Vector2f cohesionForce = Cohesion(flock) * 1.5f;
+
+			// Combine the forces
+			movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
+		}
 	}
 	movementDirection = normaliseVector(movementDirection) * moveSpeed * deltaTime;
+
+	sf::Vector2f repulsionForce = awayFromDog(dogPos);
+	movementDirection += repulsionForce;
+
 	sheepBody.move(movementDirection);
 }
 
@@ -147,7 +160,7 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	return targetPos;
 }
 
-sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>& flock, std::vector<sf::Vector2f> availibleGrassNodes)
+sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>& flock, std::vector<sf::Vector2f> availibleGrassNodes, sf::Vector2f dogPos)
 {
 	sf::Vector2f followerTargetPos(0.f, 0.f);
 	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(sheepBody.getPosition(), availibleGrassNodes);
@@ -186,7 +199,44 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 		followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), leaderPos);
 	}
 
+	// If sheep is getting herded
+	if (herdingTimer > 0 || getDistanceBetween(sheepBody.getPosition(), dogPos) < 105.f)
+	{
+		if (getDistanceBetween(sheepBody.getPosition(), dogPos) < 105.f)
+		{
+			herdingTimer = herdingTimerCap;
+		}
+		else
+		{
+			herdingTimer -= deltaTime;
+		}
+	}
+
+	// If the timer is active, the sheep movement is only influenced by the dog
+	if (herdingTimer > 0)
+	{
+		sf::Vector2f awayFromDog = normaliseVector(sheepBody.getPosition() - dogPos);
+		followerTargetPos = sheepBody.getPosition(); /*+ (awayFromDog * moveSpeed * deltaTime);*/
+	}
+
 	return followerTargetPos;
+}
+
+sf::Vector2f Sheep::awayFromDog(sf::Vector2f dogPos)
+{
+	sf::Vector2f repulsionForce(0.f, 0.f);
+	float repulsionRadius = 100.f;
+	float maxRepulsion = 30.f;
+
+	float distance = getDistanceBetween(sheepBody.getPosition(), dogPos);
+
+	if (distance < repulsionRadius && distance > 0)
+	{
+		sf::Vector2f awayFromDog = normaliseVector(sheepBody.getPosition() - dogPos);
+		repulsionForce = awayFromDog * (maxRepulsion * (1.0f - (distance / repulsionRadius)));
+	}
+
+	return repulsionForce;
 }
 
 

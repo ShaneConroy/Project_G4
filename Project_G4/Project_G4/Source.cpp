@@ -22,7 +22,7 @@
 
 void main()
 {
-    sf::RenderWindow window(sf::VideoMode(1200, 800), "SFML Project");
+    sf::RenderWindow window(sf::VideoMode(1200, 800), "Save our Sheep!");
 
     const sf::Time fixedTimeStep = sf::seconds(1.0f / 60.0f);
     sf::Time timeSinceLastFixedUpdate = sf::Time::Zero;

@@ -14,7 +14,7 @@ public:
 	GrassUtility grassUtility;
 
 	void Draw(sf::RenderWindow& window);
-	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock);
+	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock, sf::Vector2f dogPos);
 	void setBehaviour(behaviours);
 	void availibleGrass(std::vector<sf::Vector2f> grassPositions);
 
@@ -44,6 +44,8 @@ private:
 	float maxSpeed = 200.f;
 	float eatTimer = 5.0f;
 	float wanderTimer = 3.0f;
+	float herdingTimer = 0.0f;
+	float herdingTimerCap = 0.5f;
 
 	bool exiting = false;
 
@@ -67,6 +69,7 @@ private:
 	sf::Vector2f getLeaderPos(std::vector<Sheep>& flock);
 
 	sf::Vector2f leaderBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>&, std::vector<sf::Vector2f> availibleGrassNodes);
-	sf::Vector2f followerBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>&, std::vector<sf::Vector2f> availibleGrassNodes);
+	sf::Vector2f followerBehaviour(float deltaTime, sf::RectangleShape innerGrass, sf::RectangleShape exitFence, std::vector<Sheep>&, std::vector<sf::Vector2f> availibleGrassNodes, sf::Vector2f dogPos);
 
+	sf::Vector2f awayFromDog(sf::Vector2f dogPos);
 };
