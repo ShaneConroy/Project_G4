@@ -119,11 +119,11 @@ void World::up_SheepMax()
 
         // Change barn looks
         if (econ.barnLevel == 1)
-            econ.upgradeBarn(sf::IntRect(398, 0, 386, 154));
+            econ.upgradeBarn(sf::IntRect(176, 0, 151, 87));
         else if(econ.barnLevel == 2)
-            econ.upgradeBarn(sf::IntRect(807, 0, 386, 135));
+            econ.upgradeBarn(sf::IntRect(363, 0, 150, 75));
         else if(econ.barnLevel == 3)
-            econ.upgradeBarn(sf::IntRect(1219, 0, 387, 142));
+            econ.upgradeBarn(sf::IntRect(544, 0, 150, 76));
     }
 }
 
@@ -131,6 +131,8 @@ void World::up_WoolSell()
 {
     if (econ.up_WoolSellPrice)
     {
+        // TODO // Add upgrade functionality
+
         if (econ.loomLevel == 1)
             std::cout << "Loom Level one" << "\n";
         else if(econ.loomLevel == 2)

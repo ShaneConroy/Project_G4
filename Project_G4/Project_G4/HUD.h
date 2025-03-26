@@ -51,6 +51,15 @@ private:
 	sf::Texture barnSpriteSheet;
 	sf::Sprite barn;
 
+	sf::Texture loomSpriteSheet;
+	sf::Sprite loom;
+
+	sf::Texture marketSpriteSheet;
+	sf::Sprite market;
+
+	sf::Texture gardenSpriteSheet;
+	sf::Sprite garden;
+
 	sf::Texture popOutPanelTexture;
 	sf::Sprite popOutPanel;
 

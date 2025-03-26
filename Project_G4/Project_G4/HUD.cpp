@@ -65,9 +65,9 @@ HUD::HUD()
 
 	barnSpriteSheet.loadFromFile("Assets/ART/barnSpriteSheet.png");
 	barn.setTexture(barnSpriteSheet);
-	barn.setTextureRect(sf::IntRect(5, 0, 379, 128));
+	barn.setTextureRect(sf::IntRect(0, 0, 150, 75));
 	barn.setPosition(100, 0);
-	barn.setScale(0.5, 0.5);
+	barn.setScale(1.10, 1.10);
 
 	stuckButtonTexture.loadFromFile("Assets/ART/stuckIcon.png");
 	stuckButton.setTexture(stuckButtonTexture);
@@ -78,11 +78,33 @@ HUD::HUD()
 	whistleButton.setTexture(whistleButtonTexture);
 	whistleButton.setPosition(1130, 75);
 	whistleButton.setScale(0.95, 0.95);
+
+	//loomSpriteSheet.loadFromFile("Assets/ART/loomSpriteSheet.png");
+	loom.setTexture(barnSpriteSheet);
+	loom.setTextureRect(sf::IntRect(0, 0, 150, 75));
+	loom.setPosition(100, 0);
+	loom.setScale(1.10, 1.10);
+
+	//marketSpriteSheet.loadFromFile("Assets/ART/marketSpriteSheet.png");
+	market.setTexture(barnSpriteSheet);
+	market.setTextureRect(sf::IntRect(0, 0, 150, 75));
+	market.setPosition(100, 0);
+	market.setScale(1.10, 1.10);
+
+	gardenSpriteSheet.loadFromFile("Assets/ART/gardenSpriteSheet.png");
+	garden.setTexture(barnSpriteSheet);
+	garden.setTextureRect(sf::IntRect(0, 0, 150, 75));
+	garden.setPosition(100, 0);
+	garden.setScale(1.10, 1.10);
+
 }
 
 void HUD::Draw(sf::RenderWindow& window, bool popOut)
 {
 	window.draw(barn);
+	window.draw(loom);
+	window.draw(market);
+	window.draw(garden);
 
 	window.draw(popOutPanel);
 
