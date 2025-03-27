@@ -36,6 +36,10 @@ public:
 	void whistleButtonFunc(sf::Vector2i);
 
 	void upgradeBarn(sf::IntRect);
+	void upgradeLoom(sf::IntRect);
+	void upgradeMarket(sf::IntRect);
+	void upgradeGarden(sf::IntRect);
+
 	void setUpUpgradeMaps();
 
 	int barnLevel = 0;

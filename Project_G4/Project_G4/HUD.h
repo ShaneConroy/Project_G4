@@ -18,8 +18,11 @@ public:
 	sf::Sprite& getUpgradeButton_MaxSheep() { return sheepMaxCapUpgrade; };
 	sf::Sprite& getUpgradeButton_BetterGrass() { return grassPurchaseAmountUpgrade; };
 	sf::Sprite& getStuckButton() { return stuckButton; };
-	sf::Sprite& getBuilding_Barn() { return barn; };
 	sf::Sprite& getWhistleButton() { return whistleButton; };
+	sf::Sprite& getBuilding_Barn() { return barn; };
+	sf::Sprite& getBuilding_Loom() { return loom; };
+	sf::Sprite& getBuilding_Market() { return market; };
+	sf::Sprite& getBuilding_Garden() { return garden; };
 
 	void updateHUDMoney(int);
 

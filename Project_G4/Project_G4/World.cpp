@@ -134,13 +134,13 @@ void World::up_WoolSell()
         // TODO // Add upgrade functionality
 
         if (econ.loomLevel == 1)
-            std::cout << "Loom Level one" << "\n";
+            econ.upgradeLoom(sf::IntRect(135, 0, 138, 75));
         else if(econ.loomLevel == 2)
-            std::cout << "Loom Level two" << "\n";
+			econ.upgradeLoom(sf::IntRect(288, 0, 139, 75));
         else if(econ.loomLevel == 3)
-            std::cout << "Loom Level three" << "\n";
-		else if (econ.loomLevel == 4)
-			std::cout << "" << "\n";
+			econ.upgradeLoom(sf::IntRect(440, 0, 140, 75));
+        else if (econ.loomLevel == 4)
+            econ.upgradeLoom(sf::IntRect(599, 0, 140, 75));
     }
 }
 
@@ -149,13 +149,11 @@ void World::up_SheepAmount()
     if (econ.up_SheepAmountBool)
     {
         if (econ.marketLevel == 1)
-            std::cout << "Market Level one" << "\n";
+			econ.upgradeMarket(sf::IntRect(176, 0, 151, 87));
         else if (econ.marketLevel == 2)
-            std::cout << "Market Level two" << "\n";
+			econ.upgradeMarket(sf::IntRect(363, 0, 150, 75));
         else if (econ.marketLevel == 3)
-            std::cout << "Market Level three" << "\n";
-        else if (econ.marketLevel == 4)
-            std::cout << "" << "\n";
+			econ.upgradeMarket(sf::IntRect(544, 0, 150, 76));
     }
 }
 
@@ -164,13 +162,11 @@ void World::up_GrassAmount()
     if (econ.up_GrassAmountBool)
     {
         if (econ.gardenLevel == 1)
-            std::cout << "Garden Level one" << "\n";
+			econ.upgradeGarden(sf::IntRect(176, 0, 151, 87));
         else if (econ.gardenLevel == 2)
-            std::cout << "Garden Level two" << "\n";
+			econ.upgradeGarden(sf::IntRect(363, 0, 150, 75));
         else if (econ.gardenLevel == 3)
-            std::cout << "Garden Level three" << "\n";
-        else if (econ.gardenLevel == 4)
-            std::cout << "" << "\n";
+			econ.upgradeGarden(sf::IntRect(544, 0, 150, 76));
     }
 }
 
@@ -273,9 +269,20 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             /*sheep.setBehaviour(behaviours::entering);*/
 
             // For Debug purposes, this is how the wolf now spawns
-            spawnWolf();
 			econ.whistle = false;
 		}
+
+        if (!isDay)
+        {
+            if (wolvesAbout > 0)
+            {
+                continue;
+            }
+            else {
+                wolvesAbout++;
+                spawnWolf();
+            }
+        }
     }
 
     fence.gateFunction(mousePos);

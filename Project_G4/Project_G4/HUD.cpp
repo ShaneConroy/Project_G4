@@ -66,7 +66,7 @@ HUD::HUD()
 	barnSpriteSheet.loadFromFile("Assets/ART/barnSpriteSheet.png");
 	barn.setTexture(barnSpriteSheet);
 	barn.setTextureRect(sf::IntRect(0, 0, 150, 75));
-	barn.setPosition(100, 0);
+	barn.setPosition(80, 0);
 	barn.setScale(1.10, 1.10);
 
 	stuckButtonTexture.loadFromFile("Assets/ART/stuckIcon.png");
@@ -79,22 +79,22 @@ HUD::HUD()
 	whistleButton.setPosition(1130, 75);
 	whistleButton.setScale(0.95, 0.95);
 
-	//loomSpriteSheet.loadFromFile("Assets/ART/loomSpriteSheet.png");
-	loom.setTexture(barnSpriteSheet);
-	loom.setTextureRect(sf::IntRect(0, 0, 150, 75));
-	loom.setPosition(100, 0);
+	loomSpriteSheet.loadFromFile("Assets/ART/loomSpriteSheet.png");
+	loom.setTexture(loomSpriteSheet);
+	loom.setTextureRect(sf::IntRect(6, 0, 114, 75));
+	loom.setPosition(250, 0);
 	loom.setScale(1.10, 1.10);
 
 	//marketSpriteSheet.loadFromFile("Assets/ART/marketSpriteSheet.png");
 	market.setTexture(barnSpriteSheet);
 	market.setTextureRect(sf::IntRect(0, 0, 150, 75));
-	market.setPosition(100, 0);
+	market.setPosition(420, 0);
 	market.setScale(1.10, 1.10);
 
-	gardenSpriteSheet.loadFromFile("Assets/ART/gardenSpriteSheet.png");
+	//gardenSpriteSheet.loadFromFile("Assets/ART/gardenSpriteSheet.png");
 	garden.setTexture(barnSpriteSheet);
 	garden.setTextureRect(sf::IntRect(0, 0, 150, 75));
-	garden.setPosition(100, 0);
+	garden.setPosition(590, 0);
 	garden.setScale(1.10, 1.10);
 
 }

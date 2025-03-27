@@ -47,6 +47,7 @@ private:
 	int sheepCap = 5;
 	int eatTimer = 480; // Arbutary number, make sure maybe fix?
 	int eatTimerCap = 480;
+	int wolvesAbout;
 
 	std::vector<Sheep> sheepArray;
 	std::vector<Grass> grassNodeArray;
