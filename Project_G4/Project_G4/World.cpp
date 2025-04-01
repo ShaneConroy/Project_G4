@@ -149,11 +149,13 @@ void World::up_SheepAmount()
     if (econ.up_SheepAmountBool)
     {
         if (econ.marketLevel == 1)
-			econ.upgradeMarket(sf::IntRect(176, 0, 151, 87));
+			econ.upgradeMarket(sf::IntRect(165, 0, 148, 75));
         else if (econ.marketLevel == 2)
-			econ.upgradeMarket(sf::IntRect(363, 0, 150, 75));
+			econ.upgradeMarket(sf::IntRect(334, 0, 148, 75));
         else if (econ.marketLevel == 3)
-			econ.upgradeMarket(sf::IntRect(544, 0, 150, 76));
+			econ.upgradeMarket(sf::IntRect(500, 0, 148, 75));
+        else if(econ.marketLevel == 4)
+            econ.upgradeMarket(sf::IntRect(661, 0, 148, 75));
     }
 }
 
@@ -162,11 +164,13 @@ void World::up_GrassAmount()
     if (econ.up_GrassAmountBool)
     {
         if (econ.gardenLevel == 1)
-			econ.upgradeGarden(sf::IntRect(176, 0, 151, 87));
+			econ.upgradeGarden(sf::IntRect(160, 0, 130, 75));
         else if (econ.gardenLevel == 2)
-			econ.upgradeGarden(sf::IntRect(363, 0, 150, 75));
+			econ.upgradeGarden(sf::IntRect(313, 0, 139, 75));
         else if (econ.gardenLevel == 3)
-			econ.upgradeGarden(sf::IntRect(544, 0, 150, 76));
+			econ.upgradeGarden(sf::IntRect(474, 0, 145, 75));
+        else if(econ.gardenLevel == 4)
+            econ.upgradeGarden(sf::IntRect(640, 0, 147 , 75));
     }
 }
 

@@ -82,18 +82,18 @@ HUD::HUD()
 	loomSpriteSheet.loadFromFile("Assets/ART/loomSpriteSheet.png");
 	loom.setTexture(loomSpriteSheet);
 	loom.setTextureRect(sf::IntRect(6, 0, 114, 75));
-	loom.setPosition(250, 0);
+	loom.setPosition(260, 0);
 	loom.setScale(1.10, 1.10);
 
-	//marketSpriteSheet.loadFromFile("Assets/ART/marketSpriteSheet.png");
-	market.setTexture(barnSpriteSheet);
-	market.setTextureRect(sf::IntRect(0, 0, 150, 75));
+	marketSpriteSheet.loadFromFile("Assets/ART/marketSpriteSheet.png");
+	market.setTexture(marketSpriteSheet);
+	market.setTextureRect(sf::IntRect(0, 0, 148, 75));
 	market.setPosition(420, 0);
 	market.setScale(1.10, 1.10);
 
-	//gardenSpriteSheet.loadFromFile("Assets/ART/gardenSpriteSheet.png");
-	garden.setTexture(barnSpriteSheet);
-	garden.setTextureRect(sf::IntRect(0, 0, 150, 75));
+	gardenSpriteSheet.loadFromFile("Assets/ART/gardenSpriteSheet.png");
+	garden.setTexture(gardenSpriteSheet);
+	garden.setTextureRect(sf::IntRect(10, 0, 130, 75));
 	garden.setPosition(590, 0);
 	garden.setScale(1.10, 1.10);
 
