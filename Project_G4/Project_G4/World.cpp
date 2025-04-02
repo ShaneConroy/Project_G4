@@ -81,8 +81,11 @@ void World::PopulateWorldWithSheep()
         // When a sheep is bought, add a sheep in
         if (sheepArray.size() < sheepCap)
         {
-            sheepArray.emplace_back();
-			herd.push_back(&sheepArray.back());
+            for (int i = 0; i < sheepBuyAmount; i++)
+            {
+                sheepArray.emplace_back();
+                herd.push_back(&sheepArray.back());
+            }
         }
         else // If the max is to be exceeded, refund
         {
@@ -112,7 +115,7 @@ void World::spawnWolf()
 // Updates how many sheep the player can have at one time
 void World::up_SheepMax()
 {
-    if (econ.up_MaxSheepBool)
+    if (econ.up_MaxSheepBool && econ.barnLevel != maxUp_sheepCap)
     {
         sheepCap = (sheepCap * 2);
         econ.up_MaxSheepBool = false;
@@ -120,16 +123,18 @@ void World::up_SheepMax()
         // Change barn looks
         if (econ.barnLevel == 1)
             econ.upgradeBarn(sf::IntRect(176, 0, 151, 87));
-        else if(econ.barnLevel == 2)
+        else if (econ.barnLevel == 2)
             econ.upgradeBarn(sf::IntRect(363, 0, 150, 75));
-        else if(econ.barnLevel == 3)
+        else if (econ.barnLevel == 3)
             econ.upgradeBarn(sf::IntRect(544, 0, 150, 76));
+        else if (econ.barnLevel == 4)
+            econ.upgradeBarn(sf::IntRect(701, 0, 152, 77));
     }
 }
 
 void World::up_WoolSell()
 {
-    if (econ.up_WoolSellPrice)
+    if (econ.up_WoolSellPrice && econ.loomLevel != maxUp_woolSell)
     {
         // TODO // Add upgrade functionality
 
@@ -146,31 +151,55 @@ void World::up_WoolSell()
 
 void World::up_SheepAmount()
 {
-    if (econ.up_SheepAmountBool)
+    if (econ.up_SheepAmountBool && econ.marketLevel != maxUp_sheepAmount)
     {
         if (econ.marketLevel == 1)
-			econ.upgradeMarket(sf::IntRect(165, 0, 148, 75));
+        {
+            econ.upgradeMarket(sf::IntRect(165, 0, 148, 75));
+            sheepBuyAmount = 2;
+        }
         else if (econ.marketLevel == 2)
-			econ.upgradeMarket(sf::IntRect(334, 0, 148, 75));
+        {
+            econ.upgradeMarket(sf::IntRect(334, 0, 148, 75));
+            sheepBuyAmount = 3;
+        }
         else if (econ.marketLevel == 3)
-			econ.upgradeMarket(sf::IntRect(500, 0, 148, 75));
+        {
+            econ.upgradeMarket(sf::IntRect(500, 0, 148, 75));
+            sheepBuyAmount = 4;
+        }
         else if(econ.marketLevel == 4)
+        {
             econ.upgradeMarket(sf::IntRect(661, 0, 148, 75));
+            sheepBuyAmount = 5;
+        }
     }
 }
 
 void World::up_GrassAmount()
 {
-    if (econ.up_GrassAmountBool)
+    if (econ.up_GrassAmountBool && econ.gardenLevel != maxUp_grassAmount)
     {
         if (econ.gardenLevel == 1)
-			econ.upgradeGarden(sf::IntRect(160, 0, 130, 75));
+        {
+            econ.upgradeGarden(sf::IntRect(160, 0, 130, 75));
+            grassBuyAmount = 2;
+        }
         else if (econ.gardenLevel == 2)
-			econ.upgradeGarden(sf::IntRect(313, 0, 139, 75));
+        {
+            econ.upgradeGarden(sf::IntRect(313, 0, 139, 75));
+            grassBuyAmount = 3;
+        }
         else if (econ.gardenLevel == 3)
-			econ.upgradeGarden(sf::IntRect(474, 0, 145, 75));
+        {
+            econ.upgradeGarden(sf::IntRect(474, 0, 145, 75));
+            grassBuyAmount = 4;
+        }
         else if(econ.gardenLevel == 4)
-            econ.upgradeGarden(sf::IntRect(640, 0, 147 , 75));
+        {
+            econ.upgradeGarden(sf::IntRect(640, 0, 147, 75));
+            grassBuyAmount = 5;
+        }
     }
 }
 
