@@ -3,7 +3,6 @@
 Sheep::Sheep()
 {
 	sheepBody.setRadius(15);
-	sheepBody.setFillColor(sf::Color::White);
 	sf::Vector2f innerGrassPos = { 20.f, 544.f };
 	sf::Vector2f innerGrassSize = { 1160.f, 240.f };
 	sf::Vector2f spawnPos = randomPosOnField({30, innerGrassSize.x - 30}, { 30, innerGrassSize.y - 30 });
@@ -29,6 +28,20 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	sf::Vector2f movementDirection(0.f, 0.f);
 	previousPosition = sheepBody.getPosition();
 
+	// This if is here because the sheep iognore it if its somewhere else, FOR SOME REASON!!
+	if (isEating)
+	{
+		eatTimer -= deltaTime;
+
+		if (eatTimer <= 0.f)
+		{
+			doneEating = true;
+			isEating = false;
+		}
+
+		return;
+	}
+
 	// Check if im the leader. Will lead other sheep
 	if (isLeader)
 	{
@@ -39,6 +52,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	// Other sheep
 	else
 	{
+		sheepBody.setFillColor(sf::Color::White);
 		sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
 
 		// Problem with sheep drifting while being herded
@@ -111,7 +125,7 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	sf::Vector2f leaderPos = getLeaderPos(flock);
 	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(getLeaderPos(flock), availibleGrassNodes);
 
-	//If the leader inside the pen
+	// If the leader inside the pen
 	if (innerGrass.getGlobalBounds().contains(leaderPos))
 	{
 		if (!exiting)
@@ -143,11 +157,31 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 		}
 	}
 	// If sheep is close enough the grass node, begin eating
-	if (getDistanceBetween(getLeaderPos(flock), closestPos) < 4.f)
+	sf::Vector2f myPos = sheepBody.getPosition();
+
+
+	float distanceToGrass = getDistanceBetween(myPos, closestPos);
+
+	if (distanceToGrass < 10.f)
 	{
-		isEating = true;
+		if (!isEating || lastEatenGrass != closestPos)
+		{
+			isEating = true;
+			eatTimer = 5.0f; // reset if targeting new grass
+			lastEatenGrass = closestPos;
+		}
+
+		eatTimer -= deltaTime;
+
+		if (eatTimer <= 0.f)
+		{
+			doneEating = true;
+			isEating = false;
+		}
+
+		return myPos;
 	}
-	else if (getDistanceBetween(getLeaderPos(flock), closestPos) > 6.f)
+	else
 	{
 		isEating = false;
 	}
@@ -171,6 +205,21 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 	bool sheepInsidePen = innerGrass.getGlobalBounds().contains(sheepBody.getPosition());
 
 	float exitThreshold = 10.f;
+
+	// If follower is eating, stay still until donea
+	if (isEating)
+	{
+		eatTimer -= deltaTime;
+
+		if (eatTimer <= 0.f)
+		{
+			doneEating = true;
+			isEating = false;
+		}
+
+		return sheepBody.getPosition(); // Stay PUT
+	}
+
 
 	if (leaderInsidePen && flock[0].exiting)
 	{
@@ -222,6 +271,7 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 	return followerTargetPos;
 }
 
+// Repulsion from the dog
 sf::Vector2f Sheep::awayFromDog(sf::Vector2f dogPos)
 {
 	sf::Vector2f repulsionForce(0.f, 0.f);

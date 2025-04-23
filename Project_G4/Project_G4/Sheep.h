@@ -19,6 +19,7 @@ public:
 	void availibleGrass(std::vector<sf::Vector2f> grassPositions);
 
 	float getRadius() { return sheepBody.getRadius(); };
+	float eatTimer = 5.0f;
 
 	behaviours getBehaviour() { return currentBehaviour; };
 
@@ -42,7 +43,7 @@ private:
 
 	float moveSpeed = 35.0f;
 	float maxSpeed = 200.f;
-	float eatTimer = 5.0f;
+
 	float wanderTimer = 3.0f;
 	float herdingTimer = 0.0f;
 	float herdingTimerCap = 0.5f;

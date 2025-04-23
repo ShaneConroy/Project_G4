@@ -16,41 +16,54 @@ void World::SpawnGrassNodes()
 // Fills an array with only the grass nodes that are not taken // TODO Turn into list so its better ofr performance
 std::vector<sf::Vector2f> World::UpdateGrassNodes()
 {
-  std::vector<sf::Vector2f> availableGrassNodesPos;
-  auto iter = grassNodeArray.begin();
+    std::vector<sf::Vector2f> availableGrassNodesPos;
+    auto iter = grassNodeArray.begin();
 
-  while (iter != grassNodeArray.end())
-  {
-      if (!sheepArray.empty())
-      {
-          for (Sheep& sheep : sheepArray)
-          {
-              if (getDistanceBetween(sheep.getPosition(), iter->getPosition()) < 5.0f) // Check if any sheep finished eating
-              {
-				  eatTimer -= 1;
-				  /*iter->UpdateTaken(true);*/ // TODO // Sheep go to same grass nodes
-				  if (eatTimer <= 0)
-				  {
-					  iter->UpdateEaten(true);
-					  eatTimer = eatTimerCap;
-				  }
-              }
-          }
-      }
-      if (iter->CheckEaten())
-      {
-          iter = grassNodeArray.erase(iter);
-      }
-      else
-      {
-          if (!iter->CheckTaken())
-          {
-              availableGrassNodesPos.push_back(iter->getPosition());
-          }
-          ++iter;
-      }
-  }
-  return availableGrassNodesPos;
+    while (iter != grassNodeArray.end())
+    {
+        bool grassClaimed = false;
+
+        for (Sheep& sheep : sheepArray)
+        {
+            float dist = getDistanceBetween(sheep.getPosition(), iter->getPosition());
+
+            // Claim a grass node if close enough and not already eating
+            if (dist < 10.f && !iter->CheckTaken() && !sheep.isEating)
+            {
+                iter->UpdateTaken(true);                     // Mark grass as taken
+                sheep.isEating = true;                       // Sheep enters eating state
+                sheep.eatTimer = 5.0f;                       // Reset timer
+                sheep.lastEatenGrass = iter->getPosition();  // Track which grass it's eating
+                grassClaimed = true;
+                break; // Only one sheep should claim it
+            }
+
+            // If the sheep is done eating this exact node
+            if (sheep.doneEating && sheep.lastEatenGrass == iter->getPosition())
+            {
+                iter->UpdateEaten(true);     // Grass is now eaten
+                sheep.doneEating = false;    // Reset sheep flag
+                grassClaimed = true;         // Skip this node for others
+                break;
+            }
+        }
+
+        if (iter->CheckEaten())
+        {
+            iter = grassNodeArray.erase(iter); // Safely erase eaten grass
+        }
+        else
+        {
+            if (!iter->CheckTaken())
+            {
+                availableGrassNodesPos.push_back(iter->getPosition()); // Still usable
+            }
+
+            ++iter;
+        }
+    }
+
+    return availableGrassNodesPos;
 }
 
 // Passes the grass node array into the find grass noode function // TODO // This will have to change
@@ -270,51 +283,74 @@ void World::Draw(sf::RenderWindow& window)
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
-    // Assign Leader
-    if (!sheepArray.empty())
+    // Leader
+
+    int currentLeaderIndex = -1;
+    for (int i = 0; i < sheepArray.size(); ++i)
+    {
+        if (sheepArray[i].isLeader)
+        {
+            currentLeaderIndex = i;
+            break;
+        }
+    }
+    if (currentLeaderIndex != -1 && sheepArray[currentLeaderIndex].isEating)
+    {
+        sheepArray[currentLeaderIndex].isLeader = false;
+
+        for (int i = currentLeaderIndex + 1; i < sheepArray.size(); ++i)
+        {
+            if (!sheepArray[i].isEating)
+            {
+                sheepArray[i].isLeader = true;
+                break;
+            }
+        }
+    }
+
+    bool leaderExists = false;
+    for (Sheep& sheep : sheepArray)
+    {
+        if (sheep.isLeader)
+        {
+            leaderExists = true;
+            break;
+        }
+    }
+    if (!leaderExists && !sheepArray.empty())
     {
         sheepArray.front().isLeader = true;
     }
-    // When the gate is closed, sheep inside will not update
+
+    // Sheep Updates
+
     for (Sheep& sheep : sheepArray)
     {
-        if (fence.gateOpen)
+        // If the gate is open or sheep is outside the pen
+        if (fence.gateOpen || !fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()))
         {
             sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray, dog.getPosition());
         }
-        else
-        {
-            if (!fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()))
-            {    
-                sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray, dog.getPosition());
-            }
-        }
 
+        // Emergency teleport if stuck
         if (econ.stuck)
         {
-			sheepArray.front().setPosition({ 600.f, 300.f });
-			econ.stuck = false;
+            sheepArray.front().setPosition({ 600.f, 300.f });
+            econ.stuck = false;
         }
 
-		if (econ.whistle)
-		{
-            // TODO // Get this working
-            /*sheep.setBehaviour(behaviours::entering);*/
-
-            // For Debug purposes, this is how the wolf now spawns
-			econ.whistle = false;
-		}
-
-        if (!isDay)
+        // Handle whistle // TODO
+        if (econ.whistle)
         {
-            if (wolvesAbout > 0)
-            {
-                continue;
-            }
-            else {
-                wolvesAbout++;
-                spawnWolf();
-            }
+            // sheep.setBehaviour(behaviours::entering); // Placeholder
+            econ.whistle = false;
+        }
+
+        // Spawn wolf at night
+        if (!isDay && wolvesAbout == 0)
+        {
+            spawnWolf();
+            wolvesAbout++;
         }
     }
 
@@ -335,17 +371,17 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.upgradeWoolPrice(mousePos);
     econ.upgradeSheepPurchaseAmount(mousePos);
     econ.upgradeGrassPurchaseAmount(mousePos);
-	econ.whistleButtonFunc(mousePos);
+    econ.whistleButtonFunc(mousePos);
 
     up_SheepMax();
     up_WoolSell();
     up_SheepAmount();
     up_GrassAmount();
 
-	wolf.Hunt(herd, deltaTime);
-
+    wolf.Hunt(herd, deltaTime);
     dog.Update(mousePos);
 }
+
 
 void World::FixedUpdate()
 {

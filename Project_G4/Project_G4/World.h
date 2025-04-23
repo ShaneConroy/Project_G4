@@ -46,8 +46,8 @@ private:
 	int grassBuyAmount = 1;
 	int sheepCap = 5;
 	int sheepBuyAmount = 1;
-	int eatTimer = 480; // Arbutary number, make sure maybe fix?
-	int eatTimerCap = 480;
+	int eatTimer = 1540; // Arbutary number, make sure maybe fix?
+	int eatTimerCap = 1540;
 	int wolvesAbout;
 
 	int const maxUp_sheepAmount = 5;
