@@ -194,7 +194,6 @@ void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 	}
 }
 
-// TODO // Have prices attached to the upgrades. Grey out if you cant buy 
 void Economy::upgradeMaxSheep(sf::Vector2i mousePos)
 {
 	if (up_MaxSheepTimer > 0.0f)

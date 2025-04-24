@@ -13,7 +13,7 @@ void World::SpawnGrassNodes()
     }
 }
 
-// Fills an array with only the grass nodes that are not taken // TODO Turn into list so its better ofr performance
+// Fills an array with only the grass nodes that are not taken
 std::vector<sf::Vector2f> World::UpdateGrassNodes()
 {
     std::vector<sf::Vector2f> availableGrassNodesPos;
@@ -66,7 +66,7 @@ std::vector<sf::Vector2f> World::UpdateGrassNodes()
     return availableGrassNodesPos;
 }
 
-// Passes the grass node array into the find grass noode function // TODO // This will have to change
+// Passes the grass node array into the find grass noode function
 void World::PassGrassToSheep()
 {
     std::vector<sf::Vector2f> availableGrassPositions = UpdateGrassNodes();
@@ -259,6 +259,34 @@ void World::shearsFunc(sf::Vector2i mousePos)
             }
         }
     }
+	// Completly optional, but if the shears are off, clicking on a sheep will give you a heart
+    else if (!econ.shearsOn)
+    {
+        for (Sheep& sheep : sheepArray)
+        {
+            sf::FloatRect body = sheep.getBody();
+
+            if (body.contains(static_cast<sf::Vector2f>(mousePos)))
+            {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && sheepHeartCooldown <= 0.f)
+                {
+                    sf::Vector2f pos = sheep.getPosition();
+
+                    FloatingText heartText;
+                    heartText.text.setFont(Font);
+                    heartText.text.setString("<3");
+                    heartText.text.setCharacterSize(25);
+                    heartText.text.setFillColor(sf::Color::White);
+                    heartText.text.setPosition(pos + sf::Vector2f(0.f, -15.f));
+                    heartText.velocity = sf::Vector2f(0.f, -20.f);
+
+                    floatingTexts.push_back(heartText);
+
+                    sheepHeartCooldown = sheepHeartCooldownCap;
+                }
+            }
+        }
+    }
 }
 
 // Updates time of day, changes the bool
@@ -330,6 +358,12 @@ void World::Draw(sf::RenderWindow& window)
     {
         window.draw(ft.text);
     }
+
+    for (const auto& wave : dog.getShockwaves())
+    {
+        window.draw(wave.shape);
+    }
+
 
     wolf.Draw(window);
     dog.Draw(window);
@@ -413,6 +447,27 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             wolvesAbout++;
         }
     }
+
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+    {
+        dog.Bark();
+    }
+    dog.UpdateBark(deltaTime);
+
+    if (dog.barkTriggered)
+    {
+        sf::Vector2f wolfPos = wolf.getPosition();
+        sf::Vector2f dogPos = dog.getPosition();
+        float dist = getDistanceBetween(dogPos, wolfPos);
+
+        if (dist < 200.f)
+        {
+            wolf.setStunned(0.75f);
+        }
+
+        dog.barkTriggered = false;
+    }
+
 
 	shearsFunc(mousePos);
 
@@ -504,6 +559,10 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             ++it;
     }
 
+    if (sheepHeartCooldown > 0.f)
+    {
+        sheepHeartCooldown -= deltaTime;
+    }
 
     wolf.Hunt(herd, deltaTime);
     dog.Update(mousePos);

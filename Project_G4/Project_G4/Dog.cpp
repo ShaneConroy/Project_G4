@@ -29,6 +29,51 @@ void Dog::follow(sf::Vector2i mousePos)
 	}
 }
 
+// Create Bark
+void Dog::Bark()
+{
+    if (barkCooldown <= 0.f)
+    {
+        barkTriggered = true;
+        barkCooldown = barkCooldownMax;
+
+        BarkShockwave wave;
+        wave.shape.setRadius(10.f);
+        wave.shape.setPosition(getPosition());
+        wave.shape.setFillColor(sf::Color(255, 255, 255, 75));
+        wave.shape.setOutlineColor(sf::Color(255, 255, 255, 100));
+        wave.shape.setOutlineThickness(5.f);
+
+        shockwaves.push_back(wave);
+    }
+}
+// Expands the bark shockwave and fades it out
+void Dog::UpdateBark(float deltaTime)
+{
+    if (barkCooldown > 0.f) barkCooldown -= deltaTime;
+
+    for (auto iter = shockwaves.begin(); iter != shockwaves.end(); )
+    {
+		iter->shape.setPosition(getPosition());
+
+        iter->lifetime -= deltaTime;
+
+        float radius = iter->shape.getRadius() + iter->expandRate * deltaTime;
+        iter->shape.setRadius(radius);
+        iter->shape.setOrigin(radius, radius);
+
+        auto c = iter->shape.getFillColor();
+        c.a = static_cast<sf::Uint8>(std::max(0.f, c.a - iter->fadeSpeed * deltaTime));
+        iter->shape.setFillColor(c);
+
+        if (iter->lifetime <= 0)
+            iter = shockwaves.erase(iter);
+        else
+            ++iter;
+    }
+}
+
+
 void Dog::Draw(sf::RenderWindow& window)
 {
 	window.draw(dogBody);

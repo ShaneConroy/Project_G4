@@ -42,6 +42,8 @@ private:
 	void displayCosts(sf::Vector2i mousePos);
 
 	float transition = 0.0f;
+	float sheepHeartCooldown = 0.f;
+	float sheepHeartCooldownCap = 0.5f;
 
 	bool isDay = true;
 	bool showHoverText = false;

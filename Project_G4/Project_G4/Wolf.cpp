@@ -16,6 +16,13 @@ void Wolf::Draw(sf::RenderWindow& window)
 // Returns a pointer to the closest sheep
 void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime)
 {
+	// If im stunned, skip everthing else
+    if (stunTimer > 0.f)
+    {
+        stunTimer -= deltaTime;
+        return;
+    }
+
     // If no target, find onme
     if (targetSheep == nullptr)
     {
