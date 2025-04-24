@@ -50,6 +50,11 @@ public:
 	int gardenLevel = 0;
 
 	int woolSellPrice = 120;
+	int fertiliserPrice = 50;
+	int sheepBuyPrice = 100;
+	int sheepSellPrice = 50;
+
+	std::map<std::string, std::map<float, float>> upgradeMap;
 
 	void draw(sf::RenderWindow&, bool);
 
@@ -60,12 +65,7 @@ private:
 	Funds_Enum fundType;
 	Sheep sheep;
 
-	int currentFunds = 500;
-
-	int fertiliserPrice = 50;
-	int sheepBuyPrice = 100;
-	int sheepSellPrice = 50;
-
+	int currentFunds = 1000;
 
 	int buttonDelay = 12;
 
@@ -93,8 +93,6 @@ private:
 	const int maxLooomLevel = 5; // Wool sell price
 	const int maxMarketLevel = 5; // Sheep bought at a time
 	const int maxGardenLevel = 5; // Grass bought at a time
-
-	std::map<std::string, std::map<float, float>> upgradeMap;
 
 	void applyUpgrade(std::map<float, float>&);
 	void purchaseSheep();

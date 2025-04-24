@@ -180,6 +180,7 @@ void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 		{
 			popOpen = !popOpen;
 			popTimer = buttonDelay;
+			shearsOn = false;
 		}
 	}
 

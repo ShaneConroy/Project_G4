@@ -39,9 +39,12 @@ private:
 	void shearsFunc(sf::Vector2i mousePos);
 	void woolCollectFunc(sf::Vector2i mousePos);
 
+	void displayCosts(sf::Vector2i mousePos);
+
 	float transition = 0.0f;
 
 	bool isDay = true;
+	bool showHoverText = false;
 
 	const int GRASS_CAP = 30;
 	const int timeInDay = 3334;
@@ -76,6 +79,7 @@ private:
 	// For the HUD element telling the player how much theyve earned from wool
 	struct FloatingText
 	{
+		// --- Collecting wool ---
 		sf::Text text;
 		sf::Vector2f velocity;
 		float lifetime = 1.5f;
@@ -84,7 +88,9 @@ private:
 
 	std::vector<WoolParticle> woolParticles;
 	std::vector<FloatingText> floatingTexts;
-	sf::Font moneyFont;
+
+	sf::Font Font;
+	sf::Text upgradeText;
 
 
 public:
@@ -98,7 +104,11 @@ public:
 	{
 		bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
 		econ.setUpUpgradeMaps();
-		moneyFont.loadFromFile("ASSETS/FONT/BebasNeue.otf");
+		Font.loadFromFile("ASSETS/FONT/BebasNeue.otf");
+
+		upgradeText.setFont(Font);
+		upgradeText.setCharacterSize(18);
+		upgradeText.setFillColor(sf::Color::White);
 	}
 	~World()
 	{

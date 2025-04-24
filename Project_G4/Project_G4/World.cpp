@@ -331,11 +331,15 @@ void World::Draw(sf::RenderWindow& window)
         window.draw(ft.text);
     }
 
-
     wolf.Draw(window);
     dog.Draw(window);
 
     econ.draw(window, econ.popOpen);
+
+    if (showHoverText)
+    {
+        window.draw(upgradeText);
+    }
 }
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
@@ -437,6 +441,11 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     up_SheepAmount();
     up_GrassAmount();
 
+    if (econ.popOpen)
+    {
+        displayCosts(mousePos);
+    }
+
 	// Update for wool particles. In charge of moving and collection
     sf::Vector2f mouseFloatPos = static_cast<sf::Vector2f>(mousePos);
 
@@ -506,13 +515,77 @@ void World::woolCollectFunc(sf::Vector2i mousePos)
    econ.addFunds(Funds_Enum::woolSell);  
 
    FloatingText newText;  
-   newText.text.setFont(moneyFont);  
+   newText.text.setFont(Font);  
    newText.text.setString("+" + std::to_string(econ.woolSellPrice));
    newText.text.setCharacterSize(20);  
    newText.text.setFillColor(sf::Color(255, 255, 255, 255));  
    newText.text.setPosition(mousePos.x, mousePos.y - 15);  
    newText.velocity = sf::Vector2f(0.f, -30.f);  
    floatingTexts.push_back(newText);  
+}
+
+// Displays the cost of the upgrade when hovering over the button so player can see prices
+void World::displayCosts(sf::Vector2i mousePos)
+{
+	// Holds the text to be displayed
+    struct UpgradeButtonData {
+        sf::Sprite& sprite;
+        std::string key;
+    };
+
+	// List of upgrade buttons and their corresponding keys got from Economy
+    std::vector<UpgradeButtonData> upgradeButtons = {
+        { econ.hud.getUpgradeButton_MaxSheep(), "up_MaxSheep" },
+        { econ.hud.getUpgradeButton_WoolSell(), "up_WoolSell" },
+        { econ.hud.getUpgradeButton_SheepAmount(), "up_MoreSheep" },
+        { econ.hud.getUpgradeButton_BetterGrass(), "up_MoreGrass" }
+    };
+
+    // The upgrades
+    for (const auto& upgrade : upgradeButtons)
+    {
+        sf::FloatRect bounds = upgrade.sprite.getGlobalBounds(); // Hitbox
+
+        if (bounds.contains(static_cast<sf::Vector2f>(mousePos)))
+        {
+			// Get the price from the map
+            auto& map = econ.upgradeMap[upgrade.key];
+
+			// If the map is not empty, get the first price which is the costs
+            if (!map.empty())
+            {
+                float price = map.begin()->first;
+
+                upgradeText.setString("$" + std::to_string(static_cast<int>(price)));
+                upgradeText.setPosition(static_cast<sf::Vector2f>(mousePos) + sf::Vector2f(20.f, 10.f));
+                showHoverText = true;
+                break;
+            }
+        }
+        else {
+			showHoverText = false; // If not hovering over any button, hide the text
+        }
+    }
+
+    // The other purchases
+	if (econ.hud.getBuyButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+	{
+		upgradeText.setString("$" + std::to_string(econ.sheepBuyPrice));
+		upgradeText.setPosition(static_cast<sf::Vector2f>(mousePos) + sf::Vector2f(20.f, 10.f));
+		showHoverText = true;
+	}
+	else if (econ.hud.getGrassButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+	{
+		upgradeText.setString("$" + std::to_string(econ.fertiliserPrice));
+		upgradeText.setPosition(static_cast<sf::Vector2f>(mousePos) + sf::Vector2f(20.f, 10.f));
+		showHoverText = true;
+	}
+    else if (econ.hud.getSellButton().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+    {
+        upgradeText.setString("$" + std::to_string(econ.sheepSellPrice));
+        upgradeText.setPosition(static_cast<sf::Vector2f>(mousePos) + sf::Vector2f(20.f, 10.f));
+        showHoverText = true;
+    }
 }
 
 void World::FixedUpdate(sf::Vector2i mousePos)
