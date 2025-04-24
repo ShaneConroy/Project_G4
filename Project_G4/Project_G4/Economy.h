@@ -49,6 +49,8 @@ public:
 	int marketLevel = 0;
 	int gardenLevel = 0;
 
+	int woolSellPrice = 120;
+
 	void draw(sf::RenderWindow&, bool);
 
 	HUD hud;
@@ -63,7 +65,7 @@ private:
 	int fertiliserPrice = 50;
 	int sheepBuyPrice = 100;
 	int sheepSellPrice = 50;
-	int woolSellPrice = 120;
+
 
 	int buttonDelay = 12;
 

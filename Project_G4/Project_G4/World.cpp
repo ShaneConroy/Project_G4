@@ -216,7 +216,7 @@ void World::up_GrassAmount()
     }
 }
 
-// If shears are on, click mouse to shear
+// If shears are on, click mouse on sheep to shear em
 void World::shearsFunc(sf::Vector2i mousePos)
 {
     if (econ.shearsOn)
@@ -232,7 +232,7 @@ void World::shearsFunc(sf::Vector2i mousePos)
                 {
                     if (isDay)
                     {
-                        sf::Vector2f center = sheep.getPosition();
+                        sf::Vector2f centerOfSheep = sheep.getPosition();
 
                         // Creatinf wool particles
                         for (int i = 0; i < sheep.amountEaten; ++i)
@@ -240,11 +240,11 @@ void World::shearsFunc(sf::Vector2i mousePos)
                             WoolParticle woolParticle;
                             woolParticle.shape.setRadius(10.f);
                             woolParticle.shape.setFillColor(sf::Color::White);
-                            woolParticle.shape.setPosition(center);
+                            woolParticle.shape.setPosition(centerOfSheep);
 
                             // Get random angle and speed
                             float angle = static_cast<float>((rand() % 360) * (3.14159 / 180.f));
-                            float speed = static_cast<float>((rand() % 30) + 30); // 30–60
+                            float speed = static_cast<float>((rand() % 30) + 50);
                             woolParticle.velocity = { cos(angle) * speed, sin(angle) * speed };
 
                             woolParticles.push_back(woolParticle);
@@ -261,7 +261,7 @@ void World::shearsFunc(sf::Vector2i mousePos)
     }
 }
 
-
+// Updates time of day, changes the bool
 int World::WorldTime()
 {
     if (isDay)
@@ -324,6 +324,11 @@ void World::Draw(sf::RenderWindow& window)
     for (const WoolParticle& wool : woolParticles)
     {
         window.draw(wool.shape);
+    }
+
+    for (const auto& ft : floatingTexts)
+    {
+        window.draw(ft.text);
     }
 
 
@@ -432,7 +437,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     up_SheepAmount();
     up_GrassAmount();
 
-    // Update forwool particles
+	// Update for wool particles. In charge of moving and collection
     sf::Vector2f mouseFloatPos = static_cast<sf::Vector2f>(mousePos);
 
     for (auto it = woolParticles.begin(); it != woolParticles.end(); )
@@ -465,7 +470,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         if (dist < 10.f)
         {
             it = woolParticles.erase(it);
-			econ.addFunds(Funds_Enum::woolSell);
+			woolCollectFunc(mousePos);
         }
         else
         {
@@ -473,10 +478,42 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         }
     }
 
+	// Update floating texts for the cash earned when wool picked up
+    for (auto it = floatingTexts.begin(); it != floatingTexts.end(); )
+    {
+        it->lifetime -= deltaTime;
+
+        sf::Color color = it->text.getFillColor();
+        color.a = static_cast<sf::Uint8>(std::max(0.f, color.a - it->fadeSpeed * deltaTime));
+        it->text.setFillColor(color);
+
+        it->text.move(it->velocity * deltaTime);
+
+        if (it->lifetime <= 0 || color.a <= 0) // If life over if completely faded, kill
+            it = floatingTexts.erase(it);
+        else
+            ++it;
+    }
+
+
     wolf.Hunt(herd, deltaTime);
     dog.Update(mousePos);
 }
 
+// Gives the player his money for picking up wool, then spawns floating text
+void World::woolCollectFunc(sf::Vector2i mousePos)  
+{  
+   econ.addFunds(Funds_Enum::woolSell);  
+
+   FloatingText newText;  
+   newText.text.setFont(moneyFont);  
+   newText.text.setString("+" + std::to_string(econ.woolSellPrice));
+   newText.text.setCharacterSize(20);  
+   newText.text.setFillColor(sf::Color(255, 255, 255, 255));  
+   newText.text.setPosition(mousePos.x, mousePos.y - 15);  
+   newText.velocity = sf::Vector2f(0.f, -30.f);  
+   floatingTexts.push_back(newText);  
+}
 
 void World::FixedUpdate(sf::Vector2i mousePos)
 {

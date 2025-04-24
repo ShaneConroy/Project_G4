@@ -55,7 +55,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	if (isLeader)
 	{
 		//sheepBody.setFillColor(sf::Color::Red);
-		flock[0].moveSpeed = 45.f; 
+		flock[0].moveSpeed = 55.f; 
 		movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 	}
 	// Other sheep

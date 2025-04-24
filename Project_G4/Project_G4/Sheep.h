@@ -44,7 +44,7 @@ private:
 
 	sf::CircleShape sheepBody;
 
-	float moveSpeed = 35.0f;
+	float moveSpeed = 45.0f;
 	float maxSpeed = 200.f;
 
 	float wanderTimer = 3.0f;

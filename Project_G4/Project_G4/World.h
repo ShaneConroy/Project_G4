@@ -37,6 +37,7 @@ private:
 	void up_GrassAmount();
 
 	void shearsFunc(sf::Vector2i mousePos);
+	void woolCollectFunc(sf::Vector2i mousePos);
 
 	float transition = 0.0f;
 
@@ -61,17 +62,29 @@ private:
 	std::vector<Grass> grassNodeArray;
 	std::vector<Sheep*> herd;
 
-	// For shearing
+	// To advoid new classes, Im making structs
+	// 
+	// For wool particles that pop out after shearing
 	struct WoolParticle
 	{
 		sf::CircleShape shape;
 		sf::Vector2f velocity;
-		float lifetime;
 		bool canCollect = false;
 		float collectDelay = 1.f;
 	};
 
+	// For the HUD element telling the player how much theyve earned from wool
+	struct FloatingText
+	{
+		sf::Text text;
+		sf::Vector2f velocity;
+		float lifetime = 1.5f;
+		float fadeSpeed = 170.f; // This will decerease the alpha value overtime, to look like its fading
+	};
+
 	std::vector<WoolParticle> woolParticles;
+	std::vector<FloatingText> floatingTexts;
+	sf::Font moneyFont;
 
 
 public:
@@ -85,6 +98,7 @@ public:
 	{
 		bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
 		econ.setUpUpgradeMaps();
+		moneyFont.loadFromFile("ASSETS/FONT/BebasNeue.otf");
 	}
 	~World()
 	{
