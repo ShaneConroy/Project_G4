@@ -17,22 +17,25 @@ public:
 	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock, sf::Vector2f dogPos);
 	void setBehaviour(behaviours);
 	void availibleGrass(std::vector<sf::Vector2f> grassPositions);
+	void setRadius(float r) { sheepBody.setRadius(r); }
+	void setColour(sf::Color c) { sheepBody.setFillColor(c); }
 
 	float getRadius() { return sheepBody.getRadius(); };
 	float eatTimer = 5.0f;
+
+	int amountEaten = 0; // This is used to change the sheeps current wool stage
 
 	behaviours getBehaviour() { return currentBehaviour; };
 
 	sf::Vector2f getPosition() { return sheepBody.getPosition(); };
 	sf::FloatRect getBody() { return sheepBody.getGlobalBounds(); };
+	sf::Vector2f lastEatenGrass;
 
 	void setPosition(sf::Vector2f newPos);
 
 	bool isEating = false;
 	bool doneEating = false;
 	bool isLeader = false;
-
-	sf::Vector2f lastEatenGrass;
 
 private:
 
@@ -49,6 +52,9 @@ private:
 	float herdingTimerCap = 0.5f;
 
 	bool exiting = false;
+
+	int maxEaten = 7; // Dont make them too fat
+	int bodySize = 15;
 
 	std::vector<sf::Vector2f> availibleGrassNodes;
 

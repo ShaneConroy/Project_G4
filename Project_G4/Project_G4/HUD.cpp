@@ -97,6 +97,15 @@ HUD::HUD()
 	garden.setPosition(590, 0);
 	garden.setScale(1.10, 1.10);
 
+	shearButtonTexture.loadFromFile("Assets/ART/shears.png");
+	shearButton.setTexture(shearButtonTexture);
+	shearButton.setPosition(1070, 75);
+	shearButton.setScale(0.95, 0.95);
+
+	shearsTexture.loadFromFile("Assets/ART/shearsObject.png");
+	shears.setTexture(shearsTexture);
+	shears.setPosition(-999, -999);
+	shears.setScale(1.05, 1.05);
 }
 
 void HUD::Draw(sf::RenderWindow& window, bool popOut)
@@ -116,6 +125,8 @@ void HUD::Draw(sf::RenderWindow& window, bool popOut)
 	window.draw(num6);
 
 	window.draw(whistleButton);
+	window.draw(shearButton);
+	window.draw(shears);
 
 	// Only draw if popOut is open
 	if (popOut)

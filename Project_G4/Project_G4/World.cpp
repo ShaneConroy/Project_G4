@@ -216,6 +216,52 @@ void World::up_GrassAmount()
     }
 }
 
+// If shears are on, click mouse to shear
+void World::shearsFunc(sf::Vector2i mousePos)
+{
+    if (econ.shearsOn)
+    {
+        for (Sheep& sheep : sheepArray)
+        {
+            sf::FloatRect body = sheep.getBody();
+
+            if (mousePos.x >= body.left && mousePos.x <= body.left + body.width &&
+                mousePos.y >= body.top && mousePos.y <= body.top + body.height)
+            {
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                {
+                    if (isDay)
+                    {
+                        sf::Vector2f center = sheep.getPosition();
+
+                        // Creatinf wool particles
+                        for (int i = 0; i < sheep.amountEaten; ++i)
+                        {
+                            WoolParticle woolParticle;
+                            woolParticle.shape.setRadius(10.f);
+                            woolParticle.shape.setFillColor(sf::Color::White);
+                            woolParticle.shape.setPosition(center);
+
+                            // Get random angle and speed
+                            float angle = static_cast<float>((rand() % 360) * (3.14159 / 180.f));
+                            float speed = static_cast<float>((rand() % 30) + 30); // 30–60
+                            woolParticle.velocity = { cos(angle) * speed, sin(angle) * speed };
+
+                            woolParticles.push_back(woolParticle);
+                        }
+
+                        sheep.setColour(sf::Color::White);
+                        sheep.amountEaten = 0;
+                        sheep.setRadius(15.f);
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+
 int World::WorldTime()
 {
     if (isDay)
@@ -275,6 +321,12 @@ void World::Draw(sf::RenderWindow& window)
         sheep.Draw(window);
     }
 
+    for (const WoolParticle& wool : woolParticles)
+    {
+        window.draw(wool.shape);
+    }
+
+
     wolf.Draw(window);
     dog.Draw(window);
 
@@ -284,7 +336,6 @@ void World::Draw(sf::RenderWindow& window)
 void World::Update(float deltaTime, sf::Vector2i mousePos)
 {
     // Leader
-
     int currentLeaderIndex = -1;
     for (int i = 0; i < sheepArray.size(); ++i)
     {
@@ -332,7 +383,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray, dog.getPosition());
         }
 
-        // Emergency teleport if stuck
+        // Emergency teleport button if stuck
         if (econ.stuck)
         {
             sheepArray.front().setPosition({ 600.f, 300.f });
@@ -354,6 +405,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         }
     }
 
+	shearsFunc(mousePos);
+
     fence.gateFunction(mousePos);
 
     PopulateWorldWithSheep();
@@ -372,21 +425,63 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.upgradeSheepPurchaseAmount(mousePos);
     econ.upgradeGrassPurchaseAmount(mousePos);
     econ.whistleButtonFunc(mousePos);
+	econ.shearsButtonFunc(mousePos);
 
     up_SheepMax();
     up_WoolSell();
     up_SheepAmount();
     up_GrassAmount();
 
+    // Update forwool particles
+    sf::Vector2f mouseFloatPos = static_cast<sf::Vector2f>(mousePos);
+
+    for (auto it = woolParticles.begin(); it != woolParticles.end(); )
+    {
+        if (it->collectDelay > 0.f)
+        {
+            it->collectDelay -= deltaTime;
+            it->shape.move(it->velocity * deltaTime);
+            it->velocity *= .99f;
+            ++it;
+            continue;
+        }
+
+        it->canCollect = true;
+
+        sf::Vector2f toMouse = mouseFloatPos - it->shape.getPosition();
+        float dist = vectorLength(toMouse);
+
+        // Magnet pull if within range
+        if (dist < 80.f)
+        {
+            sf::Vector2f pull = normaliseVector(toMouse) * 150.f;
+            it->velocity = pull;
+        }
+
+        it->shape.move(it->velocity * deltaTime);
+        it->velocity *= .99f;
+
+        // Despawn if close to mouse
+        if (dist < 10.f)
+        {
+            it = woolParticles.erase(it);
+			econ.addFunds(Funds_Enum::woolSell);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
     wolf.Hunt(herd, deltaTime);
     dog.Update(mousePos);
 }
 
 
-void World::FixedUpdate()
+void World::FixedUpdate(sf::Vector2i mousePos)
 {
     bg.setFillColor(DaylightCycle());
     updateFencedGrass();
     WorldTime();
-    econ.update();
+    econ.update(mousePos);
 }

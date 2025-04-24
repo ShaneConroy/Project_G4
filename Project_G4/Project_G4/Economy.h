@@ -19,8 +19,9 @@ public:
 	bool up_GrassAmountBool = false;
 	bool stuck = false;
 	bool whistle = false;
+	bool shearsOn = false;
 
-	void update();
+	void update(sf::Vector2i mousePos);
 	void addFunds(Funds_Enum fundType);
 	void calculatePassiveIncome(int);
 
@@ -34,6 +35,7 @@ public:
 	void upgradeGrassPurchaseAmount(sf::Vector2i);
 	void stuckButtonFunc(sf::Vector2i);
 	void whistleButtonFunc(sf::Vector2i);
+	void shearsButtonFunc(sf::Vector2i);
 
 	void upgradeBarn(sf::IntRect);
 	void upgradeLoom(sf::IntRect);
@@ -56,11 +58,12 @@ private:
 	Funds_Enum fundType;
 	Sheep sheep;
 
-	int currentFunds = 999999;
+	int currentFunds = 500;
 
 	int fertiliserPrice = 50;
 	int sheepBuyPrice = 100;
 	int sheepSellPrice = 50;
+	int woolSellPrice = 120;
 
 	int buttonDelay = 12;
 
@@ -82,6 +85,7 @@ private:
 	int up_GrassBuyAmountTimer;
 	int stuckTimer;
 	int whistleTimer;
+	int shearsTimer;
 
 	const int maxBarnLevel = 5; // Max sheep
 	const int maxLooomLevel = 5; // Wool sell price

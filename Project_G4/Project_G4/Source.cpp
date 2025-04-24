@@ -73,7 +73,7 @@ void main()
             while (timeSinceLastFixedUpdate >= fixedTimeStep)
             {
                 window.setFramerateLimit(60);
-                world.FixedUpdate();
+                world.FixedUpdate(getMousePosition);
 
                 timeSinceLastFixedUpdate -= fixedTimeStep;
             }

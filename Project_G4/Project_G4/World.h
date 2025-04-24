@@ -36,6 +36,8 @@ private:
 	void up_SheepAmount();
 	void up_GrassAmount();
 
+	void shearsFunc(sf::Vector2i mousePos);
+
 	float transition = 0.0f;
 
 	bool isDay = true;
@@ -59,13 +61,26 @@ private:
 	std::vector<Grass> grassNodeArray;
 	std::vector<Sheep*> herd;
 
+	// For shearing
+	struct WoolParticle
+	{
+		sf::CircleShape shape;
+		sf::Vector2f velocity;
+		float lifetime;
+		bool canCollect = false;
+		float collectDelay = 1.f;
+	};
+
+	std::vector<WoolParticle> woolParticles;
+
+
 public:
 	int WorldTime();
 	sf::Color DaylightCycle();
 	void Draw(sf::RenderWindow& window);
 	void PassGrassToSheep();
 	void Update(float, sf::Vector2i);
-	void FixedUpdate();
+	void FixedUpdate(sf::Vector2i mousePos);
 	World()
 	{
 		bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });

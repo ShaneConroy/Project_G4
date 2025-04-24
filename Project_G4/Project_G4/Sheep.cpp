@@ -2,7 +2,8 @@
 
 Sheep::Sheep()
 {
-	sheepBody.setRadius(15);
+	sheepBody.setRadius(bodySize);
+	sheepBody.setFillColor(sf::Color::White);
 	sf::Vector2f innerGrassPos = { 20.f, 544.f };
 	sf::Vector2f innerGrassSize = { 1160.f, 240.f };
 	sf::Vector2f spawnPos = randomPosOnField({30, innerGrassSize.x - 30}, { 30, innerGrassSize.y - 30 });
@@ -37,6 +38,14 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 		{
 			doneEating = true;
 			isEating = false;
+			amountEaten++;
+			if(amountEaten <= maxEaten)
+			{
+				sheepBody.setRadius(bodySize + amountEaten);
+
+				int shade = std::max(100, 255 - (amountEaten * 20));
+				sheepBody.setFillColor(sf::Color(shade, shade, shade));
+			}
 		}
 
 		return;
@@ -45,14 +54,14 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	// Check if im the leader. Will lead other sheep
 	if (isLeader)
 	{
-		sheepBody.setFillColor(sf::Color::Red);
+		//sheepBody.setFillColor(sf::Color::Red);
 		flock[0].moveSpeed = 45.f; 
 		movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 	}
 	// Other sheep
 	else
 	{
-		sheepBody.setFillColor(sf::Color::White);
+		//sheepBody.setFillColor(sf::Color::White);
 		sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
 
 		// Problem with sheep drifting while being herded
@@ -167,7 +176,7 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 		if (!isEating || lastEatenGrass != closestPos)
 		{
 			isEating = true;
-			eatTimer = 5.0f; // reset if targeting new grass
+			eatTimer = 5.0f; // reset if targeting new grass node
 			lastEatenGrass = closestPos;
 		}
 

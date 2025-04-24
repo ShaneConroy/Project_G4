@@ -23,6 +23,8 @@ public:
 	sf::Sprite& getBuilding_Loom() { return loom; };
 	sf::Sprite& getBuilding_Market() { return market; };
 	sf::Sprite& getBuilding_Garden() { return garden; };
+	sf::Sprite& getShearButton() { return shearButton; };
+	sf::Sprite& getShears() { return shears; };
 
 	void updateHUDMoney(int);
 
@@ -71,6 +73,12 @@ private:
 
 	sf::Texture whistleButtonTexture;
 	sf::Sprite whistleButton;
+
+	sf::Texture shearButtonTexture;
+	sf::Sprite shearButton;
+
+	sf::Texture shearsTexture;
+	sf::Sprite shears;
 
 	bool poppedOut = false;
 

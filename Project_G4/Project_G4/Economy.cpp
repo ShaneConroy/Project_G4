@@ -23,6 +23,10 @@ void Economy::addFunds(Funds_Enum fundType)
 	{
 		amountToAdd = sheepBuyPrice;
 	}
+	else if (fundType == Funds_Enum::woolSell)
+	{
+		amountToAdd = woolSellPrice;
+	}
 
 	// Prevent exceeding max funds limit 
 	if (currentFunds + amountToAdd > 999999)
@@ -425,6 +429,35 @@ void Economy::whistleButtonFunc(sf::Vector2i mousePos)
 	}
 }
 
+void Economy::shearsButtonFunc(sf::Vector2i mousePos)
+{
+	if (shearsTimer > 0.0f)
+	{
+		shearsTimer -= 1.0f;
+		sf::Color color = hud.getShearButton().getColor();
+		color.a = 128;
+		hud.getShearButton().setColor(color);
+	}
+	else if (shearsTimer <= 0.0f)
+	{
+		sf::Color color = hud.getShearButton().getColor();
+		color.a = 255;
+		hud.getShearButton().setColor(color);
+
+		if (mousePos.x >= hud.getShearButton().getPosition().x &&
+			mousePos.x <= hud.getShearButton().getPosition().x + hud.getShearButton().getGlobalBounds().width &&
+			mousePos.y >= hud.getShearButton().getPosition().y &&
+			mousePos.y <= hud.getShearButton().getPosition().y + hud.getShearButton().getGlobalBounds().height)
+		{
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			{
+				shearsOn = !shearsOn;
+				shearsTimer = buttonDelay;
+			}
+		}
+	}
+}
+
 void Economy::upgradeBarn(sf::IntRect newTexture)
 {
 	hud.getBuilding_Barn().setTextureRect(newTexture);
@@ -448,7 +481,6 @@ void Economy::upgradeGarden(sf::IntRect newTexture)
 // Makes a map which links a string to a float,float, shuold make upgrades easier
 void Economy::setUpUpgradeMaps()
 {
-	// { { 2500, 1.25 }, { 5000, 2.5 }, { 12000, 1.60 }, { 8000, 1.20 } };
 	std::vector<std::string> upgradeKeys = { "up_MaxSheep", "up_WoolSell", "up_MoreSheep", "up_MoreGrass"};
 
 	std::vector<std::pair<float, float>> upgradeStats = { { 2500, 1.25 }, { 5000, 2.5 }, { 12000, 1.60 }, { 8000, 1.20 } };
@@ -488,7 +520,7 @@ void Economy::draw(sf::RenderWindow& window, bool popOut)
 	hud.Draw(window, popOut);
 }
 
-void Economy::update()
+void Economy::update(sf::Vector2i mousePos)
 {
 	// Every 60 frames, add passive income
 	if (passiveIncomeTimer > 0)
@@ -499,4 +531,13 @@ void Economy::update()
 		passiveIncomeTimer = passiveIncomeTimerCap;
 	}
 	hud.updateHUDMoney(currentFunds);
+
+	if (shearsOn)
+	{
+		hud.getShears().setPosition(mousePos.x - 25, mousePos.y - 25);
+	}
+	if (!shearsOn)
+	{
+		hud.getShears().setPosition(-999, -999);
+	}
 }

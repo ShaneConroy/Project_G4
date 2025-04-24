@@ -4,5 +4,6 @@ enum class Funds_Enum
 {
 	sheepSold,
 	passiveIncome,
-	refund
+	refund,
+	woolSell
 };
