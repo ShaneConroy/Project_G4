@@ -149,14 +149,15 @@ void World::up_WoolSell()
 {
     if (econ.up_WoolSellPrice && econ.loomLevel != maxUp_woolSell)
     {
-        // TODO // Add upgrade functionality
+        econ.woolSellPrice = static_cast<int>(econ.woolSellPrice * 1.5f);
+        econ.up_WoolSellPrice = false;
 
         if (econ.loomLevel == 1)
             econ.upgradeLoom(sf::IntRect(135, 0, 138, 75));
-        else if(econ.loomLevel == 2)
-			econ.upgradeLoom(sf::IntRect(288, 0, 139, 75));
-        else if(econ.loomLevel == 3)
-			econ.upgradeLoom(sf::IntRect(440, 0, 140, 75));
+        else if (econ.loomLevel == 2)
+            econ.upgradeLoom(sf::IntRect(288, 0, 139, 75));
+        else if (econ.loomLevel == 3)
+            econ.upgradeLoom(sf::IntRect(440, 0, 140, 75));
         else if (econ.loomLevel == 4)
             econ.upgradeLoom(sf::IntRect(599, 0, 140, 75));
     }
