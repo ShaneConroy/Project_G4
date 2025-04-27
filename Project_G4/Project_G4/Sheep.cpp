@@ -29,62 +29,71 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	sf::Vector2f movementDirection(0.f, 0.f);
 	previousPosition = sheepBody.getPosition();
 
-	// This if is here because the sheep iognore it if its somewhere else, FOR SOME REASON!!
-	if (isEating)
+	// If im being eaten, dont move
+	if (beingEaten)
 	{
-		eatTimer -= deltaTime;
+		movementDirection = sf::Vector2f(0.f, 0.f);
+	}
+	else {
 
-		if (eatTimer <= 0.f)
+		// This if is here because the sheep iognore it if its somewhere else, FOR SOME REASON!!
+		if (isEating)
 		{
-			doneEating = true;
-			isEating = false;
-			amountEaten++;
-			if(amountEaten <= maxEaten)
+			eatTimer -= deltaTime;
+
+			if (eatTimer <= 0.f)
 			{
-				sheepBody.setRadius(bodySize + amountEaten);
+				doneEating = true;
+				isEating = false;
+				amountEaten++;
+				if (amountEaten <= maxEaten)
+				{
+					sheepBody.setRadius(bodySize + amountEaten);
 
-				int shade = std::max(100, 255 - (amountEaten * 20));
-				sheepBody.setFillColor(sf::Color(shade, shade, shade));
+					int shade = std::max(100, 255 - (amountEaten * 20));
+					sheepBody.setFillColor(sf::Color(shade, shade, shade));
+				}
 			}
+
+			return;
 		}
 
-		return;
-	}
-
-	// Check if im the leader. Will lead other sheep
-	if (isLeader)
-	{
-		//sheepBody.setFillColor(sf::Color::Red);
-		flock[0].moveSpeed = 55.f; 
-		movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
-	}
-	// Other sheep
-	else
-	{
-		//sheepBody.setFillColor(sf::Color::White);
-		sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
-
-		// Problem with sheep drifting while being herded
-		if (herdingTimer > 0)
+		// Check if im the leader. Will lead other sheep
+		if (isLeader)
 		{
-			movementDirection = sf::Vector2f(0.f, 0.f);
+			//sheepBody.setFillColor(sf::Color::Red);
+			flock[0].moveSpeed = 55.f;
+			movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 		}
+		// Other sheep
 		else
 		{
-			sf::Vector2f separationForce = Separation(flock) * 50.f;
-			sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 0.8f;
-			sf::Vector2f cohesionForce = Cohesion(flock) * 1.5f;
+			//sheepBody.setFillColor(sf::Color::White);
+			sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
 
-			// Combine the forces
-			movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
+			// Problem with sheep drifting while being herded
+			if (herdingTimer > 0)
+			{
+				movementDirection = sf::Vector2f(0.f, 0.f);
+			}
+			else
+			{
+				sf::Vector2f separationForce = Separation(flock) * 50.f;
+				sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 0.8f;
+				sf::Vector2f cohesionForce = Cohesion(flock) * 1.5f;
+
+				// Combine the forces
+				movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
+			}
 		}
+		movementDirection = normaliseVector(movementDirection) * moveSpeed * deltaTime;
+
+		sf::Vector2f repulsionForce = awayFromDog(dogPos);
+		movementDirection += repulsionForce;
+
+		sheepBody.move(movementDirection);
 	}
-	movementDirection = normaliseVector(movementDirection) * moveSpeed * deltaTime;
 
-	sf::Vector2f repulsionForce = awayFromDog(dogPos);
-	movementDirection += repulsionForce;
-
-	sheepBody.move(movementDirection);
 }
 
 // Gets the sheeps veclocity
@@ -297,7 +306,6 @@ sf::Vector2f Sheep::awayFromDog(sf::Vector2f dogPos)
 
 	return repulsionForce;
 }
-
 
 void Sheep::setBehaviour(behaviours behaviour)
 {

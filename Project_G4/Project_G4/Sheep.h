@@ -36,6 +36,9 @@ public:
 	bool isEating = false;
 	bool doneEating = false;
 	bool isLeader = false;
+	bool beingEaten = false;
+	bool eatenByWolf = false;
+
 
 private:
 

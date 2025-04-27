@@ -117,13 +117,27 @@ void World::PopulateWorldWithSheep()
         }
         econ.sheepSold = false;
     }
+
+    // Refresh to advoid weird bug
+    herd.clear();
+    for (auto& sheep : sheepArray)
+    {
+        herd.push_back(&sheep);
+    }
+    if (wolf)
+    {
+        wolf->clearTarget(); // Refreshes wolf's memory lol
+    }
+
 }
 
+// Spawns a wolf at one of the edges of the screen
 void World::spawnWolf()
 {
-	int randNum = rand() % 3;
-	wolf = Wolf(randNum);
+    int randNum = rand() % 3;
+    wolf.emplace(randNum);
 }
+
 
 // Updates how many sheep the player can have at one time
 void World::up_SheepMax()
@@ -365,8 +379,8 @@ void World::Draw(sf::RenderWindow& window)
         window.draw(wave.shape);
     }
 
-
-    wolf.Draw(window);
+    if (wolf)
+        wolf->Draw(window);
     dog.Draw(window);
 
     econ.draw(window, econ.popOpen);
@@ -418,7 +432,6 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     }
 
     // Sheep Updates
-
     for (Sheep& sheep : sheepArray)
     {
         // If the gate is open or sheep is outside the pen
@@ -437,6 +450,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         // Handle whistle // TODO
         if (econ.whistle)
         {
+            spawnWolf();
             // sheep.setBehaviour(behaviours::entering); // Placeholder
             econ.whistle = false;
         }
@@ -455,20 +469,40 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     }
     dog.UpdateBark(deltaTime);
 
-    if (dog.barkTriggered)
+    if (wolf && dog.barkTriggered)
     {
-        sf::Vector2f wolfPos = wolf.getPosition();
+        sf::Vector2f wolfPos = wolf->getPosition();
         sf::Vector2f dogPos = dog.getPosition();
         float dist = getDistanceBetween(dogPos, wolfPos);
 
         if (dist < 200.f)
         {
-            wolf.setStunned(0.75f);
+            wolf->setStunned(0.75f);
         }
 
         dog.barkTriggered = false;
     }
 
+    if (wolf)
+        wolf->Hunt(herd, deltaTime);
+
+    for (auto iter = sheepArray.begin(); iter != sheepArray.end(); )
+    {
+        if (iter->eatenByWolf)
+        {
+            iter = sheepArray.erase(iter);
+        }
+        else
+        {
+            ++iter;
+        }
+    }
+
+    herd.clear();
+    for (auto& sheep : sheepArray)
+    {
+        herd.push_back(&sheep);
+    }
 
 	shearsFunc(mousePos);
 
@@ -565,7 +599,6 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         sheepHeartCooldown -= deltaTime;
     }
 
-    wolf.Hunt(herd, deltaTime);
     dog.Update(mousePos);
 }
 
