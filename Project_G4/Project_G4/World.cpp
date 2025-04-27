@@ -447,11 +447,10 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             econ.stuck = false;
         }
 
-        // Handle whistle // TODO
+        // Handle whistle
         if (econ.whistle)
         {
-            spawnWolf();
-            // sheep.setBehaviour(behaviours::entering); // Placeholder
+			sheep.whistleHeard(deltaTime, fence.getRect(), fence.getRectArea());
             econ.whistle = false;
         }
 

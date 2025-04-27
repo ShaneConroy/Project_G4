@@ -35,55 +35,60 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 		movementDirection = sf::Vector2f(0.f, 0.f);
 	}
 	else {
-
-		// This if is here because the sheep iognore it if its somewhere else, FOR SOME REASON!!
-		if (isEating)
+		if (recalling)
 		{
-			eatTimer -= deltaTime;
-
-			if (eatTimer <= 0.f)
+			movementDirection = handleRecall(deltaTime, exitFence, innerGrass);
+		}
+		else {
+			// This if is here because the sheep iognore it if its somewhere else, FOR SOME REASON!!
+			if (isEating)
 			{
-				doneEating = true;
-				isEating = false;
-				amountEaten++;
-				if (amountEaten <= maxEaten)
+				eatTimer -= deltaTime;
+
+				if (eatTimer <= 0.f)
 				{
-					sheepBody.setRadius(bodySize + amountEaten);
+					doneEating = true;
+					isEating = false;
+					amountEaten++;
+					if (amountEaten <= maxEaten)
+					{
+						sheepBody.setRadius(bodySize + amountEaten);
 
-					int shade = std::max(100, 255 - (amountEaten * 20));
-					sheepBody.setFillColor(sf::Color(shade, shade, shade));
+						int shade = std::max(100, 255 - (amountEaten * 20));
+						sheepBody.setFillColor(sf::Color(shade, shade, shade));
+					}
 				}
+
+				return;
 			}
 
-			return;
-		}
-
-		// Check if im the leader. Will lead other sheep
-		if (isLeader)
-		{
-			//sheepBody.setFillColor(sf::Color::Red);
-			flock[0].moveSpeed = 55.f;
-			movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
-		}
-		// Other sheep
-		else
-		{
-			//sheepBody.setFillColor(sf::Color::White);
-			sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
-
-			// Problem with sheep drifting while being herded
-			if (herdingTimer > 0)
+			// Check if im the leader. Will lead other sheep
+			if (isLeader)
 			{
-				movementDirection = sf::Vector2f(0.f, 0.f);
+				//sheepBody.setFillColor(sf::Color::Red);
+				flock[0].moveSpeed = 55.f;
+				movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 			}
+			// Other sheep
 			else
 			{
-				sf::Vector2f separationForce = Separation(flock) * 50.f;
-				sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 0.8f;
-				sf::Vector2f cohesionForce = Cohesion(flock) * 1.5f;
+				//sheepBody.setFillColor(sf::Color::White);
+				sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
 
-				// Combine the forces
-				movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
+				// Problem with sheep drifting while being herded
+				if (herdingTimer > 0)
+				{
+					movementDirection = sf::Vector2f(0.f, 0.f);
+				}
+				else
+				{
+					sf::Vector2f separationForce = Separation(flock) * 50.f;
+					sf::Vector2f alignmentForce = Alignment(flock, deltaTime) * 0.8f;
+					sf::Vector2f cohesionForce = Cohesion(flock) * 1.5f;
+
+					// Combine the forces
+					movementDirection = seekForce + separationForce + alignmentForce + cohesionForce;
+				}
 			}
 		}
 		movementDirection = normaliseVector(movementDirection) * moveSpeed * deltaTime;
@@ -93,7 +98,6 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 
 		sheepBody.move(movementDirection);
 	}
-
 }
 
 // Gets the sheeps veclocity
@@ -148,14 +152,14 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	{
 		if (!exiting)
 		{
-			exitTarget = behaviour.toFence(exitFence); 
+			exitTargetLeader = behaviour.toFence(exitFence); 
 			exiting = true;
 		}
-		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, exitTarget);
-		if (getDistanceBetween(leaderPos, exitTarget) < 10.f)
+		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, exitTargetLeader);
+		if (getDistanceBetween(leaderPos, exitTargetLeader) < 10.f)
 		{
-			exitTarget.y -= 20.f;
-			if (getDistanceBetween(leaderPos, exitTarget) < 2.f)
+			exitTargetLeader.y -= 20.f;
+			if (getDistanceBetween(leaderPos, exitTargetLeader) < 2.f)
 			{
 				exiting = false;
 			}
@@ -246,15 +250,15 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 
 	else if (!leaderInsidePen && sheepInsidePen)
 	{
-		if (exitTarget == sf::Vector2f(0.f, 0.f)) {
-			exitTarget = behaviour.toFence(exitFence);  // Set exit only once
+		if (exitTargetLeader == sf::Vector2f(0.f, 0.f)) {
+			exitTargetLeader = behaviour.toFence(exitFence);  // Set exit only once
 		}
 
-		if (getDistanceBetween(sheepBody.getPosition(), exitTarget) > exitThreshold) {
-			followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), exitTarget);
+		if (getDistanceBetween(sheepBody.getPosition(), exitTargetLeader) > exitThreshold) {
+			followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), exitTargetLeader);
 		}
 		else {
-			exitTarget = { 0.f, 0.f };
+			exitTargetLeader = { 0.f, 0.f };
 		}
 	}
 	else if (getDistanceBetween(sheepBody.getPosition(), closestPos) < 150.0f)
@@ -321,6 +325,68 @@ void Sheep::setPosition(sf::Vector2f newPos)
 {
 	sheepBody.setPosition(newPos);
 }
+
+void Sheep::whistleHeard(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass)
+{
+	recalling = true;
+	exitTarget = behaviour.toFence(exitFence);
+}
+
+// Recalls the sheep to the pen
+sf::Vector2f Sheep::handleRecall(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass)
+{
+	sf::Vector2f myPos = sheepBody.getPosition();
+
+	if (!reachedFence)
+	{
+		// Move towards the exit fence
+		sf::Vector2f movement = behaviour.seekToTarget(moveSpeed, deltaTime, myPos, exitTarget);
+
+		float distanceToFence = getDistanceBetween(myPos, exitTarget);
+
+		if (distanceToFence < 10.f)
+		{
+			randomPenPos = randomPosOnField({ 40.f, 1155.f }, { 565.f, 762.f });
+			reachedFence = true;
+		}
+
+		return movement;
+	}
+	else if (!reachedPenTarget)
+	{
+		// Move towards a random point inside the pen
+		sf::Vector2f movement = behaviour.seekToTarget(moveSpeed, deltaTime, myPos, randomPenPos);
+
+		float distanceToPenTarget = getDistanceBetween(myPos, randomPenPos);
+
+		if (distanceToPenTarget < 10.f)
+		{
+			reachedPenTarget = true;
+		}
+
+		return movement;
+	}
+	else
+	{
+		recallTimer -= deltaTime;
+
+		if (recallTimer <= 0.f)
+		{
+			recalling = false;
+			reachedFence = false;
+			reachedPenTarget = false;
+			recallTimer = 10.f;
+			exitTargetLeader = { 0.f, 0.f };
+			currentBehaviour = behaviours::exiting;
+
+		}
+
+		// No movement while waiting
+		return { 0.f, 0.f };
+	}
+}
+
+
 
 // Keep them aopart
 sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)

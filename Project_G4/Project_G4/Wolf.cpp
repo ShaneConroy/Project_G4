@@ -60,7 +60,6 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime)
         }
         return;
     }
-
 }
 
 // Based off spawnPos, spawns on one edge
