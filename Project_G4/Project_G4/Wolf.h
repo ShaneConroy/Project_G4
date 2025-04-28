@@ -12,7 +12,7 @@ public:
 	Wolf(int spawnLocale);
 
 	void Draw(sf::RenderWindow& window);
-	void Hunt(std::vector<Sheep*>& flock, float deltaTime);
+	void Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape innerGrass);
 	void spawnWolf(int spawnPos);
 	void setStunned(float time) { stunTimer = time; }
 	void clearTarget() { targetSheep = nullptr; isEating = false; } // Helper for bug with retargeting sheep
@@ -28,10 +28,12 @@ public:
 private:
 
 	sf::CircleShape wolfBody;
+	sf::CircleShape wolfHead;
+	sf::ConvexShape wolfTail;
 	sf::Vector2f position;
 
 	Sheep* targetSheep = nullptr;
-	Sheep* FindClosestSheep(std::vector<Sheep*>& flock);
+	Sheep* FindClosestSheep(std::vector<Sheep*>& flock, sf::RectangleShape innerGrass);
 
 	float stunTimer = 1.f;
 

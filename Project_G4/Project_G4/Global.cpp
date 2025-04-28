@@ -32,3 +32,8 @@ float vectorLength(const sf::Vector2f& vec)
 {
     return std::sqrt(vec.x * vec.x + vec.y * vec.y);
 }
+
+sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float t)
+{
+    return a + (b - a) * t;
+}

@@ -20,6 +20,11 @@ public:
 	void setRadius(float r) { sheepBody.setRadius(r); }
 	void setColour(sf::Color c) { sheepBody.setFillColor(c); }
 
+	bool inPen(sf::RectangleShape innerGrass)
+	{
+		return innerGrass.getGlobalBounds().contains(sheepBody.getPosition());
+	};
+
 	float getRadius() { return sheepBody.getRadius(); };
 	float eatTimer = 5.0f;
 
@@ -47,6 +52,7 @@ private:
 	Behaviours behaviour;
 
 	sf::CircleShape sheepBody;
+	sf::CircleShape sheepHead;
 
 	float moveSpeed = 45.0f;
 	float maxSpeed = 200.f;

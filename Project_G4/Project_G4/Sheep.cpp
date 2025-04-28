@@ -4,13 +4,20 @@ Sheep::Sheep()
 {
 	sheepBody.setRadius(bodySize);
 	sheepBody.setFillColor(sf::Color::White);
+	sheepBody.setOrigin(sheepBody.getRadius(), sheepBody.getRadius());
 	sf::Vector2f innerGrassPos = { 20.f, 544.f };
 	sf::Vector2f innerGrassSize = { 1160.f, 240.f };
 	sf::Vector2f spawnPos = randomPosOnField({30, innerGrassSize.x - 30}, { 30, innerGrassSize.y - 30 });
 	spawnPos.x += innerGrassPos.x;
 	spawnPos.y += innerGrassPos.y;
-
 	sheepBody.setPosition(spawnPos);
+
+	// Head
+	sheepHead.setPosition(sheepBody.getPosition());
+	sheepHead.setRadius(10);
+	sheepHead.setFillColor(sf::Color::Black);
+	sheepHead.setOrigin(sheepHead.getRadius(), sheepHead.getRadius());
+
 	previousPosition = spawnPos;
 	currentBehaviour = behaviours::exiting;
 }
@@ -21,6 +28,7 @@ Sheep::~Sheep()
 
 void Sheep::Draw(sf::RenderWindow& window)
 {
+	window.draw(sheepHead);
 	window.draw(sheepBody);
 }
 
@@ -65,14 +73,12 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 			// Check if im the leader. Will lead other sheep
 			if (isLeader)
 			{
-				//sheepBody.setFillColor(sf::Color::Red);
-				flock[0].moveSpeed = 55.f;
+				flock[0].moveSpeed = 50.f;
 				movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 			}
 			// Other sheep
 			else
 			{
-				//sheepBody.setFillColor(sf::Color::White);
 				sf::Vector2f seekForce = followerBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions, dogPos);
 
 				// Problem with sheep drifting while being herded
@@ -97,6 +103,23 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 		movementDirection += repulsionForce;
 
 		sheepBody.move(movementDirection);
+
+		// This is to make the sheep head follow the body's direction
+		if (vectorLength(movementDirection) > 0.01f) // If moving
+		{
+			sf::Vector2f direction = normaliseVector(movementDirection);
+			float offsetDistance = sheepBody.getRadius() + (sheepHead.getRadius() + 20);
+			sf::Vector2f targetHeadPos = sheepBody.getPosition() + direction * offsetDistance;
+
+			float smoothing = 1.5f * deltaTime;
+			sheepHead.setPosition(lerp(sheepHead.getPosition(), targetHeadPos, smoothing));
+		}
+		// when not moving, set the head to the body + offset
+		else
+		{
+			sheepHead.setPosition(sheepHead.getPosition());
+		}
+
 	}
 }
 
@@ -287,7 +310,7 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 	if (herdingTimer > 0)
 	{
 		sf::Vector2f awayFromDog = normaliseVector(sheepBody.getPosition() - dogPos);
-		followerTargetPos = sheepBody.getPosition(); /*+ (awayFromDog * moveSpeed * deltaTime);*/
+		followerTargetPos = sheepBody.getPosition();
 	}
 
 	return followerTargetPos;
@@ -385,8 +408,6 @@ sf::Vector2f Sheep::handleRecall(float deltaTime, sf::RectangleShape exitFence, 
 		return { 0.f, 0.f };
 	}
 }
-
-
 
 // Keep them aopart
 sf::Vector2f Sheep::Separation(std::vector<Sheep>& flock)

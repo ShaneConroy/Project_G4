@@ -3,20 +3,36 @@
 
 Wolf::Wolf(int spawnLocale)
 {
-
 	wolfBody.setRadius(25);
-	wolfBody.setFillColor(sf::Color(138, 43, 226));
+	wolfBody.setFillColor(sf::Color(125, 125, 125));
+    wolfBody.setOrigin(wolfBody.getRadius(), wolfBody.getRadius());
 	spawnWolf(spawnLocale);
 	targetSheep = nullptr;
+
+	wolfHead.setPosition(wolfBody.getPosition());
+	wolfHead.setRadius(18);
+	wolfHead.setFillColor(sf::Color(125, 125, 125));
+	wolfHead.setOrigin(wolfHead.getRadius(), wolfHead.getRadius());
+
+    wolfTail.setPointCount(4);
+    wolfTail.setPoint(0, sf::Vector2f(2.5f, -15.f));  // Top center
+    wolfTail.setPoint(1, sf::Vector2f(30.f, 0.f));   // Right tip
+    wolfTail.setPoint(2, sf::Vector2f(2.5f, 15.f));   // Bottom center
+    wolfTail.setPoint(3, sf::Vector2f(-20.f, 0.f));  // Left tip
+    wolfTail.setFillColor(sf::Color(125, 125, 125));
+    wolfTail.setPosition(wolfBody.getPosition());
+
 }
 
 void Wolf::Draw(sf::RenderWindow& window)
 {
+    window.draw(wolfTail);
+	window.draw(wolfHead);
 	window.draw(wolfBody);
 }
 
 // Updates the wolf's state to hunt the closest sheep
-void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime)
+void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape innerGrass)
 {
     position = wolfBody.getPosition();
 
@@ -28,13 +44,44 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime)
 
     if (!targetSheep && !flock.empty())
     {
-        targetSheep = FindClosestSheep(flock);
+        targetSheep = FindClosestSheep(flock, innerGrass);
     }
 
     if (targetSheep)
     {
         sf::Vector2f direction = normaliseVector(targetSheep->getPosition() - wolfBody.getPosition());
         wolfBody.move(direction * 80.f * deltaTime);
+
+        if (vectorLength(direction) > 0.01f)
+        {
+            float offsetDistance = wolfBody.getRadius() + (wolfHead.getRadius() - 3);
+            sf::Vector2f targetHeadPos = wolfBody.getPosition() + normaliseVector(direction) * offsetDistance;
+
+            float smoothing = 10.f * deltaTime;
+            wolfHead.setPosition(lerp(wolfHead.getPosition(), targetHeadPos, smoothing));
+        }
+        else
+        {
+            wolfHead.setPosition(wolfHead.getPosition());
+        }
+
+        // The wolfs tail
+        if (vectorLength(direction) > 0.01f)
+        {
+            float tailOffsetDistance = wolfBody.getRadius() + 10.f; // adjust if needed
+            sf::Vector2f tailOffset = -normaliseVector(direction) * tailOffsetDistance;
+
+            float tailSmoothing = 10.f * deltaTime;
+            wolfTail.setPosition(lerp(wolfTail.getPosition(), wolfBody.getPosition() + tailOffset, tailSmoothing));
+
+            float angle = atan2(direction.y, direction.x) * 180 / 3.14159f;
+            wolfTail.setRotation(angle + 180.f);
+
+        }
+        else
+        {
+            wolfTail.setPosition(wolfTail.getPosition());
+        }
 
         float dist = getDistanceBetween(wolfBody.getPosition(), targetSheep->getPosition());
         if (dist < 10.f)
@@ -47,8 +94,6 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime)
     if (isEating && targetSheep)
     {
         eatTimer -= deltaTime;
-
-		std::cout << eatTimer << std::endl;
 
         if (eatTimer <= 0.f)
         {
@@ -85,7 +130,7 @@ void Wolf::spawnWolf(int spawnPos)
 }
 
 // This will find the closest sheep to the wolf
-Sheep* Wolf::FindClosestSheep(std::vector<Sheep*>& flock)
+Sheep* Wolf::FindClosestSheep(std::vector<Sheep*>& flock, sf::RectangleShape innerGrass)
 {
     Sheep* closest = nullptr;
     float minDistance = 9999999; // Arbitrary large number
@@ -94,6 +139,11 @@ Sheep* Wolf::FindClosestSheep(std::vector<Sheep*>& flock)
     {
         for (Sheep* sheep : flock)
         {
+            if (sheep->inPen(innerGrass))
+            {
+                continue;
+            }
+
             // Loop through alll sheep
             float distance = getDistanceBetween(position, sheep->getPosition());
             if (distance < minDistance)

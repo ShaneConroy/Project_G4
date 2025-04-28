@@ -450,7 +450,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         // Handle whistle
         if (econ.whistle)
         {
-			sheep.whistleHeard(deltaTime, fence.getRect(), fence.getRectArea());
+			//sheep.whistleHeard(deltaTime, fence.getRect(), fence.getRectArea());
+			spawnWolf();
             econ.whistle = false;
         }
 
@@ -459,6 +460,14 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         {
             spawnWolf();
             wolvesAbout++;
+        }
+        else if (isDay && wolvesAbout > 0)
+        {
+            if (wolf)
+            {
+                wolf.reset(); // TODO // Maybe make this look nicer
+            }
+            wolvesAbout = 0;
         }
     }
 
@@ -483,7 +492,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     }
 
     if (wolf)
-        wolf->Hunt(herd, deltaTime);
+        wolf->Hunt(herd, deltaTime, getInnerFence());
 
     for (auto iter = sheepArray.begin(); iter != sheepArray.end(); )
     {

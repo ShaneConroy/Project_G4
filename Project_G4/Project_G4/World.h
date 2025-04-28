@@ -9,8 +9,8 @@
 #include "Dog.h"  
 #include <optional>
 
-// Day -> (134, 172, 19)  
-// Night -> (40, 108, 89)  
+// Day -> (134, 172, 19)
+// Night -> (40, 108, 89)
 
 class World  
 {  
@@ -68,10 +68,12 @@ private:
   std::vector<Grass> grassNodeArray;  
   std::vector<Sheep*> herd;  
 
-  // To avoid new classes, I'm making structs  
+  sf::RectangleShape getInnerFence() { return fence.getRectArea(); }
+
+  // To avoid new classes, I'm making structs
   //  
-  // For wool particles that pop out after shearing  
-  struct WoolParticle  
+  // For wool particles that pop out after shearing
+  struct WoolParticle
   {  
       sf::CircleShape shape;  
       sf::Vector2f velocity;  

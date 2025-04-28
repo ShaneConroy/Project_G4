@@ -15,18 +15,12 @@ void Dog::Update(sf::Vector2i mousePos)
 
 void Dog::follow(sf::Vector2i mousePos)
 {
+    sf::Vector2f currentPos = dogBody.getPosition();
+    sf::Vector2f targetPos(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	if (mousePos.x < SCREEN_WIDTH && mousePos.x > 0 && mousePos.y < SCREEN_HEIGHT && mousePos.y > 0)
-	{
-		sf::Vector2f currentPos = dogBody.getPosition();
-		sf::Vector2f targetPos(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
-
-		float speed = 0.01f;
-		dogBody.setPosition(currentPos + speed * (targetPos - currentPos));
-	}
-	else {
-		dogBody.setPosition(dogBody.getPosition());
-	}
+    float speed = 0.01f;
+ 
+    dogBody.setPosition(currentPos + speed * (targetPos - currentPos));
 }
 
 // Create Bark
