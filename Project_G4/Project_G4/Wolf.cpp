@@ -15,12 +15,31 @@ Wolf::Wolf(int spawnLocale)
 	wolfHead.setOrigin(wolfHead.getRadius(), wolfHead.getRadius());
 
     wolfTail.setPointCount(4);
-    wolfTail.setPoint(0, sf::Vector2f(2.5f, -15.f));  // Top center
+    wolfTail.setPoint(0, sf::Vector2f(1.5f, -15.f));  // Top center
     wolfTail.setPoint(1, sf::Vector2f(30.f, 0.f));   // Right tip
-    wolfTail.setPoint(2, sf::Vector2f(2.5f, 15.f));   // Bottom center
+    wolfTail.setPoint(2, sf::Vector2f(1.5f, 15.f));   // Bottom center
     wolfTail.setPoint(3, sf::Vector2f(-20.f, 0.f));  // Left tip
     wolfTail.setFillColor(sf::Color(125, 125, 125));
     wolfTail.setPosition(wolfBody.getPosition());
+
+    wolfEars.setPointCount(4);
+	wolfEars.setPoint(0, sf::Vector2f(10.f, 0.f)); // in point
+	wolfEars.setPoint(1, sf::Vector2f(-7.5f, 30.f)); // top ear
+    wolfEars.setPoint(2, sf::Vector2f(-5.f, 0.f)); // in point back
+	wolfEars.setPoint(3, sf::Vector2f(-7.5f, -30.f)); // down ear
+	wolfEars.setFillColor(sf::Color(125, 125, 125));
+	wolfEars.setPosition(wolfHead.getPosition());
+
+    wolfSnout.setPointCount(6);
+    wolfSnout.setPoint(0, sf::Vector2f(0.f, 10.f));
+    wolfSnout.setPoint(1, sf::Vector2f(-30.f, 10.f));
+    wolfSnout.setPoint(2, sf::Vector2f(-30.f, -10.f));
+    wolfSnout.setPoint(3, sf::Vector2f(0.f, -10.f));
+    wolfSnout.setPoint(4, sf::Vector2f(5.f, -5.f));
+    wolfSnout.setPoint(5, sf::Vector2f(5.f, 5.f));
+
+    wolfSnout.setFillColor(sf::Color(125, 125, 125));
+    wolfSnout.setPosition(wolfHead.getPosition());
 
 }
 
@@ -29,6 +48,8 @@ void Wolf::Draw(sf::RenderWindow& window)
     window.draw(wolfTail);
 	window.draw(wolfHead);
 	window.draw(wolfBody);
+	window.draw(wolfEars);
+	window.draw(wolfSnout);
 }
 
 // Updates the wolf's state to hunt the closest sheep
@@ -59,10 +80,20 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape 
 
             float smoothing = 10.f * deltaTime;
             wolfHead.setPosition(lerp(wolfHead.getPosition(), targetHeadPos, smoothing));
-        }
-        else
-        {
-            wolfHead.setPosition(wolfHead.getPosition());
+
+            wolfEars.setPosition(wolfHead.getPosition());
+
+            float headAngle = atan2(direction.y, direction.x) * 180 / 3.14159f;
+            wolfEars.setRotation(headAngle);
+
+            float snoutOffsetDistance = wolfHead.getRadius() + 7.5;
+            sf::Vector2f snoutOffset = normaliseVector(direction) * snoutOffsetDistance;
+
+            wolfSnout.setPosition(wolfHead.getPosition() + snoutOffset);
+
+            float snoutAngle = atan2(direction.y, direction.x) * 180 / 3.14159f;
+            wolfSnout.setRotation(snoutAngle);
+
         }
 
         // The wolfs tail
@@ -77,10 +108,6 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape 
             float angle = atan2(direction.y, direction.x) * 180 / 3.14159f;
             wolfTail.setRotation(angle + 180.f);
 
-        }
-        else
-        {
-            wolfTail.setPosition(wolfTail.getPosition());
         }
 
         float dist = getDistanceBetween(wolfBody.getPosition(), targetSheep->getPosition());

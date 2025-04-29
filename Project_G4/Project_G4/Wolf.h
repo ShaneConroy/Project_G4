@@ -30,6 +30,8 @@ private:
 	sf::CircleShape wolfBody;
 	sf::CircleShape wolfHead;
 	sf::ConvexShape wolfTail;
+	sf::ConvexShape wolfEars;
+	sf::ConvexShape wolfSnout;
 	sf::Vector2f position;
 
 	Sheep* targetSheep = nullptr;

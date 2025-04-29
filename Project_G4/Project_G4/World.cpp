@@ -450,8 +450,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         // Handle whistle
         if (econ.whistle)
         {
-			//sheep.whistleHeard(deltaTime, fence.getRect(), fence.getRectArea());
-			spawnWolf();
+			sheep.whistleHeard(deltaTime, fence.getRect(), fence.getRectArea());
             econ.whistle = false;
         }
 
