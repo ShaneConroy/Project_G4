@@ -73,6 +73,7 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape 
         sf::Vector2f direction = normaliseVector(targetSheep->getPosition() - wolfBody.getPosition());
         wolfBody.move(direction * 80.f * deltaTime);
 
+        // For updating the wolf's body parts
         if (vectorLength(direction) > 0.01f)
         {
             float offsetDistance = wolfBody.getRadius() + (wolfHead.getRadius() - 3);
@@ -94,19 +95,15 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape 
             float snoutAngle = atan2(direction.y, direction.x) * 180 / 3.14159f;
             wolfSnout.setRotation(snoutAngle);
 
-        }
-
-        // The wolfs tail
-        if (vectorLength(direction) > 0.01f)
-        {
-            float tailOffsetDistance = wolfBody.getRadius() + 10.f; // adjust if needed
+            // The wolfs tail
+            float tailOffsetDistance = wolfBody.getRadius() + 10.f;
             sf::Vector2f tailOffset = -normaliseVector(direction) * tailOffsetDistance;
 
             float tailSmoothing = 10.f * deltaTime;
             wolfTail.setPosition(lerp(wolfTail.getPosition(), wolfBody.getPosition() + tailOffset, tailSmoothing));
 
-            float angle = atan2(direction.y, direction.x) * 180 / 3.14159f;
-            wolfTail.setRotation(angle + 180.f);
+            float tailAngle = atan2(direction.y, direction.x) * 180 / 3.14159f;
+            wolfTail.setRotation(tailAngle + 180.f);
 
         }
 

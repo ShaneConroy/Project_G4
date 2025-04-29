@@ -18,7 +18,7 @@ public:
 		float expandRate = 600.f;
 	};
 
-	sf::Vector2f getPosition() { return dogBody.getPosition(); }
+	sf::Vector2f getPosition() { return dogHead.getPosition(); }
 	const std::vector<BarkShockwave>& getShockwaves() const { return shockwaves; }
 
 	void Bark();
@@ -30,7 +30,12 @@ private:
 
 	void follow(sf::Vector2i mousePos);
 
+	sf::CircleShape dogHead;
 	sf::CircleShape dogBody;
+	sf::CircleShape dogEarLeft;
+	sf::CircleShape dogEarRight;
+	sf::ConvexShape dogTail;
+	sf::ConvexShape dogSnout;
 
 	std::vector<BarkShockwave> shockwaves;
 	float barkCooldown = 0.f;
