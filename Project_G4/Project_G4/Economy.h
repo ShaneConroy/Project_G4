@@ -23,6 +23,7 @@ public:
 
 	void update(sf::Vector2i mousePos);
 	void addFunds(Funds_Enum fundType);
+	void addFunds(int amount);
 	void calculatePassiveIncome(int);
 
 	void sellSheep(sf::Vector2i);

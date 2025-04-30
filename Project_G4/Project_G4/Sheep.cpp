@@ -2,7 +2,17 @@
 
 Sheep::Sheep()
 {
-	sheepBody.setRadius(bodySize);
+	int num = getNumberBetween(1, 10);
+	if (num == 8 || num == 9 || num == 10)
+	{
+		myStats.canReproduce = false;
+	}
+	if (num == 1 || num == 2)
+	{
+		myStats.deaf = true;
+	}
+
+	sheepBody.setRadius(myStats.bodySize);
 	sheepBody.setFillColor(sf::Color::White);
 	sheepBody.setOrigin(sheepBody.getRadius(), sheepBody.getRadius());
 	sf::Vector2f innerGrassPos = { 20.f, 544.f };
@@ -32,17 +42,27 @@ void Sheep::Draw(sf::RenderWindow& window)
 	window.draw(sheepBody);
 }
 
-void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock, sf::Vector2f dogPos)
+void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock, sf::Vector2f dogPos, sf::Vector2f wolfPos)
 {
 	sf::Vector2f movementDirection(0.f, 0.f);
 	previousPosition = sheepBody.getPosition();
-
 	// If im being eaten, dont move
 	if (beingEaten)
 	{
 		movementDirection = sf::Vector2f(0.f, 0.f);
 	}
 	else {
+		if (whistleDelay > 0.f)
+		{
+			whistleDelay -= deltaTime;
+
+			if (whistleDelay <= 0.f)
+			{
+				whistleHeard(deltaTime, exitFence, innerGrass);
+				whistleDelay = -1.f; // reset
+			}
+		}
+
 		if (recalling)
 		{
 			movementDirection = handleRecall(deltaTime, exitFence, innerGrass);
@@ -51,16 +71,17 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 			// This if is here because the sheep iognore it if its somewhere else, FOR SOME REASON!!
 			if (isEating)
 			{
-				eatTimer -= deltaTime;
+				myStats.eatSpeed -= deltaTime;
 
-				if (eatTimer <= 0.f)
+				if (myStats.eatSpeed <= 0.f)
 				{
 					doneEating = true;
 					isEating = false;
 					amountEaten++;
+					myStats.greatness += 1; // Increase greatness after eating
 					if (amountEaten <= maxEaten)
 					{
-						sheepBody.setRadius(bodySize + amountEaten);
+						sheepBody.setRadius(myStats.bodySize + amountEaten);
 
 						int shade = std::max(100, 255 - (amountEaten * 20));
 						sheepBody.setFillColor(sf::Color(shade, shade, shade));
@@ -73,8 +94,15 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 			// Check if im the leader. Will lead other sheep
 			if (isLeader)
 			{
-				flock[0].moveSpeed = 50.f;
+				flock[0].myStats.walkSpeed = 50.f;
+				//myStats.walkSpeed = myStats.walkSpeed + 50.f; // TODO // Fix
 				movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
+				leadTimer += deltaTime;
+				if (leadTimer >= 2.f)
+				{
+					myStats.greatness += 1; // Increase greatness after leading for a bit
+					leadTimer = 0.f;
+				}
 			}
 			// Other sheep
 			else
@@ -97,7 +125,15 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 				}
 			}
 		}
-		movementDirection = normaliseVector(movementDirection) * moveSpeed * deltaTime;
+
+		// Fleeing from wolf
+		if (getDistanceBetween(getPosition(), wolfPos) < myStats.fear)
+		{
+			sf::Vector2f fleeForce = normaliseVector(getPosition() - wolfPos) * 50.f;
+			movementDirection += fleeForce;
+		}
+
+		movementDirection = normaliseVector(movementDirection) * myStats.walkSpeed * deltaTime;
 
 		sf::Vector2f repulsionForce = awayFromDog(dogPos);
 		movementDirection += repulsionForce;
@@ -120,6 +156,13 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 			sheepHead.setPosition(sheepHead.getPosition());
 		}
 
+		// Every 10 seconds, add 1 to greatness
+		myStats.timeAlive += deltaTime;
+		if (myStats.timeAlive >= 10.f)
+		{
+			myStats.greatness += 1;
+			myStats.timeAlive = 0.f;
+		}
 	}
 }
 
@@ -178,7 +221,7 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 			exitTargetLeader = behaviour.toFence(exitFence); 
 			exiting = true;
 		}
-		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, exitTargetLeader);
+		targetPos = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, leaderPos, exitTargetLeader);
 		if (getDistanceBetween(leaderPos, exitTargetLeader) < 10.f)
 		{
 			exitTargetLeader.y -= 20.f;
@@ -190,11 +233,11 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	}
 	else if (availibleGrassNodes.empty())
 	{
-		targetPos = behaviour.wander(moveSpeed, deltaTime, leaderPos);
+		targetPos = behaviour.wander(myStats.walkSpeed, deltaTime, leaderPos);
 	}
 	else
 	{
-		targetPos = behaviour.seekToTarget(moveSpeed, deltaTime, leaderPos, closestPos);
+		targetPos = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, leaderPos, closestPos);
 
 		if (getDistanceBetween(leaderPos, targetPos) < 10.f)
 		{
@@ -212,13 +255,13 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 		if (!isEating || lastEatenGrass != closestPos)
 		{
 			isEating = true;
-			eatTimer = 5.0f; // reset if targeting new grass node
+			myStats.eatSpeed = 5.0f; // reset if targeting new grass node
 			lastEatenGrass = closestPos;
 		}
 
-		eatTimer -= deltaTime;
+		myStats.eatSpeed -= deltaTime;
 
-		if (eatTimer <= 0.f)
+		if (myStats.eatSpeed <= 0.f)
 		{
 			doneEating = true;
 			isEating = false;
@@ -254,9 +297,9 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 	// If follower is eating, stay still until donea
 	if (isEating)
 	{
-		eatTimer -= deltaTime;
+		myStats.eatSpeed -= deltaTime;
 
-		if (eatTimer <= 0.f)
+		if (myStats.eatSpeed <= 0.f)
 		{
 			doneEating = true;
 			isEating = false;
@@ -268,7 +311,7 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 
 	if (leaderInsidePen && flock[0].exiting)
 	{
-		followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), leaderPos);
+		followerTargetPos = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, sheepBody.getPosition(), leaderPos);
 	}
 
 	else if (!leaderInsidePen && sheepInsidePen)
@@ -278,7 +321,7 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 		}
 
 		if (getDistanceBetween(sheepBody.getPosition(), exitTargetLeader) > exitThreshold) {
-			followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), exitTargetLeader);
+			followerTargetPos = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, sheepBody.getPosition(), exitTargetLeader);
 		}
 		else {
 			exitTargetLeader = { 0.f, 0.f };
@@ -286,11 +329,11 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 	}
 	else if (getDistanceBetween(sheepBody.getPosition(), closestPos) < 150.0f)
 	{
-		followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), closestPos);
+		followerTargetPos = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, sheepBody.getPosition(), closestPos);
 	}
 	else
 	{
-		followerTargetPos = behaviour.seekToTarget(moveSpeed, deltaTime, sheepBody.getPosition(), leaderPos);
+		followerTargetPos = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, sheepBody.getPosition(), leaderPos);
 	}
 
 	// If sheep is getting herded
@@ -363,7 +406,7 @@ sf::Vector2f Sheep::handleRecall(float deltaTime, sf::RectangleShape exitFence, 
 	if (!reachedFence)
 	{
 		// Move towards the exit fence
-		sf::Vector2f movement = behaviour.seekToTarget(moveSpeed, deltaTime, myPos, exitTarget);
+		sf::Vector2f movement = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, myPos, exitTarget);
 
 		float distanceToFence = getDistanceBetween(myPos, exitTarget);
 
@@ -378,7 +421,7 @@ sf::Vector2f Sheep::handleRecall(float deltaTime, sf::RectangleShape exitFence, 
 	else if (!reachedPenTarget)
 	{
 		// Move towards a random point inside the pen
-		sf::Vector2f movement = behaviour.seekToTarget(moveSpeed, deltaTime, myPos, randomPenPos);
+		sf::Vector2f movement = behaviour.seekToTarget(myStats.walkSpeed, deltaTime, myPos, randomPenPos);
 
 		float distanceToPenTarget = getDistanceBetween(myPos, randomPenPos);
 

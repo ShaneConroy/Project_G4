@@ -32,7 +32,7 @@ std::vector<sf::Vector2f> World::UpdateGrassNodes()
             {
                 iter->UpdateTaken(true);                     // Mark grass as taken
                 sheep.isEating = true;                       // Sheep enters eating state
-                sheep.eatTimer = 5.0f;                       // Reset timer
+                sheep.myStats.eatSpeed = 5.0f;                 // Reset timer
                 sheep.lastEatenGrass = iter->getPosition();  // Track which grass it's eating
                 grassClaimed = true;
                 break; // Only one sheep should claim it
@@ -163,7 +163,7 @@ void World::up_WoolSell()
 {
     if (econ.up_WoolSellPrice && econ.loomLevel != maxUp_woolSell)
     {
-        econ.woolSellPrice = static_cast<int>(econ.woolSellPrice * 1.5f);
+        econ.woolSellPrice = static_cast<int>(econ.woolSellPrice * 0.33f);
         econ.up_WoolSellPrice = false;
 
         if (econ.loomLevel == 1)
@@ -256,6 +256,7 @@ void World::shearsFunc(sf::Vector2i mousePos)
                             woolParticle.shape.setRadius(10.f);
                             woolParticle.shape.setFillColor(sf::Color::White);
                             woolParticle.shape.setPosition(centerOfSheep);
+                            woolParticle.sourceSheep = &sheep; // Get the sheep it originated from for selling
 
                             // Get random angle and speed
                             float angle = static_cast<float>((rand() % 360) * (3.14159 / 180.f));
@@ -431,13 +432,16 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         sheepArray.front().isLeader = true;
     }
 
+    if (wolf.has_value())
+        wolfPos = wolf->getPosition();
+
     // Sheep Updates
     for (Sheep& sheep : sheepArray)
     {
         // If the gate is open or sheep is outside the pen
-        if (fence.gateOpen || !fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()))
+        if (fence.gateOpen || !fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()) && wolf)
         {
-            sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray, dog.getPosition());
+            sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray, dog.getPosition(), wolfPos);
         }
 
         // Emergency teleport button if stuck
@@ -450,9 +454,16 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         // Handle whistle
         if (econ.whistle)
         {
-			sheep.whistleHeard(deltaTime, fence.getRect(), fence.getRectArea());
+            for (Sheep& sheep : sheepArray)
+            {
+                if (!sheep.myStats.deaf)
+                {
+                    sheep.whistleDelay = sheep.myStats.awarness; // Start countdown based on awareness
+                }
+            }
             econ.whistle = false;
         }
+
 
         // Spawn wolf at night
         if (!isDay && wolvesAbout == 0)
@@ -468,7 +479,22 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             }
             wolvesAbout = 0;
         }
-    }
+
+        // If a sheep is close to a wolf, add 1 to that sheeps gretaness
+        if (wolf)
+        {
+            if (getDistanceBetween(sheep.getPosition(), wolf->getPosition()) >= 25.f)
+            {
+                closeTimer += deltaTime;
+                if (closeTimer >= 1.0f)
+                {
+                    sheep.setGreatness(1);
+                }
+
+            }
+        }
+
+    } // for
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
     {
@@ -574,9 +600,13 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 
         // Despawn if close to mouse
         if (dist < 10.f)
-        {
+        {   
+            if (it->sourceSheep)
+            {
+                int value = econ.woolSellPrice + it->sourceSheep->myStats.woolBonus;
+                woolCollectFunc(mousePos, value);
+            }
             it = woolParticles.erase(it);
-			woolCollectFunc(mousePos);
         }
         else
         {
@@ -610,13 +640,13 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 }
 
 // Gives the player his money for picking up wool, then spawns floating text
-void World::woolCollectFunc(sf::Vector2i mousePos)  
-{  
-   econ.addFunds(Funds_Enum::woolSell);  
+void World::woolCollectFunc(sf::Vector2i mousePos, int value)
+{ 
+   econ.addFunds(value);
 
    FloatingText newText;  
    newText.text.setFont(Font);  
-   newText.text.setString("+" + std::to_string(econ.woolSellPrice));
+   newText.text.setString("+" + std::to_string(value));
    newText.text.setCharacterSize(20);  
    newText.text.setFillColor(sf::Color(255, 255, 255, 255));  
    newText.text.setPosition(mousePos.x, mousePos.y - 15);  

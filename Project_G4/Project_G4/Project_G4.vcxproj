@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Behaviours.cpp" />
+    <ClCompile Include="Combiner.cpp" />
     <ClCompile Include="Dog.cpp" />
     <ClCompile Include="Economy.cpp" />
     <ClCompile Include="Fence.cpp" />
@@ -146,6 +147,7 @@
   <ItemGroup>
     <ClInclude Include="Behaviours.h" />
     <ClInclude Include="Behaviours_Enum.h" />
+    <ClInclude Include="Combiner.h" />
     <ClInclude Include="Dog.h" />
     <ClInclude Include="Economy.h" />
     <ClInclude Include="Fence.h" />

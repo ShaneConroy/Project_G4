@@ -7,7 +7,6 @@
 #include "Funds_Enum.h"  
 #include "Wolf.h"  
 #include "Dog.h"  
-#include <optional>
 
 // Day -> (134, 172, 19)
 // Night -> (40, 108, 89)
@@ -38,7 +37,7 @@ private:
   void up_GrassAmount();  
 
   void shearsFunc(sf::Vector2i mousePos);  
-  void woolCollectFunc(sf::Vector2i mousePos);  
+  void woolCollectFunc(sf::Vector2i mousePos, int value);  
 
   void displayCosts(sf::Vector2i mousePos);  
 
@@ -46,7 +45,7 @@ private:
   float sheepHeartCooldown = 0.f;  
   float sheepHeartCooldownCap = 0.5f;  
 
-  bool isDay = true;  
+  bool isDay = true;
   bool showHoverText = false;  
 
   const int GRASS_CAP = 30;  
@@ -55,9 +54,8 @@ private:
   int grassBuyAmount = 1;  
   int sheepCap = 5;  
   int sheepBuyAmount = 1;  
-  int eatTimer = 1540; // Arbitrary number, make sure maybe fix?  
-  int eatTimerCap = 1540;  
-  int wolvesAbout = 0; // Initialize wolvesAbout to resolve uninitialized variable warning  
+  int wolvesAbout = 0; // Initialize wolvesAbout to resolve uninitialized variable warning yokey
+  int closeTimer = 0;
 
   int const maxUp_sheepAmount = 5;  
   int const maxUp_woolSell = 5;  
@@ -70,6 +68,8 @@ private:
 
   sf::RectangleShape getInnerFence() { return fence.getRectArea(); }
 
+  sf::Vector2f wolfPos;
+
   // To avoid new classes, I'm making structs
   //  
   // For wool particles that pop out after shearing
@@ -78,7 +78,8 @@ private:
       sf::CircleShape shape;  
       sf::Vector2f velocity;  
       bool canCollect = false;  
-      float collectDelay = 1.f;  
+      float collectDelay = 1.f; 
+      Sheep* sourceSheep = nullptr;
   };  
 
   // For the HUD element telling the player how much they've earned from wool  

@@ -25,7 +25,7 @@ void Economy::addFunds(Funds_Enum fundType)
 	}
 	else if (fundType == Funds_Enum::woolSell)
 	{
-		amountToAdd = woolSellPrice;
+		amountToAdd = woolSellPrice + sheep.myStats.woolBonus;
 	}
 
 	// Prevent exceeding max funds limit 
@@ -39,6 +39,10 @@ void Economy::addFunds(Funds_Enum fundType)
 	}
 }
 
+void Economy::addFunds(int amount)
+{
+	currentFunds = std::min(currentFunds + amount, 999999);
+}
 
 // Calculate passive income
 void Economy::calculatePassiveIncome(int sheepAmount)

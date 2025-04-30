@@ -14,7 +14,7 @@ public:
 	GrassUtility grassUtility;
 
 	void Draw(sf::RenderWindow& window);
-	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock, sf::Vector2f dogPos);
+	void Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass, std::vector<sf::Vector2f> grassPositions, std::vector<Sheep>& flock, sf::Vector2f dogPos, sf::Vector2f wolfPos);
 	void setBehaviour(behaviours);
 	void availibleGrass(std::vector<sf::Vector2f> grassPositions);
 	void setRadius(float r) { sheepBody.setRadius(r); }
@@ -26,9 +26,11 @@ public:
 	};
 
 	float getRadius() { return sheepBody.getRadius(); };
-	float eatTimer = 5.0f;
 
 	int amountEaten = 0; // This is used to change the sheeps current wool stage
+
+	int getGreatness() const { return myStats.greatness; };
+	void setGreatness(int value) { myStats.greatness = myStats.greatness + value; };
 
 	behaviours getBehaviour() { return currentBehaviour; };
 
@@ -39,12 +41,31 @@ public:
 	sf::FloatRect getBody() { return sheepBody.getGlobalBounds(); };
 	void setPosition(sf::Vector2f newPos);
 
+	float whistleDelay = -1.f;
+
 	bool isEating = false;
 	bool doneEating = false;
 	bool isLeader = false;
 	bool beingEaten = false;
 	bool eatenByWolf = false;
 
+	struct sheepStats
+	{
+		int greatness; // How "great" a sheep is
+		float timeAlive;
+		float timeCLoseToWolf;
+
+		float walkSpeed = 45.0f;
+		float eatSpeed = 5.0;
+		int woolBonus = 50;
+		int bodySize = 15;
+		bool canReproduce = true; // If false, cant reproduce
+		bool deaf = false; // If deaf, doesnt react to whistle
+		float awarness = 2.0f; // How quick sheep react to the whistle
+		float fear = 100.f; // Diatance from when sheep see the wolf
+
+	};
+	sheepStats myStats;
 
 private:
 
@@ -67,7 +88,7 @@ private:
 	bool reachedPenTarget = false;
 
 	int maxEaten = 7; // Dont make them too fat
-	int bodySize = 15;
+	int leadTimer = 0;
 
 	std::vector<sf::Vector2f> availibleGrassNodes;
 
