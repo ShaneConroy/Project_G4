@@ -3,6 +3,12 @@
 // Sorts the flock vector by who has most greateness, then takes the top 4 best sheep and combines them into one
 void Combiner::Combine(std::vector<Sheep>& flock)
 {
+	for (Sheep& sheep : flock)
+	{
+		sheep.setColour(sf::Color::Red);
+	}
+
+	std::cout << "Combining sheep..." << std::endl;
 	// Sort top 4
 	std::sort(flock.begin(), flock.end(), [](const Sheep& a, const Sheep& b) {
 		return a.getGreatness() > b.getGreatness();

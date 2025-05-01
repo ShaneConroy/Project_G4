@@ -482,6 +482,39 @@ void Economy::upgradeGarden(sf::IntRect newTexture)
 	hud.getBuilding_Garden().setTextureRect(newTexture);
 }
 
+void Economy::combineButtonFunc(sf::Vector2i mousePos)
+{
+	if (combineTimer > 0.0f)
+	{
+		combineTimer -= 1.0f;
+
+		sf::Color color = hud.getCombineButton().getColor(); // When you cant press button, grey
+		color.a = 128;
+		hud.getCombineButton().setColor(color);
+	}
+	else if (combineTimer <= 0.0f)
+	{
+		sf::Color color = hud.getCombineButton().getColor();
+		color.a = 255;
+		hud.getCombineButton().setColor(color);
+
+		if (popOpen)
+		{
+			if (mousePos.x >= hud.getCombineButton().getPosition().x &&
+				mousePos.x <= hud.getCombineButton().getPosition().x + hud.getCombineButton().getGlobalBounds().width &&
+				mousePos.y >= hud.getCombineButton().getPosition().y &&
+				mousePos.y <= hud.getCombineButton().getPosition().y + hud.getCombineButton().getGlobalBounds().height)
+			{
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					combine = true;
+					combineTimer = buttonDelay;
+				}
+			}
+		}
+	}
+}
+
 // Makes a map which links a string to a float,float, shuold make upgrades easier
 void Economy::setUpUpgradeMaps()
 {

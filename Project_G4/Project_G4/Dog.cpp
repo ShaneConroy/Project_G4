@@ -56,43 +56,70 @@ void Dog::follow(sf::Vector2i mousePos)
     sf::Vector2f targetPos(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
     float speed = 0.01f;
- 
-    dogHead.setPosition(currentPos + speed * (targetPos - currentPos));
 
-    // Update dogBody to follow behind dogHead
-    sf::Vector2f dir = targetPos - currentPos;
-    if (vectorLength(dir) > 0.01f)
+    // --- Dog sitting on Mouse wheel ---
+    bool middleNow = sf::Mouse::isButtonPressed(sf::Mouse::Middle);
+
+    if (middleNow && !middleMousePressedLastFrame && sitTimer <= 0.f)
     {
-        dir = normaliseVector(dir);
-
-        float bodyDistance = dogHead.getRadius() + dogBody.getRadius() - 7.5f;
-        sf::Vector2f bodyPos = dogHead.getPosition() - dir * bodyDistance;
-        dogBody.setPosition(lerp(dogBody.getPosition(), bodyPos, 0.4f));
-
-        // Ears
-        sf::Vector2f sideOffset(-dir.y, dir.x);
-        float earBackOffset = 3.f;
-        float earOffset = 12.f;
-        sf::Vector2f earPosBase = dogHead.getPosition() - dir * earBackOffset;
-        dogEarLeft.setPosition(earPosBase + sideOffset * earOffset);
-        dogEarRight.setPosition(earPosBase - sideOffset * earOffset);
-
-        // Tail
-        float tailDistance = dogBody.getRadius() + 10.f;
-        dogTail.setPosition(dogBody.getPosition() - dir * tailDistance);
-
-        float tailAngle = atan2(dir.y, dir.x) * 180.f / 3.14159f;
-        dogTail.setRotation(tailAngle + 180.f);
-
-		// Snout
-		float snoutOffsetDistance = dogHead.getRadius() + 1.5f;
-		sf::Vector2f snoutOffset = normaliseVector(dir) * snoutOffsetDistance;
-		dogSnout.setPosition(dogHead.getPosition() + snoutOffset);
-		float snoutAngle = atan2(dir.y, dir.x) * 180.f / 3.14159f;
-		dogSnout.setRotation(snoutAngle);
-
+        sitting = !sitting;
+        sitTimer = sitTimerCap;
     }
 
+    middleMousePressedLastFrame = middleNow;
+
+    if (sitTimer > 0.f)
+    {
+        sitTimer -= 0.1f;
+    }
+
+    // --- Movement ---
+    if (!sitting)
+    {
+        dogHead.setPosition(currentPos + speed * (targetPos - currentPos));
+
+        // Update dogBody to follow behind dogHead
+        sf::Vector2f dir = targetPos - currentPos;
+        if (vectorLength(dir) > 0.01f)
+        {
+            dir = normaliseVector(dir);
+
+            float bodyDistance = dogHead.getRadius() + dogBody.getRadius() - 7.5f;
+            sf::Vector2f bodyPos = dogHead.getPosition() - dir * bodyDistance;
+            dogBody.setPosition(lerp(dogBody.getPosition(), bodyPos, 0.4f));
+
+            // Ears
+            sf::Vector2f sideOffset(-dir.y, dir.x);
+            float earBackOffset = 3.f;
+            float earOffset = 12.f;
+            sf::Vector2f earPosBase = dogHead.getPosition() - dir * earBackOffset;
+            dogEarLeft.setPosition(earPosBase + sideOffset * earOffset);
+            dogEarRight.setPosition(earPosBase - sideOffset * earOffset);
+
+            // Tail
+            float tailDistance = dogBody.getRadius() + 10.f;
+            dogTail.setPosition(dogBody.getPosition() - dir * tailDistance);
+
+            float tailAngle = atan2(dir.y, dir.x) * 180.f / 3.14159f;
+            dogTail.setRotation(tailAngle + 180.f);
+
+            // Snout
+            float snoutOffsetDistance = dogHead.getRadius() + 1.5f;
+            sf::Vector2f snoutOffset = normaliseVector(dir) * snoutOffsetDistance;
+            dogSnout.setPosition(dogHead.getPosition() + snoutOffset);
+            float snoutAngle = atan2(dir.y, dir.x) * 180.f / 3.14159f;
+            dogSnout.setRotation(snoutAngle);
+        }
+    }
+    else
+    {
+        // Sitting
+        dogBody.setPosition(dogBody.getPosition());
+        dogHead.setPosition(dogHead.getPosition());
+        dogTail.setPosition(dogTail.getPosition());
+        dogEarLeft.setPosition(dogEarLeft.getPosition());
+        dogEarRight.setPosition(dogEarRight.getPosition());
+    }
 }
 
 // Create Bark

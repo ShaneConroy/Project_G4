@@ -41,5 +41,11 @@ private:
 	float barkCooldown = 0.f;
 	float barkCooldownMax = 3.f;
 
+	bool sitting = false;
+	bool middleMousePressedLastFrame = false;
+
+	int sitTimer = 0.0f;
+	int sitTimerCap = 3.0f;
+
 };
 

@@ -48,6 +48,7 @@ public:
 	bool isLeader = false;
 	bool beingEaten = false;
 	bool eatenByWolf = false;
+	bool isArrived = false;
 
 	struct sheepStats
 	{
@@ -69,8 +70,6 @@ public:
 
 	};
 	sheepStats myStats;
-
-	
 
 private:
 

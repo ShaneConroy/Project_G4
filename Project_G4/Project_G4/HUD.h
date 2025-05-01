@@ -25,6 +25,7 @@ public:
 	sf::Sprite& getBuilding_Garden() { return garden; };
 	sf::Sprite& getShearButton() { return shearButton; };
 	sf::Sprite& getShears() { return shears; };
+	sf::Sprite& getCombineButton() { return combineButton; };
 
 	void updateHUDMoney(int);
 
@@ -79,6 +80,9 @@ private:
 
 	sf::Texture shearsTexture;
 	sf::Sprite shears;
+
+	sf::Texture combineButtonTexture;
+	sf::Sprite combineButton;
 
 	bool poppedOut = false;
 

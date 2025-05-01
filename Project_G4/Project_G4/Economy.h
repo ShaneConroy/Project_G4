@@ -20,6 +20,7 @@ public:
 	bool stuck = false;
 	bool whistle = false;
 	bool shearsOn = false;
+	bool combine = false;
 
 	void update(sf::Vector2i mousePos);
 	void addFunds(Funds_Enum fundType);
@@ -42,6 +43,8 @@ public:
 	void upgradeLoom(sf::IntRect);
 	void upgradeMarket(sf::IntRect);
 	void upgradeGarden(sf::IntRect);
+
+	void combineButtonFunc(sf::Vector2i mousePos);
 
 	void setUpUpgradeMaps();
 
@@ -66,7 +69,7 @@ private:
 	Funds_Enum fundType;
 	Sheep sheep;
 
-	int currentFunds = 1000;
+	int currentFunds = 99900;
 
 	int buttonDelay = 12;
 
@@ -89,6 +92,7 @@ private:
 	int stuckTimer;
 	int whistleTimer;
 	int shearsTimer;
+	int combineTimer;
 
 	const int maxBarnLevel = 5; // Max sheep
 	const int maxLooomLevel = 5; // Wool sell price

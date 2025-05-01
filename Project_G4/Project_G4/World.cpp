@@ -138,7 +138,6 @@ void World::spawnWolf()
     wolf.emplace(randNum);
 }
 
-
 // Updates how many sheep the player can have at one time
 void World::up_SheepMax()
 {
@@ -348,7 +347,7 @@ sf::Color World::DaylightCycle()
     float g = dayColor.g + transition * (nightColor.g - dayColor.g);
     float b = dayColor.b + transition * (nightColor.b - dayColor.b);
 
-    // Error with "narrowing conversion." The static_cast was ChatGPTs solution
+    // Error with "narrowing conversion." The static_cast<sf::Uint8> was ChatGPTs solution
     newColour = { static_cast<sf::Uint8>(r),
                   static_cast<sf::Uint8>(g),
                   static_cast<sf::Uint8>(b) };
@@ -397,6 +396,8 @@ void World::Draw(sf::RenderWindow& window)
     {
         window.draw(upgradeText);
     }
+
+	window.draw(combinerSprite);
 }
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
@@ -538,12 +539,6 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
         }
     }
 
-    herd.clear();
-    for (auto& sheep : sheepArray)
-    {
-        herd.push_back(&sheep);
-    }
-
 	shearsFunc(mousePos);
 
     fence.gateFunction(mousePos);
@@ -565,6 +560,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     econ.upgradeGrassPurchaseAmount(mousePos);
     econ.whistleButtonFunc(mousePos);
 	econ.shearsButtonFunc(mousePos);
+	econ.combineButtonFunc(mousePos);
+
 
     up_SheepMax();
     up_WoolSell();
@@ -644,6 +641,51 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     }
 
     dog.Update(mousePos);
+
+    if (sheepArray.size() > 30)
+    {
+        if (econ.combine)
+        {
+            sf::Vector2f target = { 600.f, 855.f };
+            bool allAtTarget = true;
+
+            for (Sheep& sheep : sheepArray)
+            {
+                if (!sheep.isArrived)
+                {
+                    sf::Vector2f pos = sheep.getPosition();
+                    sf::Vector2f newPos = lerp(pos, target, 0.05f);
+                    sheep.setPosition(newPos);
+
+                    if (getDistanceBetween(newPos, target) > 20.f)
+                    {
+                        allAtTarget = false;
+                    }
+                    else {
+						sheep.isArrived = true;
+                    }
+                }
+
+                if (!sheep.isArrived)
+                {
+                    allAtTarget = false;
+                }
+            }
+
+            if (allAtTarget)
+            {
+                combineFunc(sheepArray);
+                econ.combine = false;
+            }
+        }
+    }
+
+
+    herd.clear();
+    for (auto& sheep : sheepArray)
+    {
+        herd.push_back(&sheep);
+    }
 }
 
 // Gives the player his money for picking up wool, then spawns floating text
@@ -659,6 +701,12 @@ void World::woolCollectFunc(sf::Vector2i mousePos, int value)
    newText.text.setPosition(mousePos.x, mousePos.y - 15);  
    newText.velocity = sf::Vector2f(0.f, -30.f);  
    floatingTexts.push_back(newText);  
+}
+
+void World::combineFunc(std::vector< Sheep> sheepArray)
+{
+    combiner.Combine(sheepArray);
+	econ.combine = false;
 }
 
 // Displays the cost of the upgrade when hovering over the button so player can see prices

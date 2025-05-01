@@ -7,6 +7,7 @@
 #include "Funds_Enum.h"  
 #include "Wolf.h"  
 #include "Dog.h"  
+#include "Combiner.h"
 
 // Day -> (134, 172, 19)
 // Night -> (40, 108, 89)
@@ -21,8 +22,11 @@ private:
   Fence fence;  
   std::optional<Wolf> wolf;
   Dog dog;  
+  Combiner combiner;
 
-  sf::RectangleShape bg;  
+  sf::RectangleShape bg;
+  sf::Sprite combinerSprite;
+  sf::Texture combinerTexture;
 
   std::vector<sf::Vector2f> UpdateGrassNodes();  
 
@@ -39,6 +43,8 @@ private:
   void shearsFunc(sf::Vector2i mousePos);  
   void woolCollectFunc(sf::Vector2i mousePos, int value);  
 
+  void combineFunc(std::vector< Sheep>);
+
   void displayCosts(sf::Vector2i mousePos);  
 
   float transition = 0.0f;  
@@ -46,7 +52,7 @@ private:
   float sheepHeartCooldownCap = 0.5f;  
 
   bool isDay = true;
-  bool showHoverText = false;  
+  bool showHoverText = false;
 
   const int GRASS_CAP = 30;  
   const int timeInDay = 3334;  
@@ -75,7 +81,7 @@ private:
   // For wool particles that pop out after shearing
   struct WoolParticle
   {  
-      sf::CircleShape shape;  
+      sf::CircleShape shape;
       sf::Vector2f velocity;  
       bool canCollect = false;  
       float collectDelay = 1.f; 
@@ -115,6 +121,11 @@ public:
       upgradeText.setCharacterSize(18);  
       upgradeText.setFillColor(sf::Color::White);  
       wolvesAbout = 0; // Initialize wolvesAbout in the constructor  
+
+	  combinerTexture.loadFromFile("ASSETS/ART/tempCombiner.png");
+	  combinerSprite.setTexture(combinerTexture);
+	  combinerSprite.setOrigin(combinerSprite.getGlobalBounds().width / 2, combinerSprite.getGlobalBounds().height / 2);
+	  combinerSprite.setPosition(575.f, 850.f);
   }  
   ~World()  
   {  

@@ -106,6 +106,13 @@ HUD::HUD()
 	shears.setTexture(shearsTexture);
 	shears.setPosition(-999, -999);
 	shears.setScale(1.05, 1.05);
+
+	combineButtonTexture.loadFromFile("Assets/ART/combineButton.png");
+	combineButton.setTexture(combineButtonTexture);
+	combineButton.setPosition(105, 120);
+	combineButton.setScale(scal, scal);
+
+
 }
 
 void HUD::Draw(sf::RenderWindow& window, bool popOut)
@@ -141,6 +148,8 @@ void HUD::Draw(sf::RenderWindow& window, bool popOut)
 		window.draw(grassPurchaseAmountUpgrade);
 
 		window.draw(stuckButton);
+
+		window.draw(combineButton);
 	}
 
 }

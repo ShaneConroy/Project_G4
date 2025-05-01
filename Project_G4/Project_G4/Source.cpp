@@ -41,7 +41,7 @@ void main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             window.close();
         sf::Vector2i getMousePosition = { sf::Mouse::getPosition(window) };
-
+		//std::cout << "Mouse Position: " << getMousePosition.x << ", " << getMousePosition.y << std::endl;
         sf::Time deltaTime = clock.restart();
         timeSinceLastFixedUpdate += deltaTime;
 
