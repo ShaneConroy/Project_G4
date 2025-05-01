@@ -2,7 +2,10 @@
 
 Sheep::Sheep()
 {
-	int num = getNumberBetween(1, 10);
+	// Setting up sheep's stats
+	myStats = generateStats();
+
+	int num = getNumberBetweenInt(1, 10);
 	if (num == 8 || num == 9 || num == 10)
 	{
 		myStats.canReproduce = false;
@@ -11,7 +14,11 @@ Sheep::Sheep()
 	{
 		myStats.deaf = true;
 	}
+	int G = getNumberBetweenInt(1, 100);
+	if(G == 1)
+		myStats.goldenSheep = true;
 
+	// Body
 	sheepBody.setRadius(myStats.bodySize);
 	sheepBody.setFillColor(sf::Color::White);
 	sheepBody.setOrigin(sheepBody.getRadius(), sheepBody.getRadius());
@@ -30,6 +37,14 @@ Sheep::Sheep()
 
 	previousPosition = spawnPos;
 	currentBehaviour = behaviours::exiting;
+
+	if (myStats.goldenSheep)
+	{
+		sheepBody.setFillColor(sf::Color(255, 215, 0));
+		sheepHead.setFillColor(sf::Color(255, 215, 0));
+		myStats.canReproduce = false; // Golden sheep cannot reproduce
+		myStats.woolBonus = 100;
+	}
 }
 
 Sheep::~Sheep()
@@ -52,7 +67,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 		movementDirection = sf::Vector2f(0.f, 0.f);
 	}
 	else {
-		if (whistleDelay > 0.f)
+		if (whistleDelay > 0.f) // Being deaf is handled in world
 		{
 			whistleDelay -= deltaTime;
 
@@ -83,8 +98,11 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 					{
 						sheepBody.setRadius(myStats.bodySize + amountEaten);
 
-						int shade = std::max(100, 255 - (amountEaten * 20));
-						sheepBody.setFillColor(sf::Color(shade, shade, shade));
+						if (!myStats.goldenSheep)
+						{
+							int shade = std::max(100, 255 - (amountEaten * 20));
+							sheepBody.setFillColor(sf::Color(shade, shade, shade));
+						}
 					}
 				}
 
@@ -95,7 +113,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 			if (isLeader)
 			{
 				flock[0].myStats.walkSpeed = 50.f;
-				//myStats.walkSpeed = myStats.walkSpeed + 50.f; // TODO // Fix
+				//myStats.walkSpeed = myStats.walkSpeed + 50.f; // TODO // Fix. Leaders should be faster
 				movementDirection = leaderBehaviour(deltaTime, innerGrass, exitFence, flock, grassPositions);
 				leadTimer += deltaTime;
 				if (leadTimer >= 2.f)
@@ -450,6 +468,80 @@ sf::Vector2f Sheep::handleRecall(float deltaTime, sf::RectangleShape exitFence, 
 		// No movement while waiting
 		return { 0.f, 0.f };
 	}
+}
+
+// Generates random stats for the sheep
+Sheep::sheepStats Sheep::generateStats()
+{
+	Sheep::sheepStats stats;
+
+	// These will always be defaluted to 0
+	stats.greatness = 0;
+	stats.timeAlive = 0.f;
+	stats.timeCLoseToWolf = 0.f;
+
+	int howMuchBuffs = getNumberBetweenInt(0, 2);
+	int howMuchDebuffs = getNumberBetweenInt(0, 2);
+
+	for (int iter = 0; iter < howMuchBuffs; iter++)
+	{
+		int statsToBuff = getNumberBetweenInt(0, 5);
+		switch (statsToBuff)
+		{
+		case 0:
+			stats.walkSpeed += getNumberBetweenInt(1, 25);
+			break;
+		case 1:
+			stats.eatSpeed += getNumberBetweenFloat(1.0f, 5.0f);
+			break;
+		case 2:
+			stats.woolBonus += getNumberBetweenInt(10, 100);
+			break;
+		case 3:
+			stats.bodySize += getNumberBetweenInt(1, 10);
+			break;
+		case 4:
+			stats.awarness -= getNumberBetweenFloat(0.0f, 2.0f);
+			break;
+		case 5:
+			stats.fear += getNumberBetweenInt(10, 100);
+			break;
+		default:
+			break;
+		}
+	}
+
+	for (int iter = 0; iter < howMuchDebuffs; iter++)
+	{
+		int statsToDebuff = getNumberBetweenInt(0, 5);
+		{
+			switch (statsToDebuff)
+			{
+			case 0:
+				stats.walkSpeed -= getNumberBetweenInt(1, 25);
+				break;
+			case 1:
+				stats.eatSpeed -= getNumberBetweenFloat(1.0f, 5.0f);
+				break;
+			case 2:
+				stats.woolBonus -= getNumberBetweenInt(10, 100);
+				break;
+			case 3:
+				stats.bodySize -= getNumberBetweenInt(1, 5);
+				break;
+			case 4:
+				stats.awarness += getNumberBetweenFloat(0.0f, 2.0f);
+				break;
+			case 5:
+				stats.fear -= getNumberBetweenInt(10, 100);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	return stats;
 }
 
 // Keep them aopart

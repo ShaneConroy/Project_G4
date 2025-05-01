@@ -1,18 +1,30 @@
 #include "Combiner.h"
 
-// This will take all the sheep and combine the top 4 into one
+// Sorts the flock vector by who has most greateness, then takes the top 4 best sheep and combines them into one
 void Combiner::Combine(std::vector<Sheep>& flock)
 {
-	// Sorts the flock vector by who has most greateness
+	// Sort top 4
 	std::sort(flock.begin(), flock.end(), [](const Sheep& a, const Sheep& b) {
 		return a.getGreatness() > b.getGreatness();
 		});
-	// Then takes the top 4 best sheep
 	std::vector<Sheep> topSheep(flock.begin(), flock.begin() + 4);
 
-	// Then combines them into one sheep
 	Sheep combinedSheep;
-	Sheep::sheepStats newStats = { 0 };
+
+	// Reset variables
+	Sheep::sheepStats newStats{};
+	newStats.greatness = 0;
+	newStats.timeAlive = 0.f;
+	newStats.timeCLoseToWolf = 0.f;
+	newStats.canReproduce = true;
+	newStats.deaf = false;
+	newStats.walkSpeed = 45.0f;
+	newStats.eatSpeed = 5.0f;
+	newStats.woolBonus = 50;
+	newStats.bodySize = 15;
+	newStats.awarness = 2.0f;
+	newStats.fear = 100.f;
+
 
 
 }

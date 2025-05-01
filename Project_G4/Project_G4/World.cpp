@@ -266,9 +266,16 @@ void World::shearsFunc(sf::Vector2i mousePos)
                             woolParticles.push_back(woolParticle);
                         }
 
-                        sheep.setColour(sf::Color::White);
+                        if (!sheep.myStats.goldenSheep)
+                        {
+                            sheep.setColour(sf::Color::White);
+                        }
+                        else
+                        {
+							sheep.setColour(sf::Color(255, 215, 0));
+                        }
                         sheep.amountEaten = 0;
-                        sheep.setRadius(15.f);
+                        sheep.setRadius(sheep.myStats.bodySize);
                     }
                 }
 

@@ -51,21 +51,26 @@ public:
 
 	struct sheepStats
 	{
-		int greatness; // How "great" a sheep is
-		float timeAlive;
-		float timeCLoseToWolf;
+		int greatness = 0; // How "great" a sheep is
 
+		float timeAlive = 0.f;
+		float timeCLoseToWolf = 0.f;
 		float walkSpeed = 45.0f;
 		float eatSpeed = 5.0;
-		int woolBonus = 50;
-		int bodySize = 15;
-		bool canReproduce = true; // If false, cant reproduce
-		bool deaf = false; // If deaf, doesnt react to whistle
 		float awarness = 2.0f; // How quick sheep react to the whistle
 		float fear = 100.f; // Diatance from when sheep see the wolf
 
+		int woolBonus = 50;
+		int bodySize = 15;
+
+		bool canReproduce = true; // If false, cant reproduce
+		bool deaf = false; // If deaf, doesnt react to whistle
+		bool goldenSheep = false;
+
 	};
 	sheepStats myStats;
+
+	
 
 private:
 
@@ -118,4 +123,6 @@ private:
 	sf::Vector2f awayFromDog(sf::Vector2f dogPos);
 
 	sf::Vector2f handleRecall(float deltaTime, sf::RectangleShape exitFence, sf::RectangleShape innerGrass);
+
+	sheepStats generateStats();
 };

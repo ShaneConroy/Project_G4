@@ -38,11 +38,20 @@ sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float t)
     return a + (b - a) * t;
 }
 
-int getNumberBetween(int min, int max)
+int getNumberBetweenInt(int min, int max)
 {
     static std::random_device rd;
     static std::mt19937 gen(rd());
-    static std::uniform_int_distribution<> dis(min, max);
+    std::uniform_int_distribution<> dis(min, max);
+
+    return dis(gen);
+}
+
+int getNumberBetweenFloat(float min, float max)
+{
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dis(min, max);
 
     return dis(gen);
 }

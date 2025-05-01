@@ -13,4 +13,5 @@ sf::Vector2f normaliseVector(sf::Vector2f);
 sf::Vector2f randomPosOnField(const sf::Vector2f& xRange, const sf::Vector2f& yRange);
 float vectorLength(const sf::Vector2f&);
 sf::Vector2f lerp(sf::Vector2f a, sf::Vector2f b, float t);
-int getNumberBetween(int min, int max);
+int getNumberBetweenInt(int min, int max);
+int getNumberBetweenFloat(float min, float max);
