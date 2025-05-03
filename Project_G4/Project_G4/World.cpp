@@ -447,7 +447,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     for (Sheep& sheep : sheepArray)
     {
         // If the gate is open or sheep is outside the pen
-        if (fence.gateOpen || !fence.getRectArea().getGlobalBounds().contains(sheep.getPosition()) && wolf)
+        if (fence.gateOpen || !fence.getRectArea().getGlobalBounds().contains(sheep.getPosition())) // Note to self: If wolf ever gives weird error, I removed the check here
         {
             sheep.Update(deltaTime, fence.getRect(), fence.getRectArea(), UpdateGrassNodes(), sheepArray, dog.getPosition(), wolfPos);
         }
@@ -548,7 +548,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     UpdateGrassNodes();
     SpawnGrassNodes();
 
-    econ.calculatePassiveIncome(static_cast<int>(sheepArray.size()));
+    //econ.calculatePassiveIncome(static_cast<int>(sheepArray.size()));
     econ.stuckButtonFunc(mousePos);
     econ.sellSheep(mousePos);
     econ.buySheep(mousePos);
@@ -646,7 +646,8 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     {
         if (econ.combine)
         {
-            sf::Vector2f target = { 600.f, 855.f };
+            //sf::Vector2f target = { 600.f, 855.f }; // !!!
+            sf::Vector2f target = { 600.f, 400 };
             bool allAtTarget = true;
 
             for (Sheep& sheep : sheepArray)
@@ -679,7 +680,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             }
         }
     }
-
+    std::cout << sheepArray.size() << std::endl;
 
     herd.clear();
     for (auto& sheep : sheepArray)
@@ -703,7 +704,7 @@ void World::woolCollectFunc(sf::Vector2i mousePos, int value)
    floatingTexts.push_back(newText);  
 }
 
-void World::combineFunc(std::vector< Sheep> sheepArray)
+void World::combineFunc(std::vector< Sheep>& sheepArray)
 {
     combiner.Combine(sheepArray);
 	econ.combine = false;

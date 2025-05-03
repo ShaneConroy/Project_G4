@@ -43,7 +43,7 @@ private:
   void shearsFunc(sf::Vector2i mousePos);  
   void woolCollectFunc(sf::Vector2i mousePos, int value);  
 
-  void combineFunc(std::vector< Sheep>);
+  void combineFunc(std::vector< Sheep>&);
 
   void displayCosts(sf::Vector2i mousePos);  
 

@@ -10,5 +10,7 @@ public:
 
 private:
 
+	void sortByGreatness(std::vector<Sheep>& flock);
+
 };
 

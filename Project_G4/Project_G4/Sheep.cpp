@@ -47,6 +47,38 @@ Sheep::Sheep()
 	}
 }
 
+// Constructor for the combiner
+Sheep::Sheep(Sheep::sheepStats stats) : myStats(stats)
+{
+	// Body
+	sheepBody.setRadius(myStats.bodySize);
+	sheepBody.setFillColor(sf::Color((1, 92, 146))); // Blue to tell which is the new sheep
+	sheepBody.setOrigin(sheepBody.getRadius(), sheepBody.getRadius());
+	sheepBody.setPosition({ 600.f, 400.f }); // 855.f
+
+	// Head
+	sheepHead.setRadius(10);
+	sheepHead.setFillColor(sf::Color::Black);
+	sheepHead.setOrigin(sheepHead.getRadius(), sheepHead.getRadius());
+	sheepHead.setPosition({ 600.f, 400.f });
+
+
+	int num = getNumberBetweenInt(1, 10);
+	if (num == 8 || num == 9 || num == 10)
+	{
+		myStats.canReproduce = false;
+	}
+	if (num == 1 || num == 2)
+	{
+		myStats.deaf = true;
+	}
+
+	previousPosition = { 600.f, 400.f }; // Spawn on Construtor
+
+	currentBehaviour = behaviours::exiting;
+}
+
+
 Sheep::~Sheep()
 {
 }

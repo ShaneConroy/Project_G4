@@ -8,9 +8,6 @@ class Sheep
 {
 public:
 
-	Sheep();
-	~Sheep();
-
 	GrassUtility grassUtility;
 
 	void Draw(sf::RenderWindow& window);
@@ -53,6 +50,7 @@ public:
 	struct sheepStats
 	{
 		int greatness = 0; // How "great" a sheep is
+		int prestige = 0;
 
 		float timeAlive = 0.f;
 		float timeCLoseToWolf = 0.f;
@@ -70,6 +68,10 @@ public:
 
 	};
 	sheepStats myStats;
+
+	Sheep();
+	Sheep(Sheep::sheepStats stats);
+	~Sheep();
 
 private:
 
