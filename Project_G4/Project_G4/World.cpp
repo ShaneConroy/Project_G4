@@ -650,8 +650,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     {
         if (econ.combine)
         {
-            //sf::Vector2f target = { 600.f, 855.f }; // !!!
-            sf::Vector2f target = { 600.f, 400 };
+            sf::Vector2f target = { 600.f, 855.f };
             bool allAtTarget = true;
 
             for (Sheep& sheep : sheepArray)
@@ -684,7 +683,6 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
             }
         }
     }
-    std::cout << sheepArray.size() << std::endl;
 
     herd.clear();
     for (auto& sheep : sheepArray)

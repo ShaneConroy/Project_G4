@@ -52,15 +52,28 @@ Sheep::Sheep(Sheep::sheepStats stats) : myStats(stats)
 {
 	// Body
 	sheepBody.setRadius(myStats.bodySize);
-	sheepBody.setFillColor(sf::Color((1, 92, 146))); // Blue to tell which is the new sheep
+	if (myStats.infected)
+	{
+		sheepBody.setFillColor(sf::Color(57, 200, 32));
+		sheepHead.setFillColor(sf::Color(57, 230, 32));
+	}
+	else if (myStats.prestige = 1)
+	{
+		sheepBody.setFillColor(sf::Color(188, 230, 255)); // Blue to tell which is the new sheep
+		sheepHead.setFillColor(sf::Color::Black);
+	}
+	//else if ()
+	//{
+	//	// Higher prestiges
+	//}
+
 	sheepBody.setOrigin(sheepBody.getRadius(), sheepBody.getRadius());
-	sheepBody.setPosition({ 600.f, 400.f }); // 855.f
+	sheepBody.setPosition({ 600.f, 855.f });
 
 	// Head
 	sheepHead.setRadius(10);
-	sheepHead.setFillColor(sf::Color::Black);
 	sheepHead.setOrigin(sheepHead.getRadius(), sheepHead.getRadius());
-	sheepHead.setPosition({ 600.f, 400.f });
+	sheepHead.setPosition({ 600.f, 855.f });
 
 
 	int num = getNumberBetweenInt(1, 10);
@@ -73,7 +86,7 @@ Sheep::Sheep(Sheep::sheepStats stats) : myStats(stats)
 		myStats.deaf = true;
 	}
 
-	previousPosition = { 600.f, 400.f }; // Spawn on Construtor
+	previousPosition = { 600.f, 855.f };
 
 	currentBehaviour = behaviours::exiting;
 }
@@ -99,6 +112,25 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 		movementDirection = sf::Vector2f(0.f, 0.f);
 	}
 	else {
+		// Infected sheep only wander, nothing else // TODO FIX
+		//if (myStats.infected)
+		//{
+		//	movementDirection = behaviour.wander(myStats.walkSpeed, deltaTime, sheepBody.getPosition());
+		//	sheepBody.move(movementDirection);
+
+		//	if (vectorLength(movementDirection) > 0.01f)
+		//	{
+		//		sf::Vector2f direction = normaliseVector(movementDirection);
+		//		float offsetDistance = sheepBody.getRadius() + (sheepHead.getRadius() + 20);
+		//		sf::Vector2f targetHeadPos = sheepBody.getPosition() + direction * offsetDistance;
+
+		//		float smoothing = 1.5f * deltaTime;
+		//		sheepHead.setPosition(lerp(sheepHead.getPosition(), targetHeadPos, smoothing));
+		//	}
+
+		//	return;
+		//}
+
 		if (whistleDelay > 0.f) // Being deaf is handled in world
 		{
 			whistleDelay -= deltaTime;

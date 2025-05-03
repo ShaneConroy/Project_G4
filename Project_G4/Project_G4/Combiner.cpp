@@ -56,6 +56,13 @@ void Combiner::Combine(std::vector<Sheep>& flock)
 	newStats.awarness = getWeightofStat([](const Sheep& sheep) {return sheep.myStats.awarness;});
 	newStats.fear = getWeightofStat([](const Sheep& sheep) {return sheep.myStats.fear;});
 
+	int mutationRoll = getNumberBetweenInt(1, 100);
+	if (mutationRoll <= 5)
+	{
+		std::cout << "Mutation occurred! Sheep is infected." << std::endl;
+		newStats.infected = true;
+	}
+
 	Sheep combinedSheep(newStats);
 	std::cout << "New sheep created..." << std::endl;
 	flock.push_back(combinedSheep);
