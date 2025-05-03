@@ -130,10 +130,29 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 					{
 						sheepBody.setRadius(myStats.bodySize + amountEaten);
 
-						if (!myStats.goldenSheep)
+						if (!myStats.goldenSheep && !myStats.infected)
 						{
-							int shade = std::max(100, 255 - (amountEaten * 20));
-							sheepBody.setFillColor(sf::Color(shade, shade, shade));
+							if (myStats.prestige == 0) // White sheep.
+							{
+								int shade = std::max(100, 255 - (amountEaten * 20));
+								sheepBody.setFillColor(sf::Color(shade, shade, shade));
+							}
+							else if (myStats.prestige == 1) // Blue sheep.
+							{
+								float blend = std::clamp(static_cast<float>(amountEaten) / maxEaten, 0.f, 1.f);
+
+								int r = static_cast<int>(188 + blend * (1 - 188));
+								int g = static_cast<int>(230 + blend * (92 - 230));
+								int b = static_cast<int>(255 + blend * (146 - 255));
+
+								sf::Color stepColor(
+									std::clamp(r, 0, 255),
+									std::clamp(g, 0, 255),
+									std::clamp(b, 0, 255)
+								);
+
+								sheepBody.setFillColor(stepColor);
+							}
 						}
 					}
 				}

@@ -65,6 +65,7 @@ public:
 		bool canReproduce = true; // If false, cant reproduce
 		bool deaf = false; // If deaf, doesnt react to whistle
 		bool goldenSheep = false;
+		bool infected = false;
 
 	};
 	sheepStats myStats;
@@ -95,6 +96,11 @@ private:
 
 	int maxEaten = 7; // Dont make them too fat
 	int leadTimer = 0;
+
+	// For the prestige sheep's colours
+	//
+	// lightBlue = (188, 230, 255);
+	// darkBlue = (1, 92, 146);
 
 	std::vector<sf::Vector2f> availibleGrassNodes;
 

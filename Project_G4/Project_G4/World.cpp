@@ -269,9 +269,13 @@ void World::shearsFunc(sf::Vector2i mousePos)
                         {
                             sheep.setColour(sf::Color::White);
                         }
-                        else
+                        if (sheep.myStats.prestige == 0)
                         {
-							sheep.setColour(sf::Color(255, 215, 0));
+                            sheep.setColour(sf::Color(255, 215, 0));
+                        }
+                        else if (sheep.myStats.prestige == 1)
+                        {
+                            sheep.setColour(sf::Color(188, 230, 255));
                         }
                         sheep.amountEaten = 0;
                         sheep.setRadius(sheep.myStats.bodySize);
