@@ -1,17 +1,13 @@
 #include "Combiner.h"
 
 // Sorts the flock vector by who has most greateness, then takes the top 4 best sheep and combines them into one
-void Combiner::Combine(std::vector<Sheep>& flock)
+void Combiner::Combine(std::vector<Sheep>& topFour, std::vector<Sheep>& flock)
 {
+	std::cout << "Combining..." << std::endl;
 
-	std::cout << "Combining sheep..." << std::endl;
-
-	sortByGreatness(flock);
-
-	std::vector<Sheep> topSheep(flock.begin(), flock.begin() + 4); // Get top 4 greatest sheep
 	for (int i = 0; i < 4; ++i)
 	{
-		flock[i].myStats.prestige += 1;
+		topFour[i].myStats.prestige += 1;
 	}
 
 	// Reset variables
@@ -30,7 +26,7 @@ void Combiner::Combine(std::vector<Sheep>& flock)
 	newStats.fear = 100.f;
 
 	float totalGreatness = 0;
-	for (const Sheep& sheep : topSheep)
+	for (const Sheep& sheep : topFour)
 	{
 		totalGreatness += sheep.getGreatness();
 	}
@@ -40,7 +36,7 @@ void Combiner::Combine(std::vector<Sheep>& flock)
 		{
 			float trueValue = 0;
 
-			for (auto& sheep : topSheep)
+			for (auto& sheep : topFour)
 			{
 				float weight = sheep.getGreatness() / totalGreatness;
 				trueValue += Stat(sheep) * weight;
@@ -67,15 +63,5 @@ void Combiner::Combine(std::vector<Sheep>& flock)
 	std::cout << "New sheep created..." << std::endl;
 	flock.push_back(combinedSheep);
 	std::cout << "New sheep in array." << std::endl;
-}
-
-// Sorts the array so the greatess sheep is first
-void Combiner::sortByGreatness(std::vector<Sheep>& flock)
-{
-	std::cout << "Sorting array..." << std::endl;
-
-	std::sort(flock.begin(), flock.end(), [](const Sheep& a, const Sheep& b) {
-		return a.getGreatness() > b.getGreatness();
-		});
 }
 

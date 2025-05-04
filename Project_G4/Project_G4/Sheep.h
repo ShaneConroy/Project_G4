@@ -88,6 +88,7 @@ private:
 	float herdingTimer = 0.0f;
 	float herdingTimerCap = 0.5f;
 	float recallTimer = 10.f;
+	float infectedTTL = 45.f;
 
 	bool exiting = false;
 	bool recalling = false;

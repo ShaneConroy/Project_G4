@@ -1,5 +1,5 @@
 #include "Wolf.h"
-
+#include "World.h"
 
 Wolf::Wolf(int spawnLocale)
 {
@@ -53,7 +53,7 @@ void Wolf::Draw(sf::RenderWindow& window)
 }
 
 // Updates the wolf's state to hunt the closest sheep
-void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape innerGrass)
+void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape innerGrass, World* world)
 {
     position = wolfBody.getPosition();
 
@@ -123,6 +123,23 @@ void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape 
         {
             targetSheep->eatenByWolf = true;
             targetSheep->beingEaten = false;
+            if (targetSheep->myStats.infected == true) // If wolf ate an infected sheep. Wolf dies and drops cash orb
+            {
+                // Cash orb particle
+                WoolParticle cashOrb;
+                cashOrb.shape.setRadius(12.f);
+                cashOrb.shape.setFillColor(sf::Color(242, 43, 110));
+                cashOrb.shape.setPosition(wolfBody.getPosition());
+                cashOrb.sourceSheep = targetSheep; // Reuse for bonus calc
+
+                float angle = static_cast<float>((rand() % 360) * (3.14159 / 180.f));
+                float speed = static_cast<float>((rand() % 30) + 50);
+                cashOrb.velocity = { cos(angle) * speed, sin(angle) * speed };
+
+                world->spawnCashOrb(cashOrb);
+
+                isWolfDead = true;
+            }
             targetSheep = nullptr;
             isEating = false;
             eatTimer = eatDuration;

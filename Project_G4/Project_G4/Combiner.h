@@ -6,11 +6,9 @@ class Combiner
 {
 public:
 
-	void Combine(std::vector<Sheep>& flock);
+	void Combine(std::vector<Sheep>& topFour, std::vector<Sheep>& flock);
 
 private:
-
-	void sortByGreatness(std::vector<Sheep>& flock);
 
 };
 

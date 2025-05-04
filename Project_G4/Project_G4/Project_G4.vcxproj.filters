@@ -101,5 +101,8 @@
     <ClInclude Include="Combiner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WoolParticle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

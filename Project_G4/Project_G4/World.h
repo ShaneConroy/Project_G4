@@ -8,6 +8,7 @@
 #include "Wolf.h"  
 #include "Dog.h"  
 #include "Combiner.h"
+#include "WoolParticle.h"
 
 // Day -> (134, 172, 19)
 // Night -> (40, 108, 89)
@@ -53,6 +54,7 @@ private:
 
   bool isDay = true;
   bool showHoverText = false;
+  bool isWolfDead = false;
 
   const int GRASS_CAP = 30;  
   const int timeInDay = 3334;  
@@ -77,16 +79,6 @@ private:
   sf::Vector2f wolfPos;
 
   // To avoid new classes, I'm making structs
-  //  
-  // For wool particles that pop out after shearing
-  struct WoolParticle
-  {  
-      sf::CircleShape shape;
-      sf::Vector2f velocity;  
-      bool canCollect = false;  
-      float collectDelay = 1.f; 
-      Sheep* sourceSheep = nullptr;
-  };  
 
   // For the HUD element telling the player how much they've earned from wool  
   struct FloatingText  
@@ -105,12 +97,19 @@ private:
   sf::Text upgradeText;  
 
 public:  
+
   int WorldTime();  
   sf::Color DaylightCycle();  
+
   void Draw(sf::RenderWindow& window);  
-  void PassGrassToSheep();  
+
+  void PassGrassToSheep(); 
+  void spawnCashOrb(const WoolParticle& orb);
+  bool isDead() const { return isWolfDead; }
+
   void Update(float, sf::Vector2i);  
   void FixedUpdate(sf::Vector2i mousePos);  
+
   World()  
   {  
       bg.setSize({ SCREEN_WIDTH, SCREEN_HEIGHT });  

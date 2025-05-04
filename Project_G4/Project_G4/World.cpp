@@ -78,6 +78,11 @@ void World::PassGrassToSheep()
     }
 }
 
+void World::spawnCashOrb(const WoolParticle& orb)
+{
+    woolParticles.push_back(orb);
+}
+
 // Updates the grass colour of the fenced area to match the rest of the world
 void World::updateFencedGrass()
 {
@@ -529,7 +534,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     }
 
     if (wolf)
-        wolf->Hunt(herd, deltaTime, getInnerFence());
+        wolf->Hunt(herd, deltaTime, getInnerFence(), this);
 
     for (auto iter = sheepArray.begin(); iter != sheepArray.end(); )
     {
@@ -646,48 +651,21 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 
     dog.Update(mousePos);
 
-    if (sheepArray.size() > 30)
+    if (econ.combine)
     {
-        if (econ.combine)
-        {
-            sf::Vector2f target = { 600.f, 855.f };
-            bool allAtTarget = true;
-
-            for (Sheep& sheep : sheepArray)
-            {
-                if (!sheep.isArrived)
-                {
-                    sf::Vector2f pos = sheep.getPosition();
-                    sf::Vector2f newPos = lerp(pos, target, 0.05f);
-                    sheep.setPosition(newPos);
-
-                    if (getDistanceBetween(newPos, target) > 20.f)
-                    {
-                        allAtTarget = false;
-                    }
-                    else {
-						sheep.isArrived = true;
-                    }
-                }
-
-                if (!sheep.isArrived)
-                {
-                    allAtTarget = false;
-                }
-            }
-
-            if (allAtTarget)
-            {
-                combineFunc(sheepArray);
-                econ.combine = false;
-            }
-        }
+        combineFunc(sheepArray);
     }
 
     herd.clear();
     for (auto& sheep : sheepArray)
     {
         herd.push_back(&sheep);
+    }
+
+    if (wolf && wolf->isDead())
+    {
+        wolf.reset();
+        wolvesAbout = 0; // mark wolf gone
     }
 }
 
@@ -708,8 +686,73 @@ void World::woolCollectFunc(sf::Vector2i mousePos, int value)
 
 void World::combineFunc(std::vector< Sheep>& sheepArray)
 {
-    combiner.Combine(sheepArray);
-	econ.combine = false;
+    // Count sheep that *can* reproduce
+    int reproSheepCount = std::count_if(sheepArray.begin(), sheepArray.end(),
+        [](const Sheep& s) { return s.myStats.canReproduce; });
+
+    if (reproSheepCount >= 30)
+    {
+        sf::Vector2f target = { 600.f, 855.f };
+        bool allAtTarget = true;
+
+        for (Sheep& sheep : sheepArray)
+        {
+            if (!sheep.isArrived)
+            {
+                sf::Vector2f pos = sheep.getPosition();
+                sf::Vector2f newPos = lerp(pos, target, 0.05f);
+                sheep.setPosition(newPos);
+
+                if (getDistanceBetween(newPos, target) > 20.f)
+                    allAtTarget = false;
+                else
+                    sheep.isArrived = true;
+            }
+
+            if (!sheep.isArrived)
+                allAtTarget = false;
+        }
+
+        if (allAtTarget)
+        {
+            std::vector<Sheep*> reproSheep;
+            for (Sheep& sheep : sheepArray)
+            {
+                if (sheep.myStats.canReproduce)
+                    reproSheep.push_back(&sheep);
+            }
+
+            // Sorts the array so the greatess sheep is first
+            std::sort(sheepArray.begin(), sheepArray.end(), [](const Sheep& a, const Sheep& b) {
+                return a.getGreatness() > b.getGreatness();
+                });
+
+            // Take top 4
+            std::vector<Sheep> top4;
+            for (int i = 0; i < 4; ++i)
+            {
+                top4.push_back(*reproSheep[i]);
+            }
+
+            combiner.Combine(top4, sheepArray);
+
+            // Remove the sheep that got combined
+            for (int i = 0; i < 30; ++i)
+            {
+                Sheep* toRemove = reproSheep[i];
+                auto it = std::find_if(sheepArray.begin(), sheepArray.end(), [&](const Sheep& s) {
+                    return &s == toRemove;
+                    });
+
+                if (it != sheepArray.end())
+                {
+                    sheepArray.erase(it);
+                }
+            }
+
+            econ.combine = false;
+        }
+    }
 }
 
 // Displays the cost of the upgrade when hovering over the button so player can see prices

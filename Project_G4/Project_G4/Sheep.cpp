@@ -113,23 +113,10 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 	}
 	else {
 		// Infected sheep only wander, nothing else // TODO FIX
-		//if (myStats.infected)
-		//{
-		//	movementDirection = behaviour.wander(myStats.walkSpeed, deltaTime, sheepBody.getPosition());
-		//	sheepBody.move(movementDirection);
+		if (myStats.infected)
+		{
 
-		//	if (vectorLength(movementDirection) > 0.01f)
-		//	{
-		//		sf::Vector2f direction = normaliseVector(movementDirection);
-		//		float offsetDistance = sheepBody.getRadius() + (sheepHead.getRadius() + 20);
-		//		sf::Vector2f targetHeadPos = sheepBody.getPosition() + direction * offsetDistance;
-
-		//		float smoothing = 1.5f * deltaTime;
-		//		sheepHead.setPosition(lerp(sheepHead.getPosition(), targetHeadPos, smoothing));
-		//	}
-
-		//	return;
-		//}
+		}
 
 		if (whistleDelay > 0.f) // Being deaf is handled in world
 		{
@@ -264,6 +251,15 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 			myStats.greatness += 1;
 			myStats.timeAlive = 0.f;
 		}
+
+		if (myStats.infected)
+		{
+			infectedTTL -= deltaTime;
+			if (infectedTTL <= 0.0f)
+			{
+				eatenByWolf = true; // Reusing bc its easiest
+			}
+		}
 	}
 }
 
@@ -313,6 +309,11 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 	sf::Vector2f targetPos(0.f, 0.f);
 	sf::Vector2f leaderPos = getLeaderPos(flock);
 	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(getLeaderPos(flock), availibleGrassNodes);
+
+	if (myStats.infected)
+	{
+		return targetPos = behaviour.wander(myStats.walkSpeed, deltaTime, leaderPos);
+	}
 
 	// If the leader inside the pen
 	if (innerGrass.getGlobalBounds().contains(leaderPos))
@@ -394,6 +395,11 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 	bool sheepInsidePen = innerGrass.getGlobalBounds().contains(sheepBody.getPosition());
 
 	float exitThreshold = 10.f;
+
+	if (myStats.infected)
+	{
+		return followerTargetPos = behaviour.wander(myStats.walkSpeed, deltaTime, sheepBody.getPosition());
+	}
 
 	// If follower is eating, stay still until donea
 	if (isEating)
