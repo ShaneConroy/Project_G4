@@ -3,6 +3,7 @@
 #include "Behaviours.h"
 #include "Behaviours_Enum.h"
 #include "GrassUtility.h"
+#include "ParticleManager.h"
 
 class Sheep
 {

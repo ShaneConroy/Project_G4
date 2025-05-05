@@ -9,6 +9,7 @@
 #include "Dog.h"  
 #include "Combiner.h"
 #include "WoolParticle.h"
+#include "ParticleManager.h"
 
 // Day -> (134, 172, 19)
 // Night -> (40, 108, 89)
@@ -17,13 +18,14 @@ class World
 {  
 private:  
 
-  Grass grassNode;  
+  Grass grassNode;
   Economy econ;  
   Sheep sheep;  
   Fence fence;  
   std::optional<Wolf> wolf;
   Dog dog;  
   Combiner combiner;
+  ParticleManager particleSpawner;
 
   sf::RectangleShape bg;
   sf::Sprite combinerSprite;
@@ -56,8 +58,8 @@ private:
   bool showHoverText = false;
   bool isWolfDead = false;
 
-  const int GRASS_CAP = 30;  
-  const int timeInDay = 3334;  
+  const int GRASS_CAP = 30;
+  const int timeInDay = 3334;
   int currentTime = 0;  
   int grassBuyAmount = 1;  
   int sheepCap = 5;  

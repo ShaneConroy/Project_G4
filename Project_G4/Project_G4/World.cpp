@@ -78,6 +78,7 @@ void World::PassGrassToSheep()
     }
 }
 
+// Spwans the wolf cash orb with the wool particle system
 void World::spawnCashOrb(const WoolParticle& orb)
 {
     woolParticles.push_back(orb);
@@ -116,6 +117,7 @@ void World::PopulateWorldWithSheep()
     {
         if (sheepArray.size() > 1)
         {
+            particleSpawner.emitFunc(sheepArray.back().getPosition(), ParticleType::SheepDying);
             sheepArray.pop_back();
 			herd.pop_back();
 			econ.addFunds(Funds_Enum::sheepSold);
@@ -375,6 +377,8 @@ void World::Draw(sf::RenderWindow& window)
 
     fence.Draw(window);
 
+    particleSpawner.draw(window);
+
     for (Sheep& sheep : sheepArray)
     {
         sheep.Draw(window);
@@ -407,6 +411,9 @@ void World::Draw(sf::RenderWindow& window)
     }
 
 	window.draw(combinerSprite);
+
+
+
 }
 
 void World::Update(float deltaTime, sf::Vector2i mousePos)
@@ -540,6 +547,13 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
     {
         if (iter->eatenByWolf)
         {
+            if (iter->myStats.infected)
+            {
+                particleSpawner.emitFunc(iter->getPosition(), ParticleType::ZombieDying);
+            }
+            else {
+                particleSpawner.emitFunc(iter->getPosition(), ParticleType::SheepDying);
+            }
             iter = sheepArray.erase(iter);
         }
         else
@@ -571,11 +585,12 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 	econ.shearsButtonFunc(mousePos);
 	econ.combineButtonFunc(mousePos);
 
-
     up_SheepMax();
     up_WoolSell();
     up_SheepAmount();
     up_GrassAmount();
+
+    particleSpawner.update(deltaTime);
 
     if (econ.popOpen)
     {
@@ -664,10 +679,12 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 
     if (wolf && wolf->isDead())
     {
+        particleSpawner.emitFunc(wolf->getPosition(), ParticleType::WolfDying);
         wolf.reset();
-        wolvesAbout = 0; // mark wolf gone
+        wolvesAbout = 0; // Mark Wolf is gone
     }
-}
+
+} // End of Update
 
 // Gives the player his money for picking up wool, then spawns floating text
 void World::woolCollectFunc(sf::Vector2i mousePos, int value)

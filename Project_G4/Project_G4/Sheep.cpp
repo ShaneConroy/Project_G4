@@ -17,7 +17,7 @@ Sheep::Sheep()
 	int G = getNumberBetweenInt(1, 100);
 	if(G == 1)
 		myStats.goldenSheep = true;
-
+	myStats.infected = true;
 	// Body
 	sheepBody.setRadius(myStats.bodySize);
 	sheepBody.setFillColor(sf::Color::White);
@@ -257,6 +257,8 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 			infectedTTL -= deltaTime;
 			if (infectedTTL <= 0.0f)
 			{
+				ParticleManager particleSpawner;
+				particleSpawner.emitFunc(sheepBody.getPosition(), ParticleType::ZombieDying);
 				eatenByWolf = true; // Reusing bc its easiest
 			}
 		}

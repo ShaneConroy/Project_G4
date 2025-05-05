@@ -34,6 +34,7 @@ void main()
     Sheep sheep;
 	HUD hud;
 
+    srand(time(nullptr));
     bool gameRunning = false;
 
     while (window.isOpen())
