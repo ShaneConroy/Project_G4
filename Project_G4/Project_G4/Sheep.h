@@ -101,8 +101,10 @@ private:
 
 	// For the prestige sheep's colours
 	//
-	// lightBlue = (188, 230, 255);
-	// darkBlue = (1, 92, 146);
+	// Prestige 1 : Brightest ->(188, 230, 255) Darkest ->(1, 92, 146)
+	// Prestige 2 : Brightest ->(214, 6, 32) Darkest ->(126, 3, 21)
+	// Prestige 3 : Brightest ->(249, 166, 50) Darkest ->(239, 93, 34)
+	// Prestige 4 : Brightest ->(255, 192, 203) Darkest ->(169, 64, 100)
 
 	std::vector<sf::Vector2f> availibleGrassNodes;
 

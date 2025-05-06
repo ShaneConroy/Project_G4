@@ -17,7 +17,7 @@ Sheep::Sheep()
 	int G = getNumberBetweenInt(1, 100);
 	if(G == 1)
 		myStats.goldenSheep = true;
-	myStats.infected = true;
+
 	// Body
 	sheepBody.setRadius(myStats.bodySize);
 	sheepBody.setFillColor(sf::Color::White);
@@ -62,10 +62,21 @@ Sheep::Sheep(Sheep::sheepStats stats) : myStats(stats)
 		sheepBody.setFillColor(sf::Color(188, 230, 255)); // Blue to tell which is the new sheep
 		sheepHead.setFillColor(sf::Color::Black);
 	}
-	//else if ()
-	//{
-	//	// Higher prestiges
-	//}
+	else if (myStats.prestige == 2)
+	{
+		sheepBody.setFillColor(sf::Color(214, 6, 32));
+		sheepHead.setFillColor(sf::Color::Black);
+	}
+	else if (myStats.prestige == 3)
+	{
+		sheepBody.setFillColor(sf::Color(249, 166, 50));
+		sheepHead.setFillColor(sf::Color::Black);
+	}
+	else if (myStats.prestige == 4)
+	{
+		sheepBody.setFillColor(sf::Color(255, 192, 203));
+		sheepHead.setFillColor(sf::Color::Black);
+	}
 
 	sheepBody.setOrigin(sheepBody.getRadius(), sheepBody.getRadius());
 	sheepBody.setPosition({ 600.f, 855.f });
@@ -171,6 +182,30 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 								);
 
 								sheepBody.setFillColor(stepColor);
+							}
+							else if (myStats.prestige == 2)
+							{
+								float blend = std::clamp(static_cast<float>(amountEaten) / maxEaten, 0.f, 1.f);
+								int r = static_cast<int>(214 + blend * (126 - 214));
+								int g = static_cast<int>(6 + blend * (3 - 6));
+								int b = static_cast<int>(32 + blend * (21 - 32));
+								sheepBody.setFillColor(sf::Color(std::clamp(r, 0, 255), std::clamp(g, 0, 255), std::clamp(b, 0, 255)));
+							}
+							else if (myStats.prestige == 3)
+							{
+								float blend = std::clamp(static_cast<float>(amountEaten) / maxEaten, 0.f, 1.f);
+								int r = static_cast<int>(249 + blend * (239 - 249));
+								int g = static_cast<int>(166 + blend * (93 - 166));
+								int b = static_cast<int>(50 + blend * (34 - 50));
+								sheepBody.setFillColor(sf::Color(std::clamp(r, 0, 255), std::clamp(g, 0, 255), std::clamp(b, 0, 255)));
+							}
+							else if (myStats.prestige == 4)
+							{
+								float blend = std::clamp(static_cast<float>(amountEaten) / maxEaten, 0.f, 1.f);
+								int r = static_cast<int>(255 + blend * (169 - 255));
+								int g = static_cast<int>(192 + blend * (64 - 192));
+								int b = static_cast<int>(203 + blend * (100 - 203));
+								sheepBody.setFillColor(sf::Color(std::clamp(r, 0, 255), std::clamp(g, 0, 255), std::clamp(b, 0, 255)));
 							}
 						}
 					}
