@@ -123,10 +123,11 @@ public:
       upgradeText.setFillColor(sf::Color::White);  
       wolvesAbout = 0; // Initialize wolvesAbout in the constructor  
 
-	  combinerTexture.loadFromFile("ASSETS/ART/tempCombiner.png");
+	  combinerTexture.loadFromFile("ASSETS/ART/combiner.png");
 	  combinerSprite.setTexture(combinerTexture);
 	  combinerSprite.setOrigin(combinerSprite.getGlobalBounds().width / 2, combinerSprite.getGlobalBounds().height / 2);
-	  combinerSprite.setPosition(575.f, 850.f);
+	  combinerSprite.setPosition(575.f, 780.f);
+      combinerSprite.setScale(2.f, 0.75f);
   }  
   ~World()  
   {  
