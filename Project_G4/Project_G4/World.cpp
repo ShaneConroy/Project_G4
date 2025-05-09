@@ -720,8 +720,12 @@ void World::combineFunc(std::vector< Sheep>& sheepArray)
     int reproSheepCount = std::count_if(sheepArray.begin(), sheepArray.end(),
         [](const Sheep& s) { return s.myStats.canReproduce; });
 
-    if (reproSheepCount >= 30)
+    if (reproSheepCount < 30)
     {
+        econ.combine = false;
+        return;
+    }
+    else {
         sf::Vector2f target = { 600.f, 855.f };
         bool allAtTarget = true;
 
@@ -753,8 +757,8 @@ void World::combineFunc(std::vector< Sheep>& sheepArray)
             }
 
             // Sorts the array so the greatess sheep is first
-            std::sort(sheepArray.begin(), sheepArray.end(), [](const Sheep& a, const Sheep& b) {
-                return a.getGreatness() > b.getGreatness();
+            std::sort(reproSheep.begin(), reproSheep.end(), [](const Sheep* a, const Sheep* b) {
+                return a->getGreatness() > b->getGreatness();
                 });
 
             // Take top 4

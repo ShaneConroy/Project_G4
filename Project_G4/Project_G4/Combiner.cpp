@@ -5,11 +5,6 @@ void Combiner::Combine(std::vector<Sheep>& topFour, std::vector<Sheep>& flock)
 {
 	std::cout << "Combining..." << std::endl;
 
-	for (int i = 0; i < 4; ++i)
-	{
-		topFour[i].myStats.prestige += 1;
-	}
-
 	// Reset variables
 	Sheep::sheepStats newStats{};
 	newStats.greatness = 0;
@@ -25,21 +20,14 @@ void Combiner::Combine(std::vector<Sheep>& topFour, std::vector<Sheep>& flock)
 	newStats.awarness = 2.0f;
 	newStats.fear = 100.f;
 
-	for (int i = 0; i < 4; ++i) // TODO // Fix this shit
+	// Finds the highest prestige in the top 4 and increments the new sheeps prestige based off that
+	int highestPrestige = 0;
+	for (const Sheep& s : topFour)
 	{
-		if (topFour[i].myStats.prestige == 1)
-		{
-			newStats.prestige = 2;
-		}
-		else if (topFour[i].myStats.prestige == 2)
-		{
-			newStats.prestige = 3;
-		}
-		else if (topFour[i].myStats.prestige == 3)
-		{
-			newStats.prestige = 4;
-		}
+		highestPrestige = std::max(highestPrestige, s.myStats.prestige);
 	}
+	newStats.prestige = std::min(highestPrestige + 1, 4); // Cap at 4
+
 
 	float totalGreatness = 0;
 	for (const Sheep& sheep : topFour)
