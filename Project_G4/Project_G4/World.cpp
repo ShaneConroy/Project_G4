@@ -14,7 +14,7 @@ void World::SpawnGrassNodes()
 }
 
 // Fills an array with only the grass nodes that are not taken
-std::vector<sf::Vector2f> World::UpdateGrassNodes()
+std::vector<sf::Vector2f> World::UpdateGrassNodes() //Next
 {
     std::vector<sf::Vector2f> availableGrassNodesPos;
     auto iter = grassNodeArray.begin();
@@ -67,7 +67,7 @@ std::vector<sf::Vector2f> World::UpdateGrassNodes()
 }
 
 // Passes the grass node array into the find grass noode function
-void World::PassGrassToSheep()
+void World::PassGrassToSheep() //Next
 {
     std::vector<sf::Vector2f> availableGrassPositions = UpdateGrassNodes();
 
@@ -125,7 +125,7 @@ void World::PopulateWorldWithSheep()
         econ.sheepSold = false;
     }
 
-    // Refresh to advoid weird bug
+    // Refresh to advoid weird bug //Next
     herd.clear();
     for (auto& sheep : sheepArray)
     {
@@ -133,7 +133,7 @@ void World::PopulateWorldWithSheep()
     }
     if (wolf)
     {
-        wolf->clearTarget(); // Refreshes wolf's memory lol
+        wolf->clearTarget(); // Refreshes wolf's memory
     }
 
 }
@@ -256,7 +256,7 @@ void World::shearsFunc(sf::Vector2i mousePos)
                         sf::Vector2f centerOfSheep = sheep.getPosition();
 
                         // Creatinf wool particles
-                        for (int i = 0; i < sheep.amountEaten; ++i)
+                        for (int i = 0; i < sheep.amountEaten; ++i) //Next
                         {
                             WoolParticle woolParticle;
                             woolParticle.shape.setRadius(10.f);
@@ -272,11 +272,7 @@ void World::shearsFunc(sf::Vector2i mousePos)
                             woolParticles.push_back(woolParticle);
                         }
 
-                        if (!sheep.myStats.goldenSheep)
-                        {
-                            sheep.setColour(sf::Color::White);
-                        }
-                        if (sheep.myStats.prestige == 0)
+                        if (sheep.myStats.goldenSheep)
                         {
                             sheep.setColour(sf::Color(255, 215, 0));
                         }
@@ -296,6 +292,11 @@ void World::shearsFunc(sf::Vector2i mousePos)
                         {
                             sheep.setColour(sf::Color(255, 192, 203));
                         }
+                        else {
+                            sheep.setColour(sf::Color::White);
+                        }
+
+
 
                         sheep.amountEaten = 0;
                         sheep.setRadius(sheep.myStats.bodySize);
@@ -359,7 +360,7 @@ int World::WorldTime()
 }
 
 // Based on the time, returns a RGB value
-sf::Color World::DaylightCycle()
+sf::Color World::DaylightCycle() //Next
 {
     sf::Color dayColor = { 134, 172, 19 };
     sf::Color nightColor = { 40, 108, 89 };
@@ -700,7 +701,7 @@ void World::Update(float deltaTime, sf::Vector2i mousePos)
 } // End of Update
 
 // Gives the player his money for picking up wool, then spawns floating text
-void World::woolCollectFunc(sf::Vector2i mousePos, int value)
+void World::woolCollectFunc(sf::Vector2i mousePos, int value) //Next
 { 
    econ.addFunds(value);
 
@@ -714,7 +715,7 @@ void World::woolCollectFunc(sf::Vector2i mousePos, int value)
    floatingTexts.push_back(newText);  
 }
 
-void World::combineFunc(std::vector< Sheep>& sheepArray)
+void World::combineFunc(std::vector< Sheep>& sheepArray) //Next
 {
     // Count sheep that *can* reproduce
     int reproSheepCount = std::count_if(sheepArray.begin(), sheepArray.end(),

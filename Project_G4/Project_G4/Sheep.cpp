@@ -1,6 +1,6 @@
 #include "Sheep.h"
 
-Sheep::Sheep()
+Sheep::Sheep() //Next
 {
 	// Setting up sheep's stats
 	myStats = generateStats();
@@ -48,7 +48,7 @@ Sheep::Sheep()
 }
 
 // Constructor for the combiner
-Sheep::Sheep(Sheep::sheepStats stats) : myStats(stats)
+Sheep::Sheep(Sheep::sheepStats stats) : myStats(stats) //Next
 {
 	// Body
 	sheepBody.setRadius(myStats.bodySize);
@@ -57,7 +57,7 @@ Sheep::Sheep(Sheep::sheepStats stats) : myStats(stats)
 		sheepBody.setFillColor(sf::Color(57, 200, 32));
 		sheepHead.setFillColor(sf::Color(57, 230, 32));
 	}
-	else if (myStats.prestige = 1)
+	else if (myStats.prestige == 1)
 	{
 		sheepBody.setFillColor(sf::Color(188, 230, 255)); // Blue to tell which is the new sheep
 		sheepHead.setFillColor(sf::Color::Black);
@@ -144,7 +144,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 		{
 			movementDirection = handleRecall(deltaTime, exitFence, innerGrass);
 		}
-		else {
+		else { 
 			// This if is here because the sheep iognore it if its somewhere else, FOR SOME REASON!!
 			if (isEating)
 			{
@@ -167,7 +167,7 @@ void Sheep::Update(float deltaTime, sf::RectangleShape exitFence, sf::RectangleS
 								int shade = std::max(100, 255 - (amountEaten * 20));
 								sheepBody.setFillColor(sf::Color(shade, shade, shade));
 							}
-							else if (myStats.prestige == 1) // Blue sheep.
+							else if (myStats.prestige == 1) // Blue sheep. //Next
 							{
 								float blend = std::clamp(static_cast<float>(amountEaten) / maxEaten, 0.f, 1.f);
 
@@ -345,7 +345,7 @@ sf::Vector2f Sheep::leaderBehaviour(float deltaTime, sf::RectangleShape innerGra
 {
 	sf::Vector2f targetPos(0.f, 0.f);
 	sf::Vector2f leaderPos = getLeaderPos(flock);
-	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(getLeaderPos(flock), availibleGrassNodes);
+	sf::Vector2f closestPos = GrassUtility::FindClosestNodePosition(getLeaderPos(flock), availibleGrassNodes); //Next
 
 	if (myStats.infected)
 	{
@@ -504,7 +504,7 @@ sf::Vector2f Sheep::followerBehaviour(float deltaTime, sf::RectangleShape innerG
 }
 
 // Repulsion from the dog
-sf::Vector2f Sheep::awayFromDog(sf::Vector2f dogPos)
+sf::Vector2f Sheep::awayFromDog(sf::Vector2f dogPos) //Next
 {
 	sf::Vector2f repulsionForce(0.f, 0.f);
 	float repulsionRadius = 100.f;
@@ -597,7 +597,7 @@ sf::Vector2f Sheep::handleRecall(float deltaTime, sf::RectangleShape exitFence, 
 }
 
 // Generates random stats for the sheep
-Sheep::sheepStats Sheep::generateStats()
+Sheep::sheepStats Sheep::generateStats() //Next
 {
 	Sheep::sheepStats stats;
 

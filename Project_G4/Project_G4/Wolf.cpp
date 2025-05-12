@@ -53,7 +53,7 @@ void Wolf::Draw(sf::RenderWindow& window)
 }
 
 // Updates the wolf's state to hunt the closest sheep
-void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape innerGrass, World* world)
+void Wolf::Hunt(std::vector<Sheep*>& flock, float deltaTime, sf::RectangleShape innerGrass, World* world) //Next
 {
     position = wolfBody.getPosition();
 

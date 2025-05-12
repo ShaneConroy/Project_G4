@@ -123,7 +123,7 @@ void Dog::follow(sf::Vector2i mousePos)
 }
 
 // Create Bark
-void Dog::Bark()
+void Dog::Bark()//Next
 {
     if (barkCooldown <= 0.f)
     {

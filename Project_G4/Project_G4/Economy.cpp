@@ -7,7 +7,7 @@ int Economy::checkFunds()
 }
 
 // Adds money based on enum type
-void Economy::addFunds(Funds_Enum fundType)
+void Economy::addFunds(Funds_Enum fundType) //Next
 {
 	int amountToAdd = 0;
 
@@ -51,7 +51,7 @@ void Economy::calculatePassiveIncome(int sheepAmount)
 }
 
 // Handles buying sheep
-void Economy::purchaseSheep()
+void Economy::purchaseSheep() 
 {
 	if (checkFunds() >= sheepBuyPrice)
 	{
@@ -72,7 +72,7 @@ void Economy::purchaseGrass()
 }
 
 // Sells sheep
-void Economy::sellSheep(sf::Vector2i mousePos)
+void Economy::sellSheep(sf::Vector2i mousePos) //Next
 {
 	if (sellTimer > 0.0f)
 	{
@@ -198,7 +198,7 @@ void Economy::popOutPanelFunc(sf::Vector2i mousePos)
 	}
 }
 
-void Economy::upgradeMaxSheep(sf::Vector2i mousePos)
+void Economy::upgradeMaxSheep(sf::Vector2i mousePos) //Next
 {
 	if (up_MaxSheepTimer > 0.0f)
 	{
@@ -516,7 +516,7 @@ void Economy::combineButtonFunc(sf::Vector2i mousePos)
 }
 
 // Makes a map which links a string to a float,float, shuold make upgrades easier
-void Economy::setUpUpgradeMaps()
+void Economy::setUpUpgradeMaps() //Next
 {
 	std::vector<std::string> upgradeKeys = { "up_MaxSheep", "up_WoolSell", "up_MoreSheep", "up_MoreGrass"};
 

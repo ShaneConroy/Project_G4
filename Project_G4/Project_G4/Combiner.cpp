@@ -1,7 +1,7 @@
 #include "Combiner.h"
 
 // Sorts the flock vector by who has most greateness, then takes the top 4 best sheep and combines them into one
-void Combiner::Combine(std::vector<Sheep>& topFour, std::vector<Sheep>& flock)
+void Combiner::Combine(std::vector<Sheep>& topFour, std::vector<Sheep>& flock) //Next
 {
 	std::cout << "Combining..." << std::endl;
 

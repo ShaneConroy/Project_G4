@@ -1,6 +1,6 @@
 #include "ParticleManager.h"
 
-void ParticleManager::update(float dt) 
+void ParticleManager::update(float dt) //Next
 {
     for (auto& p : particles) 
     {

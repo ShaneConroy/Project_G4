@@ -155,7 +155,7 @@ void HUD::Draw(sf::RenderWindow& window, bool popOut)
 }
 
 // Called by Economy, check how much mullah we got
-void HUD::updateHUDMoney(int currentFunds)
+void HUD::updateHUDMoney(int currentFunds) //Next
 {
 
 	// Convert to string

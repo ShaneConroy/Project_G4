@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(sf::Vector2f pos, sf::Vector2f vel, sf::Color color, float lifetime)
+Particle::Particle(sf::Vector2f pos, sf::Vector2f vel, sf::Color color, float lifetime) //Next
     : velocity(vel), lifetime(lifetime), maxLifetime(lifetime) {
     shape.setRadius(3.0f);
     shape.setFillColor(color);

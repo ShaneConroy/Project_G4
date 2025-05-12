@@ -69,7 +69,7 @@ private:
 	Funds_Enum fundType;
 	Sheep sheep;
 
-	int currentFunds = 99900;
+	int currentFunds = 999999;
 
 	int buttonDelay = 12;
 
